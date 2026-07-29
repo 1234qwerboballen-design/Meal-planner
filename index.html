@@ -5,33 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Weekly Meal Planner</title>
     <style>
-        body { font-family: sans-serif; background: #f0f4f8; padding: 12px; color: #000; font-size: 10px; }
-        .card { background: white; padding: 12px; margin-bottom: 12px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-        .day-box { background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 8px; }
-        .day-name { font-weight: bold; color: #1e3a8a; text-transform: uppercase; margin-bottom: 6px; }
-        .flex-row { display: flex; gap: 6px; }
-        select { padding: 6px; width: 100%; border: 1px solid #94a3b8; border-radius: 4px; font-size: 10px; font-weight: bold; background: white; color: #000; }
+        body { font-family: sans-serif; background: #f0f4f8; padding: 12px; color: #000 !important; margin: 0; font-size: 10px !important; }
+        .card { background: white; padding: 12px; margin-bottom: 12px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); display: block; }
+        h1 { font-size: 12px !important; margin: 0; font-weight: bold; color: white !important; text-transform: uppercase; }
+        h2 { color: #1e3a8a !important; font-size: 10px !important; margin: 0 0 8px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; text-transform: uppercase; font-weight: bold; }
+        .tracker-dashboard { background: linear-gradient(to right, #111827, #1f2937); color: #10b981 !important; padding: 10px; border-radius: 8px; margin-bottom: 12px; display: flex; justify-content: space-around; text-align: center; border-left: 4px solid #10b981; }
+        .tracker-metric { font-weight: bold; }
+        .tracker-val { font-size: 12px !important; color: #fff !important; font-weight: bold; margin-top: 2px; }
+        .tracker-divider { width: 1px; background: #374151; height: 25px; }
+        .day-cal-badge { font-size: 10px !important; font-weight: bold; color: #059669 !important; background: #e6f4ea; padding: 2px 6px; border-radius: 4px; border: 1px solid #a7f3d0; }
+        
+        #weekContainer { display: flex; flex-direction: column; gap: 12px; width: 100% !important; }
+        .day-box { background: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; display: block !important; width: auto !important; margin-bottom: 4px; color: #000 !important; clear: both; }
+        
+        .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; }
+        .day-name { font-weight: bold; font-size: 10px !important; color: #1e3a8a !important; display: flex; align-items: center; gap: 6px; }
+        .toggle-btn { padding: 4px 8px; font-size: 10px !important; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; transition: 0.2s; }
+        .btn-add { background: #2563eb; color: white; }
+        .btn-remove { background: #64748b; color: white; }
+        .flex-row { display: flex; gap: 6px; margin-bottom: 6px; }
+        .flex-row select { flex: 1; }
+        .filter-row { display: flex; gap: 6px; margin-top: 4px; margin-bottom: 6px; }
+        .meal-select-container { margin-top: 4px; display: block; margin-bottom: 6px; }
+        .m2-wrapper { display: none; margin-top: 10px; border-top: 1px dashed #e2e8f0; padding-top: 6px; }
+        .recipe-item { padding: 10px; background: #f1f5f9; border-radius: 6px; margin-bottom: 10px; display: block; border-left: 4px solid #1e3a8a; color: #000 !important; }
+        .recipe-title { font-weight: bold; font-size: 10px !important; color: #1e3a8a !important; margin-bottom: 4px; text-transform: uppercase; }
+        .recipe-steps { font-size: 10px !important; color: #000 !important; margin-top: 4px; background: #fff; padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; line-height: 1.4; display: block; font-weight: bold; }
+        .grocery-section { background: #f8fafc; border: 1px solid #94a3b8; border-radius: 6px; padding: 10px; margin-bottom: 10px; display: block; color: #000 !important; }
+        .grocery-title { font-weight: bold; font-size: 10px !important; color: #2563eb; text-transform: uppercase; margin-bottom: 4px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 2px; }
+        .item-row { display: block; font-size: 10px !important; margin: 4px 0; font-weight: bold; color: #000 !important; }
+        .item-row input { margin-right: 8px; scale: 1.2; vertical-align: middle; }
+        select { padding: 6px; width: 100%; border: 1px solid #94a3b8; border-radius: 4px; font-size: 10px !important; background: white; color: #000 !important; display: block; box-sizing: border-box; font-weight: bold; }
+        label { display: block; font-size: 10px !important; color: #333 !important; margin-top: 2px; font-weight: bold; }
+        p { font-size: 10px !important; margin: 0; color: white !important; opacity: 0.9; }
     </style>
 </head>
 <body>
-    <div style="background: linear-gradient(to right, #1e3a8a, #2563eb); color: white; padding: 12px; border-radius: 10px; margin-bottom: 12px;">
-        <h1 style="font-size:12px; margin:0; text-transform:uppercase;">Ultimate Weekly Meal Planner</h1>
+    <div style="background: linear-gradient(to right, #1e3a8a, #2563eb); color: white; padding: 12px; border-radius: 10px; margin-bottom: 12px; display: block;">
+        <h1>Ultimate Weekly Meal Planner</h1>
+        <p>1,000 Recipe Matrix Engine with Live Automated Calorie Budget Counters</p>
+    </div>
+    <div class="tracker-dashboard">
+        <div class="tracker-metric">WEEKLY TOTAL TRACK<div id="weeklyTotalVal" class="tracker-val">0 CAL</div></div>
+        <div class="tracker-divider"></div>
+        <div class="tracker-metric">DAILY AVERAGE TARGET<div id="dailyAvgVal" class="tracker-val">0 CAL</div></div>
     </div>
     <div class="card">
         <h2>📅 Weekly Custom Schedule Mixer</h2>
         <div id="weekContainer"></div>
     </div>
+    <div class="card">
+        <h2>🍽 Active Recipes & Cooking Directions</h2>
+        <div id="recipeBox"></div>
+    </div>
+    <div class="card">
+        <h2>🛒 Complete Weekly Grocery Checklist</h2>
+        <div id="groceryBox"></div>
+    </div>
 <script>
-    var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    var styles = ["Chinese / Asian", "Mexican / TexMex", "Italian / Med", "American Comfort", "Diner Breakfast"];
-    var proteins = ["Chicken", "Beef", "Turkey", "Seafood", "Pork"];
-    var html = "";
-    for (var d = 0; d < days.length; d++) {
-        var sOpt = '<option>-- Style --</option>'; for(var i=0; i<styles.length; i++) sOpt+='<option>'+styles[i]+'</option>';
-        var pOpt = '<option>-- Protein --</option>'; for(var j=0; j<proteins.length; j++) pOpt+='<option>'+proteins[j]+'</option>';
-        html += '<div class="day-box"><div class="day-name">'+days[d]+'</div><div class="flex-row"><select>'+sOpt+'</select><select>'+pOpt+'</select></div></div>';
-    }
-    document.getElementById("weekContainer").innerHTML = html;
-</script>
-</body>
-</html>
+    var weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    var stylesList = ["Chinese / Asian", "Mexican / TexMex", "Italian / Med", "American Comfort", "Diner Breakfast"];
+    var proteinsList = ["Chicken", "Beef", "Turkey", "Seafood", "Pork"];
+    var proteinCals = { "Chicken": 640, "Beef": 710, "Turkey": 610, "Seafood": 380, "Pork": 640 };
+    var prepMethods = ["Szechuan Spiced", "Spicy Chili", "Fiery Ginger", "Chipotle Infused", "Zesty Pan-Fried", "Peppery Seared", "Cajun Style","Crispy Baked", "Garlic Seared", "Slow Cooked", "Flame Grilled", "Honey Glazed", "Crumbled Skillet", "Garlic Butter Glazed","Herb Crust", "Lemon Infused", "Flaked Skillet", "Shredded", "Sheet-Pan Slices", "House Special", "Citrus Marinated","Teriyaki Glazed", "Sweet Chili", "Sizzling", "Savory Braised", "Diced Skillet", "Toasted", "Browned","Oven-Roasted", "Searing-Hot", "Slow-Simmered", "Crispy Air-Fried", "Sweet BBQ Coat", "Cracked-Pepper", "Basil-Infused"];
+    var servingStyles = ["Fajita Platter", "Taco Boat", "Salsa Boat", "Grill Basket", "Baja Plate", "Spicy Skillet", "Chili Bowl","Comfort Tray", "Crave Bowl", "Omelet Wrap", "Diner Special", "Skillet Pack", "Macro Plate", "Quesadilla Melt","Lettuce Wrap", "Salad Bowl", "Asparagus Bed", "Broccoli Bed", "Low-Carb Pocket", "Cutting Grid Tray", "Veggie Medley Tray","Jasmine Rice Bowl", "Potato Skillet", "Brown Rice Melt", "Wheat Toast Stack", "Sweet Potato Box", "Carb-Load Plate", "Cauliflower Rice Bowl","Quinoa Toss Bed", "Fuel Block", "Déficit Pack", "Harvest Bowl", "Skewer Plate", "G pantry Box", "Marinara Bed"];
+    var proteinGroceries = {"Chicken": { item: "8oz Chicken Breast", dept: "🥩 Meat Department" },"Beef": { item: "6oz Lean Ground Beef", dept: "🥩 Meat Department" },"Turkey": { item: "Two 4oz Turkey Patties", dept: "🥩 Meat Department" },"Seafood": { item: "6oz Tilapia Fillet", dept: "🥩 Meat Department" },"Pork": { item: "7oz Boneless Pork Chop", dept: "🥩 Meat Department" }};
+    var styleGroceries = {"Chinese / Asian": { side: "1 cup Jasmine Rice", prod: "1 cup Broccoli", sauce: "2 tbsp Soy Sauce", steps: "Stir-fry protein strips over extreme high-heat 4m. Pour soy sauce coat and plate over jasmine rice with steaming broccoli crowns." },"Mexican / TexMex": { side: "1 cup Brown Rice", prod: "1/2 cup Salsa", sauce: "2 tbsp Taco Spices", steps: "Brown ground or sliced protein inside skillet using taco seasoning dust. Toss over brown rice base with salsa portions." },"Italian / Med": { side: "1 cup Pasta Noodles", prod: "1 cup Asparagus", sauce: "1/2 cup Marinara", steps: "Pan-sear protein thoroughly with Italian herb coatings. Melt butter over skillet and toss over noodles with fresh asparagus sticks." },"American Comfort": { side: "1 Large Potato", prod: "1/2 can Green Beans", sauce: "2 tbsp BBQ Sauce", steps: "Flame grill meat cut and brush surface with smoky BBQ glaze. Microwave potato 6m until soft, fluff and plate with green beans." },"Diner Breakfast": { side: "2 slices Wheat Bread", prod: "4 Large Eggs", sauce: "1 tbsp Fruit Jelly", steps: "Crisp meat base in heated frying pan. Whisk eggs and scramble inside skillet with melted butter. Serve with hot fruit jelly toast slides." }};
+    
+    var weekHTML = "";
+    for (var d = 0; d < 7; d++) {
+        var rOpt = '<option value="">-- Choose Style --</option>'; for (var s = 0; s < 5; s++) rOpt += '<option value="'+stylesList[s]+'">'+stylesList[s]+'</option>';
+        var pOpt = '<option value="">-- Choose Protein --</option>'; for (var p = 0; p < 5; p++) pOpt += '<option value="'+proteinsList[p]+'">'+proteinsList[p]+'</option>';
