@@ -1,1 +1,14 @@
-window.addEventListener("DOMContentLoaded",function(){for(var d=0;d<7;d++){var dayBoxes=document.querySelectorAll(".day-box");if(dayBoxes[d]){var liqHTML='<div style="margin-top:6px; display:flex; align-items:center; gap:6px;"><label style="margin:0; white-space:nowrap; font-weight:bold; color:#475569;">🥤 Liquid Calories:</label><input type="number" id="liquid-cal-'+d+'" value="0" min="0" style="padding:4px; width:60px; font-size:10px; border:1px solid #cbd5e1; border-radius:4px; font-weight:bold; color:#000;" oninput="trackLiquidCals()"></div>';dayBoxes[d].insertAdjacentHTML("beforeend",liqHTML);}}var originalSync=window.syncAppEngine;window.syncAppEngine=function(){if(originalSync)originalSync();trackLiquidCals();};window.trackLiquidCals=function(){var grandLiq=0;for(var d=0;d<7;d++){var input=document.getElementById("liquid-cal-"+d);var val=input?parseInt(input.value)||0:0;grandLiq+=val;var badge=document.getElementById("day-badge-"+d);if(badge){var baseText=badge.innerText||"0 cal";var baseNum=parseInt(baseText.replace(" cal",""))||0;}}var totalBox=document.getElementById("weeklyTotalVal");if(totalBox){var currentTotal=parseInt(totalBox.innerText)||0;totalBox.innerText=(currentTotal+grandLiq)+" CAL";var avgBox=document.getElementById("dailyAvgVal");if(avgBox)avgBox.innerText=Math.round((currentTotal+grandLiq)/7)+" CAL";}});
+window.addEventListener("load", function() {
+    setTimeout(function() {
+        for (var d = 0; d < 7; d++) {
+            var dayBoxes = document.querySelectorAll(".day-box");
+            if (dayBoxes[d] && !document.getElementById("liquid-cal-" + d)) {
+                var liqHTML = '<div style="margin-top:6px; display:flex; align-items:center; gap:6px;"><label style="margin:0; white-space:nowrap; font-weight:bold; color:#475569;">🥤 Liquid Calories:</label><input type="number" id="liquid-cal-' + d + '" value="0" min="0" style="padding:4px; width:60px; font-size:10px; border:1px solid #cbd5e1; border-radius:4px; font-weight:bold; color:#000;" oninput="syncAppEngine()"></div>';
+                dayBoxes[d].insertAdjacentHTML("beforeend", liqHTML);
+            }
+        }
+        if (typeof syncAppEngine === "function") {
+            syncAppEngine();
+        }
+    }, 100);
+});
