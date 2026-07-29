@@ -1,5 +1,4 @@
 window.addEventListener("load", function() {
-    // Massive preloaded baseline fitness beverage database directory array profiles (calories per single fluid ounce)
     window.drinkDatabase = {
         "Water": 0,
         "Monster Energy Drink (Regular)": 13.75,
@@ -29,47 +28,76 @@ window.addEventListener("load", function() {
         "Black Coffee": 0.2
     };
 
+    // Initialize permanent local memory arrays for all 7 days
+    window.dailyLiquidTotals =;
+
     setTimeout(function() {
-        // Generate a reusable search list container block asset natively
         var dlOptions = "";
-        for (var name in window.drinkDatabase) {
-            dlOptions += '<option value="' + name + '">';
-        }
-        var datalistHTML = '<datalist id="drink-search-list">' + dlOptions + '</datalist>';
-        document.body.insertAdjacentHTML("beforeend", datalistHTML);
+        for (var name in window.drinkDatabase) { dlOptions += '<option value="' + name + '">'; }
+        document.body.insertAdjacentHTML("beforeend", '<datalist id="drink-search-list">' + dlOptions + '</datalist>');
 
         for (var d = 0; d < 7; d++) {
             var dayBoxes = document.querySelectorAll(".day-box");
             if (dayBoxes[d] && !document.getElementById("liquid-input-" + d)) {
                 var liqHTML = '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #cbd5e1; display:flex; flex-wrap:wrap; align-items:center; gap:6px; clear:both;">' +
-                    '<label style="margin:0; font-weight:bold; color:#1e3a8a;">🥤 Search/Type Drink:</label>' +
-                    '<input type="text" id="liquid-input-' + d + '" list="drink-search-list" placeholder="Type drink name..." oninput="syncAppEngine()" style="padding:4px; width:150px; font-size:10px; font-weight:bold; background:#fff; color:#000; border:1px solid #cbd5e1; border-radius:4px;">' +
-                    '<input type="number" id="liquid-oz-' + d + '" value="0" min="0" oninput="syncAppEngine()" style="padding:4px; width:45px; font-size:10px; border:1px solid #cbd5e1; border-radius:4px; font-weight:bold; color:#000; text-align:center;">' +
-                    '<span style="font-weight:bold; color:#475569;">fl oz =</span>' +
-                    '<span id="liquid-out-' + d + '" style="font-weight:bold; color:#dc2626; background:#fef2f2; padding:2px 6px; border-radius:4px; border:1px solid #fee2e2;">0 cal</span>' +
+                    '<label style="margin:0; font-weight:bold; color:#1e3a8a;">🥤 Log Drink:</label>' +
+                    '<input type="text" id="liquid-input-' + d + '" list="drink-search-list" placeholder="Type drink name..." style="padding:4px; width:130px; font-size:10px; font-weight:bold; background:#fff; color:#000; border:1px solid #cbd5e1; border-radius:4px;">' +
+                    '<input type="number" id="liquid-oz-' + d + '" value="0" min="0" style="padding:4px; width:40px; font-size:10px; border:1px solid #cbd5e1; border-radius:4px; font-weight:bold; color:#000; text-align:center;">' +
+                    '<span style="font-weight:bold; color:#475569;">oz</span>' +
+                    '<button onclick="addLiquidItem(' + d + ')" style="padding:4px 8px; background:#059669; color:white; border:none; border-radius:4px; font-weight:bold; font-size:10px; cursor:pointer;">➕ Log</button>' +
+                    '<span id="liquid-out-' + d + '" style="font-weight:bold; color:#10b981; background:#f0fdf4; padding:2px 6px; border-radius:4px; border:1px solid #bbf7d0; margin-left:auto;">Logged Today: 0 cal</span>' +
+                    '<span onclick="resetLiquidDay(' + d + ')" style="font-size:9px; color:#ef4444; text-decoration:underline; cursor:pointer; font-weight:bold; margin-left:4px;">[Reset]</span>' +
                 '</div>';
                 
                 dayBoxes[d].insertAdjacentHTML("beforeend", liqHTML);
+
+                // Setup native keyboard Enter key tracking hook parameters
+                setupEnterKey(d);
             }
         }
 
-        // Intercept and patch the main synchronization engine loop safely
+        function setupEnterKey(dayIndex) {
+            var ozInput = document.getElementById("liquid-oz-" + dayIndex);
+            var nameInput = document.getElementById("liquid-input-" + dayIndex);
+            if(ozInput) { ozInput.addEventListener("keypress", function(e) { if (e.key === "Enter") { e.preventDefault(); addLiquidItem(dayIndex); } }); }
+            if(nameInput) { nameInput.addEventListener("keypress", function(e) { if (e.key === "Enter") { e.preventDefault(); addLiquidItem(dayIndex); } }); }
+        }
+
+        window.addLiquidItem = function(dayIndex) {
+            var inputName = document.getElementById("liquid-input-" + dayIndex);
+            var ozInput = document.getElementById("liquid-oz-" + dayIndex);
+            
+            if (inputName && ozInput) {
+                var name = inputName.value;
+                var oz = parseFloat(ozInput.value) || 0;
+                var calsPerOz = window.drinkDatabase[name] !== undefined ? window.drinkDatabase[name] : 0;
+                
+                if(oz > 0) {
+                    var calculatedCals = Math.round(oz * calsPerOz);
+                    window.dailyLiquidTotals[dayIndex] += calculatedCals;
+                    
+                    // Reset input boxes back to clean state fields automatically
+                    inputName.value = "";
+                    ozInput.value = "0";
+                    
+                    if(typeof syncAppEngine === "function") { syncAppEngine(); }
+                }
+            }
+        };
+
+        window.resetLiquidDay = function(dayIndex) {
+            window.dailyLiquidTotals[dayIndex] = 0;
+            if(typeof syncAppEngine === "function") { syncAppEngine(); }
+        };
+
         var originalSync = window.syncAppEngine;
         window.syncAppEngine = function() {
             var grandLiqCals = 0;
             for (var d = 0; d < 7; d++) {
-                var inputName = document.getElementById("liquid-input-" + d);
-                var ozInput = document.getElementById("liquid-oz-" + d);
                 var outSpan = document.getElementById("liquid-out-" + d);
-                
-                if (inputName && ozInput && outSpan) {
-                    var typedName = inputName.value;
-                    var ozVal = parseFloat(ozInput.value) || 0;
-                    var calsPerOz = window.drinkDatabase[typedName] !== undefined ? window.drinkDatabase[typedName] : 0;
-                    
-                    var computedDrinkCals = Math.round(ozVal * calsPerOz);
-                    outSpan.innerText = computedDrinkCals + " cal";
-                    grandLiqCals += computedDrinkCals;
+                if (outSpan) {
+                    outSpan.innerText = "Logged Today: " + window.dailyLiquidTotals[d] + " cal";
+                    grandLiqCals += window.dailyLiquidTotals[d];
                 }
             }
 
@@ -83,31 +111,20 @@ window.addEventListener("load", function() {
                     totalBox.innerText = absoluteCombinedTotal + " CAL";
                     
                     var avgBox = document.getElementById("dailyAvgVal");
-                    if (avgBox) {
-                        avgBox.innerText = Math.round(absoluteCombinedTotal / 7) + " CAL";
-                    }
+                    if (avgBox) { avgBox.innerText = Math.round(absoluteCombinedTotal / 7) + " CAL"; }
                 }
                 
                 for (var d = 0; d < 7; d++) {
-                    var ozInput = document.getElementById("liquid-oz-" + d);
-                    var inputName = document.getElementById("liquid-input-" + d);
                     var badge = document.getElementById("day-badge-" + d);
-                    if (ozInput && inputName && badge) {
-                        var typedName = inputName.value;
-                        var ozVal = parseFloat(ozInput.value) || 0;
-                        var calsPerOz = window.drinkDatabase[typedName] !== undefined ? window.drinkDatabase[typedName] : 0;
-                        var computedDrinkCals = Math.round(ozVal * calsPerOz);
-                        
+                    if (badge) {
                         var baseFoodText = badge.innerText || "0 cal";
                         var foodNum = parseInt(baseFoodText.replace(" cal", "")) || 0;
-                        badge.innerText = (foodNum + computedDrinkCals) + " cal";
+                        badge.innerText = (foodNum + window.dailyLiquidTotals[d]) + " cal";
                     }
                 }
             }
         };
 
-        if (typeof syncAppEngine === "function") {
-            syncAppEngine();
-        }
+        if (typeof syncAppEngine === "function") { syncAppEngine(); }
     }, 120);
 });
