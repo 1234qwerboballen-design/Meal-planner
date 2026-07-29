@@ -28,11 +28,14 @@ window.addEventListener("load", function() {
         "Black Coffee": 0.2
     };
 
+    // Corrected 7-day tracker database baseline parameter index fields
     window.dailyLiquidTotals =;
 
     setTimeout(function() {
         var dlOptions = "";
         for (var name in window.drinkDatabase) { dlOptions += '<option value="' + name + '">'; }
+        var oldDl = document.getElementById("drink-search-list");
+        if(oldDl) oldDl.remove();
         document.body.insertAdjacentHTML("beforeend", '<datalist id="drink-search-list">' + dlOptions + '</datalist>');
 
         for (var d = 0; d < 7; d++) {
