@@ -9,7 +9,11 @@ h2 { color: #1e3a8a !important; font-size: 10px !important; margin: 0 0 8px 0; b
 .tracker-val { font-size: 12px !important; color: #fff !important; font-weight: bold; margin-top: 2px; }
 .tracker-divider { width: 1px; background: #374151; height: 25px; }
 .day-cal-badge { font-size: 10px !important; font-weight: bold; color: #059669 !important; background: #e6f4ea; padding: 2px 6px; border-radius: 4px; border: 1px solid #a7f3d0; }
-.day-box { background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 12px; display: block; color: #000 !important; }
+
+/* Force daily boxes to stack neatly on their own clean rows */
+#weekContainer { display: flex; flex-direction: column; gap: 12px; width: 100% !important; }
+.day-box { background: #f8fafc; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; display: block !important; width: auto !important; margin-bottom: 4px; color: #000 !important; clear: both; }
+
 .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; }
 .day-name { font-weight: bold; font-size: 10px !important; color: #1e3a8a !important; display: flex; align-items: center; gap: 6px; }
 .toggle-btn { padding: 4px 8px; font-size: 10px !important; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; transition: 0.2s; }
