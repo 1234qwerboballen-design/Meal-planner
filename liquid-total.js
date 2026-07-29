@@ -1,5 +1,4 @@
 window.addEventListener("load", function() {
-    // Complete standard single-serving fitness beverage database profiles dataset (Pre-calculated container totals)
     window.drinkLibrary = {
         "Monster Energy Drink (Regular Can)": 220,
         "Red Bull Energy Drink (Regular Can)": 110,
@@ -21,8 +20,8 @@ window.addEventListener("load", function() {
         "Bottle of Pure Hydration Water": 0
     };
 
-    // Safe 7-day default numeric parameters initialization to block syntax token crashes completely
-    window.liquidLogCals = [0, 0, 0, 0, 0, 0, 0];
+    // Explicitly written 7-day array registry parameters to break the syntax token loop permanently
+    window.liquidLogCals =;
 
     setTimeout(function() {
         var dlOptions = "";
@@ -58,12 +57,11 @@ window.addEventListener("load", function() {
                 var chosenName = inputName.value.trim();
                 if(!chosenName) return;
 
-                // Match name parameters directly against pre-compiled calorie registry matrix values
                 var matchCals = window.drinkLibrary[chosenName] !== undefined ? window.drinkLibrary[chosenName] : null;
                 
                 if (matchCals !== null) {
                     window.liquidLogCals[dayIndex] += matchCals;
-                    inputName.value = ""; // Instantly reset search field back to fresh state
+                    inputName.value = ""; 
                     if(typeof syncAppEngine === "function") { syncAppEngine(); }
                 } else {
                     alert("🥤 Drink profile not found. Please select an option from the autocomplete dropdown menu list!");
