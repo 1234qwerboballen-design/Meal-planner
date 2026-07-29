@@ -1,5 +1,5 @@
 window.addEventListener("load", function() {
-    window.drinkLibrary = {
+    var defaultDrinks = {
         "Monster Energy Drink (Regular Can)": 220,
         "Red Bull Energy Drink (Regular Can)": 110,
         "Celsius Energy Drink (Standard Can)": 10,
@@ -20,22 +20,29 @@ window.addEventListener("load", function() {
         "Bottle of Pure Hydration Water": 0
     };
 
-    // Swapped out the brittle brackets for an indestructible bracket framework that can never break or drop
-    window.liquidLogCals = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0 };
+    // Load expander memory profiles safely from permanent storage database history layers
+    var storedLib = localStorage.getItem("customDrinkLibrary");
+    window.drinkLibrary = storedLib ? JSON.parse(storedLib) : defaultDrinks;
+
+    var storedTotals = localStorage.getItem("dailyLiquidCalsTrack");
+    window.liquidLogCals = storedTotals ? JSON.parse(storedTotals) : { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0 };
 
     setTimeout(function() {
-        var dlOptions = "";
-        for (var name in window.drinkLibrary) { dlOptions += '<option value="' + name + '">'; }
-        var oldDl = document.getElementById("drink-search-list");
-        if(oldDl) oldDl.remove();
-        document.body.insertAdjacentHTML("beforeend", '<datalist id="drink-search-list">' + dlOptions + '</datalist>');
+        window.rebuildDrinkDatalist = function() {
+            var oldDl = document.getElementById("drink-search-list");
+            if(oldDl) oldDl.remove();
+            var dlOptions = "";
+            for (var name in window.drinkLibrary) { dlOptions += '<option value="' + name + '">'; }
+            document.body.insertAdjacentHTML("beforeend", '<datalist id="drink-search-list">' + dlOptions + '</datalist>');
+        };
+        window.rebuildDrinkDatalist();
 
         for (var d = 0; d < 7; d++) {
             var dayBoxes = document.querySelectorAll(".day-box");
             if (dayBoxes[d] && !document.getElementById("liquid-input-" + d)) {
                 var liqHTML = '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #cbd5e1; display:flex; flex-wrap:wrap; align-items:center; gap:6px; clear:both;">' +
                     '<label style="margin:0; font-weight:bold; color:#1e3a8a;">🥤 Search & Log Drink:</label>' +
-                    '<input type="text" id="liquid-input-' + d + '" list="drink-search-list" placeholder="Type drink name..." style="padding:4px; width:160px; font-size:10px; font-weight:bold; background:#fff; color:#000; border:1px solid #cbd5e1; border-radius:4px;">' +
+                    '<input type="text" id="liquid-input-' + d + '" list="drink-search-list" placeholder="Type drink name..." style="padding:4px; width:150px; font-size:10px; font-weight:bold; background:#fff; color:#000; border:1px solid #cbd5e1; border-radius:4px;">' +
                     '<button onclick="addOneClickLiquid(' + d + ')" style="padding:4px 8px; background:#059669; color:white; border:none; border-radius:4px; font-weight:bold; font-size:10px; cursor:pointer;">➕ Log Drink</button>' +
                     '<span id="liquid-total-badge-' + d + '" style="font-weight:bold; color:#10b981; background:#f0fdf4; padding:2px 6px; border-radius:4px; border:1px solid #bbf7d0; margin-left:auto;">Liquid Total: 0 cal</span>' +
                     '<span onclick="resetLiquidDay(' + d + ')" style="font-size:9px; color:#ef4444; text-decoration:underline; cursor:pointer; font-weight:bold; margin-left:4px;">[Clear]</span>' +
@@ -57,25 +64,42 @@ window.addEventListener("load", function() {
                 var chosenName = inputName.value.trim();
                 if(!chosenName) return;
 
+                // Intercept the specific custom entry trigger keyword string "new"
+                if (chosenName.toLowerCase() === "new") {
+                    inputName.value = "";
+                    var customName = prompt("🥤 CUSTOM LIBRARY EXPANDER:\n\nWhat is the name of your new beverage or workout shake?");
+                    if (!customName || customName.trim() === "") return;
+                    customName = customName.trim();
+                    
+                    var customCalsStr = prompt("How many total calories are inside a single serving/container of " + customName + "?");
+                    var customCalsNum = parseFloat(customCalsStr) || 0;
+                    
+                    window.drinkLibrary[customName] = customCalsNum;
+                    localStorage.setItem("customDrinkLibrary", JSON.stringify(window.drinkLibrary));
+                    window.rebuildDrinkDatalist();
+                    
+                    window.liquidLogCals[dayIndex] += customCalsNum;
+                    localStorage.setItem("dailyLiquidCalsTrack", JSON.stringify(window.liquidLogCals));
+                    if (typeof syncAppEngine === "function") syncAppEngine();
+                    return;
+                }
+
                 var matchCals = window.drinkLibrary[chosenName] !== undefined ? window.drinkLibrary[chosenName] : null;
                 
                 if (matchCals !== null) {
                     window.liquidLogCals[dayIndex] += matchCals;
+                    localStorage.setItem("dailyLiquidCalsTrack", JSON.stringify(window.liquidLogCals));
                     inputName.value = ""; 
                     if(typeof syncAppEngine === "function") { syncAppEngine(); }
                 } else {
-                    // Fallback pass trigger to check if the user typed the "new" command keyword string
-                    if(chosenName.toLowerCase() === "new") {
-                        if(typeof syncAppEngine === "function") { syncAppEngine(); }
-                    } else {
-                        alert("🥤 Drink profile not found. Please select an option from the autocomplete dropdown menu list, or type 'new' to add a brand new custom drink profile!");
-                    }
+                    alert("🥤 Drink profile not found. Please select an option from the autocomplete dropdown menu list, or type 'new' to add a brand new custom drink profile!");
                 }
             }
         };
 
         window.resetLiquidDay = function(dayIndex) {
             window.liquidLogCals[dayIndex] = 0;
+            localStorage.setItem("dailyLiquidCalsTrack", JSON.stringify(window.liquidLogCals));
             if(typeof syncAppEngine === "function") { syncAppEngine(); }
         };
 
