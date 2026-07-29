@@ -27,7 +27,7 @@ window.updateMealOptions = function(dayIndex, mealNum) {
     var startIdx = 0, endIdx = 35; if (mVal === "SPICY") { startIdx = 0; endIdx = 7; } if (mVal === "COMFORT") { startIdx = 7; endIdx = 14; } if (mVal === "LIGHT") { startIdx = 14; endIdx = 21; } if (mVal === "CARBS") { startIdx = 21; endIdx = 28; }
     for (var i = startIdx; i < endIdx; i++) {
         var calOffset = (i % 2 === 0) ? (i * 2) : -(i * 1.5); if (mVal === "LIGHT") calOffset -= 45; if (mVal === "CARBS") calOffset += 45;
-        var computedCal = Math.round(baseCal + calOffset); var dishName = prepMethods[i] + " " + cleanStyle[0] + " " + pVal + " " + servingStyles[(i + dayIndex) % 35] + " (" + computedCal + " cal)";
+        var computedCal = Math.round(baseCal + calOffset); var dishName = prepMethods[i] + " " + cleanStyle + " " + pVal + " " + servingStyles[(i + dayIndex) % 35] + " (" + computedCal + " cal)";
         optionsHTML += '<option value="' + sVal + '|' + pVal + '|' + dishName + '|' + computedCal + '">' + dishName + '</option>';
     }
     mSelect.innerHTML = optionsHTML; mSelect.selectedIndex = 1; syncAppEngine();
@@ -40,7 +40,7 @@ window.syncAppEngine = function() {
         var activeToday = [m1Val, m2Val], dayCals = 0;
         for (var m = 0; m < activeToday.length; m++) {
             var raw = activeToday[m]; if (!raw) continue; var frags = raw.split("|");
-            var style = frags[0], protein = frags[1], fullDishName = frags[2], mealCalories = parseInt(frags[3]) || 0;
+            var style = frags, protein = frags, fullDishName = frags, mealCalories = parseInt(frags) || 0;
             dayCals += mealCalories; grandCals += mealCalories; var pData = proteinGroceries[protein], sData = styleGroceries[style];
             if (!pData || !sData) continue;
             if (!activeMap[fullDishName]) { activeMap[fullDishName] = true; rHTML += '<div class="recipe-item"><div class="recipe-title">' + fullDishName + '</div><div class="recipe-steps"><strong>Ingredients:</strong> ' + pData.item + ', ' + sData.side + ', ' + sData.prod + ', ' + sData.sauce + '.<br><br><strong>Directions:</strong> ' + sData.steps + '</div></div>'; }
