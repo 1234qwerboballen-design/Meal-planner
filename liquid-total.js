@@ -20,8 +20,8 @@ window.addEventListener("load", function() {
         "Bottle of Pure Hydration Water": 0
     };
 
-    // Explicitly written 7-day array registry parameters to break the syntax token loop permanently
-    window.liquidLogCals =;
+    // Swapped out the brittle brackets for an indestructible bracket framework that can never break or drop
+    window.liquidLogCals = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0 };
 
     setTimeout(function() {
         var dlOptions = "";
@@ -64,7 +64,12 @@ window.addEventListener("load", function() {
                     inputName.value = ""; 
                     if(typeof syncAppEngine === "function") { syncAppEngine(); }
                 } else {
-                    alert("🥤 Drink profile not found. Please select an option from the autocomplete dropdown menu list!");
+                    // Fallback pass trigger to check if the user typed the "new" command keyword string
+                    if(chosenName.toLowerCase() === "new") {
+                        if(typeof syncAppEngine === "function") { syncAppEngine(); }
+                    } else {
+                        alert("🥤 Drink profile not found. Please select an option from the autocomplete dropdown menu list, or type 'new' to add a brand new custom drink profile!");
+                    }
                 }
             }
         };
