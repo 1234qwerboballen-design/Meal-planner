@@ -1,31 +1,32 @@
 window.addEventListener("load", function() {
-    var defaultDrinks = {
-        "Monster Energy Drink (Regular Can)": 220,
-        "Red Bull Energy Drink (Regular Can)": 110,
-        "Celsius Energy Drink (Standard Can)": 10,
+    window.drinkLibrary = {
+        "Monster Energy Drink (Regular Can)": 13.75,
+        "Red Bull Energy Drink (Regular Can)": 13.75,
+        "Celsius Energy Drink (Standard Can)": 0.83,
         "Reign / Bang / Ghost (Zero Sugar Can)": 0,
-        "Whey Protein Shake (1 Scoop with Water)": 120,
-        "Protein Shake (1 Scoop with Whole Milk)": 270,
-        "Glass of Whole Milk (8 fl oz)": 150,
-        "Glass of Unsweetened Almond Milk (8 fl oz)": 30,
-        "Glass of Oat Milk (8 fl oz)": 120,
-        "Glass of Sweet Tea (12 fl oz)": 90,
-        "Glass of Kool-Aid (12 fl oz)": 135,
-        "Glass of Regular Soda / Cola (12 fl oz)": 150,
-        "Glass of Diet Soda / Coke Zero": 0,
-        "Glass of 100% Orange Juice (8 fl oz)": 110,
+        "Whole Milk (Full Fat)": 18.75,
+        "2% Reduced Fat Milk": 15.0,
+        "Skim Milk (Fat Free)": 10.0,
+        "Unsweetened Almond Milk": 3.75,
+        "Oat Milk (Standard)": 15.0,
+        "Soy Milk (Original)": 13.75,
+        "Kool-Aid (Avg Sugared)": 11.25,
+        "Gatorade / Powerade (Regular)": 7.5,
+        "Gatorade Zero / Powerade Zero": 0,
+        "Coca-Cola / Pepsi / Regular Soda": 12.5,
+        "Diet Soda / Coke Zero": 0,
+        "100% Orange Juice": 13.75,
+        "Whey Protein Shake (with Water)": 15.0,
         "Pre-Workout Drink Mix (1 Scoop)": 5,
         "BCAA / Creatine Supplement Mix": 0,
-        "Cup of Black Coffee (Zero Sugar)": 2,
+        "Cup of Black Coffee (Zero Sugar)": 0.2,
         "Bottle of Pure Hydration Water": 0
     };
 
-    // Load expander memory profiles safely from permanent storage database history layers
     var storedLib = localStorage.getItem("customDrinkLibrary");
-    window.drinkLibrary = storedLib ? JSON.parse(storedLib) : defaultDrinks;
+    if(storedLib) { window.drinkLibrary = JSON.parse(storedLib); }
 
-    var storedTotals = localStorage.getItem("dailyLiquidCalsTrack");
-    window.liquidLogCals = storedTotals ? JSON.parse(storedTotals) : { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0 };
+    window.liquidLogCals = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0 };
 
     setTimeout(function() {
         window.rebuildDrinkDatalist = function() {
@@ -42,7 +43,9 @@ window.addEventListener("load", function() {
             if (dayBoxes[d] && !document.getElementById("liquid-input-" + d)) {
                 var liqHTML = '<div style="margin-top:8px; padding-top:6px; border-top:1px dashed #cbd5e1; display:flex; flex-wrap:wrap; align-items:center; gap:6px; clear:both;">' +
                     '<label style="margin:0; font-weight:bold; color:#1e3a8a;">🥤 Search & Log Drink:</label>' +
-                    '<input type="text" id="liquid-input-' + d + '" list="drink-search-list" placeholder="Type drink name..." style="padding:4px; width:150px; font-size:10px; font-weight:bold; background:#fff; color:#000; border:1px solid #cbd5e1; border-radius:4px;">' +
+                    '<input type="text" id="liquid-input-' + d + '" list="drink-search-list" placeholder="Type drink name..." style="padding:4px; width:130px; font-size:10px; font-weight:bold; background:#fff; color:#000; border:1px solid #cbd5e1; border-radius:4px;">' +
+                    '<input type="number" id="liquid-oz-' + d + '" value="12" min="1" style="padding:4px; width:42px; font-size:10px; border:1px solid #cbd5e1; border-radius:4px; font-weight:bold; color:#000; text-align:center;">' +
+                    '<span style="font-weight:bold; color:#475569;">oz</span>' +
                     '<button onclick="addOneClickLiquid(' + d + ')" style="padding:4px 8px; background:#059669; color:white; border:none; border-radius:4px; font-weight:bold; font-size:10px; cursor:pointer;">➕ Log Drink</button>' +
                     '<span id="liquid-total-badge-' + d + '" style="font-weight:bold; color:#10b981; background:#f0fdf4; padding:2px 6px; border-radius:4px; border:1px solid #bbf7d0; margin-left:auto;">Liquid Total: 0 cal</span>' +
                     '<span onclick="resetLiquidDay(' + d + ')" style="font-size:9px; color:#ef4444; text-decoration:underline; cursor:pointer; font-weight:bold; margin-left:4px;">[Clear]</span>' +
@@ -54,45 +57,57 @@ window.addEventListener("load", function() {
         }
 
         function setupLiquidEnterHook(dayIndex) {
-            var input = document.getElementById("liquid-input-" + dayIndex);
-            if (input) { input.addEventListener("keypress", function(e) { if (e.key === "Enter") { e.preventDefault(); addOneClickLiquid(dayIndex); } }); }
+            var items = ["liquid-input-", "liquid-oz-"];
+            items.forEach(function(prefix) {
+                var input = document.getElementById(prefix + dayIndex);
+                if (input) { input.addEventListener("keypress", function(e) { if (e.key === "Enter") { e.preventDefault(); addOneClickLiquid(dayIndex); } }); }
+            });
         }
 
         window.addOneClickLiquid = function(dayIndex) {
             var inputName = document.getElementById("liquid-input-" + dayIndex);
-            if (inputName) {
+            var ozInput = document.getElementById("liquid-oz-" + dayIndex);
+            
+            if (inputName && ozInput) {
                 var chosenName = inputName.value.trim();
-                if(!chosenName) return;
+                var currentOzAmount = parseFloat(ozInput.value) || 0;
+                if(!chosenName || currentOzAmount <= 0) return;
 
-                // Intercept the specific custom entry trigger keyword string "new"
                 if (chosenName.toLowerCase() === "new") {
                     inputName.value = "";
                     var customName = prompt("🥤 CUSTOM LIBRARY EXPANDER:\n\nWhat is the name of your new beverage or workout shake?");
                     if (!customName || customName.trim() === "") return;
                     customName = customName.trim();
                     
-                    var customCalsStr = prompt("How many total calories are inside a single serving/container of " + customName + "?");
-                    var customCalsNum = parseFloat(customCalsStr) || 0;
+                    var totalCalsStr = prompt("How many TOTAL calories are inside the full standard container/can of " + customName + "?");
+                    var totalCalsNum = parseFloat(totalCalsStr) || 0;
+
+                    var totalOzStr = prompt("How many TOTAL fluid ounces are inside that full standard container/can? (e.g. 12, 16, 20)");
+                    var totalOzNum = parseFloat(totalOzStr) || 1;
                     
-                    window.drinkLibrary[customName] = customCalsNum;
+                    // Store the mathematically accurate calorie weight rating value per single fluid ounce
+                    window.drinkLibrary[customName] = totalCalsNum / totalOzNum;
                     localStorage.setItem("customDrinkLibrary", JSON.stringify(window.drinkLibrary));
                     window.rebuildDrinkDatalist();
                     
-                    window.liquidLogCals[dayIndex] += customCalsNum;
+                    // Immediately log based on the current ounces entered in the box row
+                    var customComputedCals = Math.round(currentOzAmount * window.drinkLibrary[customName]);
+                    window.liquidLogCals[dayIndex] += customComputedCals;
                     localStorage.setItem("dailyLiquidCalsTrack", JSON.stringify(window.liquidLogCals));
                     if (typeof syncAppEngine === "function") syncAppEngine();
                     return;
                 }
 
-                var matchCals = window.drinkLibrary[chosenName] !== undefined ? window.drinkLibrary[chosenName] : null;
+                var calsPerOz = window.drinkLibrary[chosenName] !== undefined ? window.drinkLibrary[chosenName] : null;
                 
-                if (matchCals !== null) {
-                    window.liquidLogCals[dayIndex] += matchCals;
+                if (calsPerOz !== null) {
+                    var finalComputedCals = Math.round(currentOzAmount * calsPerOz);
+                    window.liquidLogCals[dayIndex] += finalComputedCals;
                     localStorage.setItem("dailyLiquidCalsTrack", JSON.stringify(window.liquidLogCals));
                     inputName.value = ""; 
                     if(typeof syncAppEngine === "function") { syncAppEngine(); }
                 } else {
-                    alert("🥤 Drink profile not found. Please select an option from the autocomplete dropdown menu list, or type 'new' to add a brand new custom drink profile!");
+                    alert("🥤 Drink profile not found. Please select an option from the autocomplete list, or type 'new' to add a custom profile!");
                 }
             }
         };
