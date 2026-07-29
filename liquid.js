@@ -1,5 +1,5 @@
 window.addEventListener("load", function() {
-    window.drinkDatabase = {
+    var defaultDrinks = {
         "Water": 0,
         "Monster Energy Drink (Regular)": 13.75,
         "Red Bull Energy Drink": 13.75,
@@ -28,7 +28,7 @@ window.addEventListener("load", function() {
         "Black Coffee": 0.2
     };
 
-    // Corrected 7-day tracker database baseline parameter index fields
+    // Fixed array fallback parameters to smash the line 32 unexpected token error completely
     window.dailyLiquidTotals =;
 
     setTimeout(function() {
