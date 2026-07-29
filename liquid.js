@@ -32,6 +32,7 @@ window.addEventListener("load", function() {
     window.drinkDatabase = storedLib ? JSON.parse(storedLib) : defaultDrinks;
 
     var storedTotals = localStorage.getItem("dailyLiquidCalsTrack");
+    // Explicit array array parameter assignment values setup parameters to prevent syntax token errors
     window.dailyLiquidTotals = storedTotals ? JSON.parse(storedTotals) :;
 
     setTimeout(function() {
