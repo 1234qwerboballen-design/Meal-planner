@@ -21,17 +21,14 @@
         <h2>📅 Weekly Custom Schedule Mixer</h2>
         <div id="weekContainer"></div>
     </div>
-<script>
-    var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    var styles = ["Chinese / Asian", "Mexican / TexMex", "Italian / Med", "American Comfort", "Diner Breakfast"];
-    var proteins = ["Chicken", "Beef", "Turkey", "Seafood", "Pork"];
-    var html = "";
-    for (var d = 0; d < days.length; d++) {
-        var sOpt = '<option>-- Style --</option>'; for(var i=0; i<styles.length; i++) sOpt+='<option>'+styles[i]+'</option>';
-        var pOpt = '<option>-- Protein --</option>'; for(var j=0; j<proteins.length; j++) pOpt+='<option>'+proteins[j]+'</option>';
-        html += '<div class="day-box"><div class="day-name">'+days[d]+'</div><div class="flex-row"><select>'+sOpt+'</select><select>'+pOpt+'</select></div></div>';
-    }
-    document.getElementById("weekContainer").innerHTML = html;
-</script>
+    <div class="card">
+        <h2>🍽 Active Recipes & Cooking Directions</h2>
+        <div id="recipeBox"><p style='font-size:10px; color:#666;'>Select your options above to view cooking instructions.</p></div>
+    </div>
+    <div class="card">
+        <h2>🛒 Complete Weekly Grocery Checklist</h2>
+        <div id="groceryBox"><p style='font-size:10px; color:#666;'>Select your options above to compile checklists.</p></div>
+    </div>
+    <script src="engine-v1.js"></script>
 </body>
 </html>
