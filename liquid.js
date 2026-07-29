@@ -67,9 +67,9 @@ window.addEventListener("load", function() {
 
         function setupEnterKey(dayIndex) {
             var items = ["liquid-oz-", "liquid-input-", "custom-cal-per-oz-"];
-            items.forEach(function(idPrefix){
+            items.forEach(function(idPrefix) {
                 var el = document.getElementById(idPrefix + dayIndex);
-                if(el) { el.addEventListener("keypress", function(e) { if (e.key === "Enter") { e.preventDefault(); addLiquidItem(dayIndex); } }); }
+                if (el) { el.addEventListener("keypress", function(e) { if (e.key === "Enter") { e.preventDefault(); addLiquidItem(dayIndex); } }); }
             });
         }
 
