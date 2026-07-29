@@ -1,5 +1,4 @@
 window.addEventListener("load", function() {
-    // Core default beverage array matrix baseline metrics setup
     var defaultDrinks = {
         "Water": 0,
         "Monster Energy Drink (Regular)": 13.75,
@@ -29,7 +28,6 @@ window.addEventListener("load", function() {
         "Black Coffee": 0.2
     };
 
-    // Load custom library expansions and running counts safely from permanent storage history
     var storedLib = localStorage.getItem("customDrinkLibrary");
     window.drinkDatabase = storedLib ? JSON.parse(storedLib) : defaultDrinks;
 
@@ -86,12 +84,11 @@ window.addEventListener("load", function() {
                 var oz = parseFloat(ozInput.value) || 0;
                 if(!name || oz <= 0) return;
 
-                // Check if item requires custom manual calibration logging entries
                 if (window.drinkDatabase[name] === undefined) {
                     if (calZone.style.display === "none") {
                         calZone.style.display = "flex";
                         customCalInput.focus();
-                        alert("🥤 New Drink Detected! Please enter how many calories are in 1 fluid ounce (Total Cals / Container Ounces), then press Log or Enter again to save it permanently.");
+                        alert("New Drink Detected! Please enter how many calories are in 1 fluid ounce (Total Cals / Container Ounces), then press Log or Enter again to save it permanently.");
                         return;
                     }
                     var customRate = parseFloat(customCalInput.value) || 0;
