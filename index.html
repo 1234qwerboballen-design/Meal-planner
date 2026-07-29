@@ -4,151 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Weekly Meal Planner</title>
-    <style>
-        /* Uniform 10px text metrics across the entire application ecosystem */
-        body { font-family: sans-serif; background: #f0f4f8; padding: 12px; color: #000 !important; margin: 0; font-size: 10px !important; }
-        .card { background: white; padding: 12px; margin-bottom: 12px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); display: block; }
-        
-        h1 { font-size: 12px !important; margin: 0; font-weight: bold; color: white !important; text-transform: uppercase; }
-        h2 { color: #1e3a8a !important; font-size: 10px !important; margin: 0 0 8px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; text-transform: uppercase; font-weight: bold; }
-        
-        .day-box { background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 12px; display: block; color: #000 !important; }
-        .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 4px; }
-        .day-name { font-weight: bold; font-size: 10px !important; color: #1e3a8a !important; }
-        
-        .toggle-btn { padding: 4px 8px; font-size: 10px !important; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; transition: 0.2s; }
-        .btn-add { background: #2563eb; color: white; }
-        .btn-remove { background: #64748b; color: white; }
-        
-        .flex-row { display: flex; gap: 6px; margin-bottom: 6px; }
-        .flex-row select { flex: 1; }
-        .filter-row { display: flex; gap: 6px; margin-top: 4px; margin-bottom: 6px; }
-        .meal-select-container { margin-top: 4px; display: block; margin-bottom: 6px; }
-        .m2-wrapper { display: none; margin-top: 10px; border-top: 1px dashed #e2e8f0; padding-top: 6px; }
-        
-        select { padding: 6px; width: 100%; border: 1px solid #94a3b8; border-radius: 4px; font-size: 10px !important; background: white; color: #000 !important; display: block; box-sizing: border-box; font-weight: bold; }
-        label { display: block; font-size: 10px !important; color: #333 !important; margin-top: 2px; font-weight: bold; }
-        p { font-size: 10px !important; margin: 0; color: white !important; opacity: 0.9; }
-    </style>
+    <link rel="stylesheet" href="https://jsdelivr.net" onerror="this.href='https://githack.com'">
 </head>
 <body>
-
-    <!-- COMPACT REGISTRY TOP HEADER -->
-    <div style="background: linear-gradient(to right, #1e3a8a, #2563eb); color: white; padding: 12px; border-radius: 10px; margin-bottom: 12px; display: block;">
+    <div class="header-card">
         <h1>Ultimate Weekly Meal Planner</h1>
-        <p>1,000 Permutations Matrix with Cascading Sub-Mood Narrowing Filters</p>
+        <p>1,000 Recipe Matrix Engine with Live Automated Calorie Budget Counters</p>
     </div>
-
-    <!-- WEEKLY PLANNER INTERACTIVE SCHEDULE -->
+    <div class="tracker-dashboard">
+        <div class="tracker-metric">WEEKLY TOTAL TRACK<div id="weeklyTotalVal" class="tracker-val">0 CAL</div></div>
+        <div class="tracker-divider"></div>
+        <div class="tracker-metric">DAILY AVERAGE TARGET<div id="dailyAvgVal" class="tracker-val">0 CAL</div></div>
+    </div>
     <div class="card">
         <h2>📅 Weekly Custom Schedule Mixer</h2>
         <div id="weekContainer"></div>
     </div>
-
-<script>
-    var weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    var stylesList = ["Chinese / Asian", "Mexican / TexMex", "Italian / Med", "American Comfort", "Diner Breakfast"];
-    var proteinsList = ["Chicken", "Beef", "Turkey", "Seafood", "Pork"];
-    var proteinCals = { "Chicken": 640, "Beef": 710, "Turkey": 610, "Seafood": 380, "Pork": 640 };
-
-    // Grouping indices definitions safely mapped to achieve full 35 choices
-    var prepMethods = [
-        "Szechuan Spiced", "Spicy Chili", "Fiery Ginger", "Chipotle Infused", "Zesty Pan-Fried", "Peppery Seared", "Cajun Style", // SPICY MOOD (0-6)
-        "Crispy Baked", "Garlic Seared", "Slow Cooked", "Flame Grilled", "Honey Glazed", "Crumbled Skillet", "Garlic Butter Glazed", // COMFORT MOOD (7-13)
-        "Herb Crust", "Lemon Infused", "Flaked Skillet", "Shredded", "Sheet-Pan Slices", "House Special", "Citrus Marinated", // LIGHT MOOD (14-20)
-        "Teriyaki Glazed", "Sweet Chili", "Sizzling", "Savory Braised", "Diced Skillet", "Toasted", "Browned", // CARBS MOOD (21-27)
-        "Oven-Roasted", "Searing-Hot", "Slow-Simmered", "Crispy Air-Fried", "Sweet BBQ Coat", "Cracked-Pepper", "Basil-Infused" // EXTENSION ROW (28-34)
-    ];
-    
-    var servingStyles = [
-        "Fajita Platter", "Taco Boat", "Salsa Boat", "Grill Basket", "Baja Plate", "Spicy Skillet", "Chili Bowl", // SPICY MOOD (0-6)
-        "Comfort Tray", "Crave Bowl", "Omelet Wrap", "Diner Special", "Skillet Pack", "Macro Plate", "Quesadilla Melt", // COMFORT MOOD (7-13)
-        "Lettuce Wrap", "Salad Bowl", "Asparagus Bed", "Broccoli Bed", "Low-Carb Pocket", "Cutting Grid Tray", "Veggie Medley Tray", // LIGHT MOOD (14-20)
-        "Jasmine Rice Bowl", "Potato Skillet", "Brown Rice Melt", "Wheat Toast Stack", "Sweet Potato Box", "Carb-Load Plate", "Cauliflower Rice Bowl", // CARBS MOOD (21-27)
-        "Quinoa Toss Bed", "Fuel Block", "Déficit Pack", "Harvest Bowl", "Skewer Plate", "G pantry Box", "Marinara Bed" // EXTENSION ROW (28-34)
-    ];
-
-    // 1. Render all 7 Day Template Panels with Integrated Mood Channels Natively
-    var weekHTML = "";
-    for (var d = 0; d < weekDays.length; d++) {
-        var regionOptions = '<option value="">-- Choose Style --</option>';
-        for (var s = 0; s < stylesList.length; s++) { regionOptions += '<option value="' + stylesList[s] + '">' + stylesList[s] + '</option>'; }
-        
-        var proteinOptions = '<option value="">-- Choose Protein --</option>';
-        for (var p = 0; p < proteinsList.length; p++) { proteinOptions += '<option value="' + proteinsList[p] + '">' + proteinsList[p] + '</option>'; }
-
-        weekHTML += '<div class="day-box">' +
-            '<div class="day-header">' +
-                '<div class="day-name">' + weekDays[d] + '</div>' +
-                '<button id="toggle-btn-' + d + '" class="toggle-btn btn-add" onclick="toggleSecondMeal(' + d + ')">➕ Add Meal 2</button>' +
-            '</div>' +
-            
-            '<!-- MEAL 1 BLOCK -->' +
-            '<label>Meal Choice 1</label>' +
-            '<div class="flex-row">' +
-                '<select id="style-m1-' + d + '" onchange="updateMealOptions(' + d + ', 1)">' + regionOptions + '</select>' +
-                '<select id="prot-m1-' + d + '" onchange="updateMealOptions(' + d + ', 1)">' + proteinOptions + '</select>' +
-            '</div>' +
-            '<div class="filter-row">' +
-                '<select id="mood-m1-' + d + '" onchange="updateMealOptions(' + d + ', 1)">' +
-                    '<option value="ALL">📋 Show All 35 Options</option>' +
-                    '<option value="SPICY">🌶️ Mood: Give Me Heat (Spicy)</option>' +
-                    '<option value="COMFORT">🧀 Mood: Comfort Food (Savory)</option>' +
-                    '<option value="LIGHT">🥑 Mood: Keep It Light (Low Carb)</option>' +
-                    '<option value="CARBS">🍚 Mood: Need Carbs (Fueling)</option>' +
-                '</select>' +
-            '</div>' +
-            '<div class="meal-select-container">' +
-                '<label>Specific Meal (Name & Calories)</label>' +
-                '<select id="meal-m1-' + d + '"><option value="">-- Select Meal --</option></select>' +
-            '</div>' +
-            
-            '<!-- MEAL 2 BLOCK -->' +
-            '<div id="m2-wrapper-' + d + '" class="m2-wrapper">' +
-                '<label>Meal Choice 2</label>' +
-                '<div class="flex-row">' +
-                    '<select id="style-m2-' + d + '" onchange="updateMealOptions(' + d + ', 2)">' + regionOptions + '</select>' +
-                    '<select id="prot-m2-' + d + '" onchange="updateMealOptions(' + d + ', 2)">' + proteinOptions + '</select>' +
-                '</div>' +
-                '<div class="filter-row">' +
-                    '<select id="mood-m2-' + d + '" onchange="updateMealOptions(' + d + ', 2)">' +
-                        '<option value="ALL">📋 Show All 35 Options</option>' +
-                        '<option value="SPICY">🌶️ Mood: Give Me Heat (Spicy)</option>' +
-                        '<option value="COMFORT">🧀 Mood: Comfort Food (Savory)</option>' +
-                        '<option value="LIGHT">🥑 Mood: Keep It Light (Low Carb)</option>' +
-                        '<option value="CARBS">🍚 Mood: Need Carbs (Fueling)</option>' +
-                    '</select>' +
-                '</div>' +
-                '<div class="meal-select-container">' +
-                    '<label>Specific Meal (Name & Calories)</label>' +
-                    '<select id="meal-m2-' + d + '"><option value="">-- Select Meal --</option></select>' +
-                '</div>' +
-            '</div>' +
-        '</div>';
-    }
-    document.getElementById("weekContainer").innerHTML = weekHTML;
-
-    // 2. On-Demand Toggle Engine Component
-    function toggleSecondMeal(dayIndex) {
-        var wrapper = document.getElementById("m2-wrapper-" + dayIndex);
-        var button = document.getElementById("toggle-btn-" + dayIndex);
-        
-        if (wrapper.style.display === "block") {
-            wrapper.style.display = "none";
-            button.innerHTML = "➕ Add Meal 2";
-            button.className = "toggle-btn btn-add";
-            document.getElementById("style-m2-" + dayIndex).value = "";
-            document.getElementById("prot-m2-" + dayIndex).value = "";
-            document.getElementById("meal-m2-" + dayIndex).value = "";
-        } else {
-            wrapper.style.display = "block";
-            button.innerHTML = "❌ Remove Meal 2";
-            button.className = "toggle-btn btn-remove";
-            document.getElementById("style-m2-" + dayIndex).value = "American Comfort";
-            document.getElementById("prot-m2-" + dayIndex).value = "Chicken";
-            updateMealOptions(dayIndex, 2);
-        }
-    }
-
-    // 3. Cascading Mood Slicing Dropdown Populator Matrix Engine
-    function updateMealOptions(dayIndex, mealNum) {
+    <div class="card">
+        <h2>🍽 Active Recipes & Cooking Directions</h2>
+        <div id="recipeBox"></div>
+    </div>
+    <div class="card">
+        <h2>🛒 Complete Weekly Grocery Checklist</h2>
+        <div id="groceryBox"></div>
+    </div>
+    <script src="https://jsdelivr.net" onerror="var s=document.createElement('script');s.src='https://githack.com;"></script>
+</body>
+</html>
