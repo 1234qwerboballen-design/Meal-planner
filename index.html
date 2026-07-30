@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Weekly Meal Planner Platform Suite</title>
     <style>
-        /* Premium High-Density Structural Component Stylesheet */
+        /* Modern High-Density Layout Component Stylesheet Rules */
         body { font-family: sans-serif; background: #f0f4f8; padding: 12px; color: #000 !important; margin: 0; font-size: 10px !important; }
-        .card { background: white; padding: 12px; margin-bottom: 12px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); display: block; clear: both; box-sizing: border-box; width: 100%; text-align: left; }
+        .card { background: white; padding: 12px; margin-bottom: 12px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); display: block; clear: both; box-sizing: border-box; }
         h1 { font-size: 12px !important; margin: 0; font-weight: bold; color: white !important; text-transform: uppercase; }
-        h2 { color: #1e3a8a !important; font-size: 10px !important; margin: 0 0 8px 0; border-bottom: 2px solid #cbd5e1; padding-bottom: 4px; text-transform: uppercase; font-weight: bold; }
+        h2 { color: #1e3a8a !important; font-size: 10px !important; margin: 0 0 8px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px; text-transform: uppercase; font-weight: bold; }
         
-        /* Sliding Sidebar Drawer Component Layout elements */
-        .header-bar { display: flex; align-items: center; background: linear-gradient(to right, #1e3a8a, #2563eb); color: white; padding: 12px; border-radius: 10px; margin-bottom: 12px; position: relative; width: 100%; box-sizing: border-box; }
+        /* Unified Sliding Navigation Dropdown Elements */
+        .header-bar { display: flex; align-items: center; background: linear-gradient(to right, #1e3a8a, #2563eb); color: white; padding: 12px; border-radius: 10px; margin-bottom: 12px; position: relative; }
         .menu-trigger { font-size: 16px; font-weight: bold; background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 10px; border-radius: 6px; cursor: pointer; margin-right: 10px; z-index: 1000; }
         .menu-trigger:hover { background: rgba(255,255,255,0.3); }
         .nav-dropdown { display: none; position: absolute; top: 48px; left: 12px; background: #111827; border: 1px solid #374151; width: 180px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 999; padding: 4px; }
@@ -20,56 +20,65 @@
         .nav-link:hover { background: #1f2937; color: #fff; }
         .nav-link.active { background: #2563eb; color: white; }
         
-        /* Compact Vertical View Layout Grid System */
-        #mainLayoutGridDeck { display: flex; flex-direction: column; width: 100%; box-sizing: border-box; }
+        /* Multi-Tab Panel Display Rules (Guarantees true multi-page screen separation) */
+        .tab-panel { display: none; }
+        .list-item-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #e2e8f0; font-weight: bold; font-size: 10px; }
+        
+        /* Compact Calendar Structure Formatting */
         #weekContainer { display: flex; flex-direction: column; gap: 8px; width: 100% !important; clear: both; margin-top: 6px; }
         .day-box { background: #f8fafc; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; display: block !important; width: 100% !important; margin-bottom: 4px; color: #000 !important; clear: both; box-sizing: border-box; }
         .flex-row { display: flex; gap: 6px; margin-bottom: 4px; width: 100%; box-sizing: border-box; }
         select, input[type="text"], input[type="number"] { padding: 5px; border: 1px solid #94a3b8; border-radius: 4px; font-size: 10px !important; background: white; color: #000 !important; font-weight: bold; box-sizing: border-box; }
         label { display: block; font-size: 10px !important; color: #333 !important; margin-top: 2px; font-weight: bold; }
         
-        /* Checklist and Active Cooking Block Styles */
+        /* Recipe Cards and Ingredient Checklist Styles */
         .recipe-item { padding: 10px; background: #f1f5f9; border-radius: 6px; margin-bottom: 10px; display: block; border-left: 4px solid #1e3a8a; color: #000 !important; }
         .recipe-steps { font-size: 10px !important; color: #000 !important; margin-top: 4px; background: #fff; padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; line-height: 1.4; display: block; font-weight: bold; }
         .grocery-section { background: #f8fafc; border: 1px solid #94a3b8; border-radius: 6px; padding: 10px; margin-bottom: 10px; display: block; color: #000 !important; }
         .grocery-title { font-weight: bold; font-size: 10px !important; color: #2563eb; text-transform: uppercase; margin-bottom: 4px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 2px; }
         .item-row { display: block; font-size: 10px !important; margin: 4px 0; font-weight: bold; color: #000 !important; }
         .item-row input { margin-right: 8px; scale: 1.2; vertical-align: middle; }
-        .list-item-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #e2e8f0; font-weight: bold; font-size: 10px; }
     </style>
 </head>
 <body>
 
-    <!-- Platform Header Component -->
+    <!-- Header Components Deck with Indestructible Pure Inline Layout Handlers -->
     <div class="header-bar">
         <button class="menu-trigger" onclick="var m=document.getElementById('navDropdownMenu'); m.style.display=(m.style.display==='block')?'none':'block'; event.stopPropagation();">⋮</button>
         <div>
             <h1 style="font-size:12px; margin:0; text-transform:uppercase;">Ultimate Weekly Meal Planner</h1>
-            <p style="margin:0; font-size:9px; opacity:0.8; font-weight:bold; color:#fff !important;">Fitness Suite & Macro Platform</p>
+            <p style="margin:0; font-size:9px; opacity:0.8; font-weight:bold; color:#fff !important;">Fitness Platform & Macro Engine Suite</p>
         </div>
 
-        <!-- Corrected Natively Routed Scroll Links Container Deck Dropdown -->
+        <!-- Master Tab Switcher Router (Hides inactive cards and auto-closes menu instantly) -->
         <div id="navDropdownMenu" class="nav-dropdown">
-            <button class="nav-link active" onclick="document.getElementById('card-bmi').scrollIntoView({behavior:'smooth'}); document.getElementById('navDropdownMenu').style.display='none';">📐 BMI Calculations</button>
-            <button class="nav-link" onclick="document.getElementById('card-meals').scrollIntoView({behavior:'smooth'}); document.getElementById('navDropdownMenu').style.display='none';">📅 Choose Meals</button>
-            <button class="nav-link" onclick="document.getElementById('card-directions').scrollIntoView({behavior:'smooth'}); document.getElementById('navDropdownMenu').style.display='none';">🍽 Cook Directions</button>
-            <button class="nav-link" onclick="document.getElementById('card-groceries').scrollIntoView({behavior:'smooth'}); document.getElementById('navDropdownMenu').style.display='none';">🛒 Check Groceries</button>
-            <button class="nav-link" onclick="document.getElementById('card-workouts').scrollIntoView({behavior:'smooth'}); document.getElementById('navDropdownMenu').style.display='none';">🏋️ Gym Workouts</button>
-            <button class="nav-link" onclick="document.getElementById('card-leaderboard').scrollIntoView({behavior:'smooth'}); document.getElementById('navDropdownMenu').style.display='none';">🏆 Leaderboards</button>
+            <button class="nav-link active" id="lnk-home" onclick="switchActiveTabLayer('home')">🏠 Home Dashboard</button>
+            <button class="nav-link" id="lnk-bmi" onclick="switchActiveTabLayer('bmi')">📐 BMI Calculations</button>
+            <button class="nav-link" id="lnk-meals" onclick="switchActiveTabLayer('meals')">📅 Choose Meals</button>
+            <button class="nav-link" id="lnk-directions" onclick="switchActiveTabLayer('directions')">🍽 Cook Directions</button>
+            <button class="nav-link" id="lnk-groceries" onclick="switchActiveTabLayer('groceries')">🛒 Check Groceries</button>
+            <button class="nav-link" id="lnk-workouts" onclick="switchActiveTabLayer('workouts')">🏋️ Gym Workouts</button>
+            <button class="nav-link" id="lnk-leaderboard" onclick="switchActiveTabLayer('leaderboard')">🏆 Leaderboards</button>
         </div>
     </div>
 
-    <!-- Active Build Check Alert Banner Block -->
+    <!-- Active Build State Check Alert Banner Block -->
     <div style="background:linear-gradient(to right, #065f46, #047857); color:white; padding:10px; border-radius:8px; margin-bottom:12px; font-weight:bold; font-size:10px; border-left:4px solid #34d399; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
         <div style="color:#34d399; font-size:10px; letter-spacing:0.5px; margin-bottom:2px; font-weight:black; text-transform:uppercase;">🔥 Complete System Integration Live!</div>
-        <div style="font-size:10px; color:#fff;">Active Build State Signature: <span id="liveBuildTime" style="color:#a7f3d0; font-family:monospace; font-weight:bold;">V6.6.0 (SCROLL ENGINE RESOLVED)</span></div>
+        <div style="font-size:10px; color:#fff;">Active Build State Signature: <span id="liveBuildTime" style="color:#a7f3d0; font-family:monospace; font-weight:bold;">V7.0.0 (MASTER TAB STATE ROUTER LIVE)</span></div>
     </div>
 
-    <!-- MAIN SCROLL CANVAS LAYER PANEL -->
-    <div id="mainLayoutGridDeck">
+    <!-- TAB CONTAINER 1: HOME PANEL (Visible on startup) -->
+    <div id="panel-home" class="tab-panel" style="display:block;">
+        <div class="card" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-left: 5px solid #2563eb;">
+            <h2 style="margin:0 0 6px 0;">⚡ Welcome Back, Champ!</h2>
+            <p style="color:#1e3a8a; font-size:10px; font-weight:bold; margin:0; line-height:1.4;">Your training matrix is fully synchronized. Tap the three dots (⋮) in the top-left corner to access your diet plans, customize exercise schedules, or analyze your current BMI targets!</p>
+        </div>
+    </div>
 
-        <!-- LAYER CARD CONTAINER 1: CALCULATOR -->
-        <div class="card" id="card-bmi">
+    <!-- TAB CONTAINER 2: FITNESS GOAL FORMS CALCULATOR -->
+    <div id="panel-bmi" class="tab-panel" style="display:none;">
+        <div class="card">
             <h2>🧮 Personalized Fitness Goal Calculator</h2>
             <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; width:100%;">
                 <div style="flex:1; min-width:60px;"><label>Weight (lbs):</label><input type="number" id="fit-weight" value="180" style="width:100%;"></div>
@@ -92,16 +101,14 @@
                 <div>💪 Clean Muscle Mass Bulk: <span id="res-gain" style="color:#059669; font-weight:bold;">0 cal/day</span></div>
             </div>
         </div>
+    </div>
 
-        <!-- LAYER CARD CONTAINER 2: CALENDAR ROW MIXER -->
-        <div class="card" id="card-meals">
+    <!-- TAB CONTAINER 3: COMPACT CALENDAR SCHEDULER MATRIX -->
+    <div id="panel-meals" class="tab-panel" style="display:none;">
+        <div class="card">
             <h2>📅 Weekly Custom Schedule Mixer</h2>
             <div id="weekContainer"></div>
         </div>
+    </div>
 
-        <!-- LAYER CARD CONTAINER 3: COOK DIRECTIONS -->
-        <div class="card" id="card-directions">
-            <h2>🍽 Active Recipes & Cooking Directions</h2>
-            <div id="recipeBox"><p style='font-size:10px; color:#666;'>Select meal choices inside your calendar mixer above to automatically generate step-by-step preparation guidelines here.</p></div>
-        </div>
-
+    <!-- TAB CONTAINER 4: COOKING RECIPES DISH LINES -->
