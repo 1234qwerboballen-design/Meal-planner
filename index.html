@@ -5,66 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Weekly Meal Planner</title>
     <style>
-        body { font-family: sans-serif; background: #f0f4f8; padding: 12px; color: #000; font-size: 10px; }
+        body { font-family: sans-serif; background: #f0f4f8; padding: 12px; color: #000; font-size: 10px; margin: 0; }
         .card { background: white; padding: 12px; margin-bottom: 12px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
         .day-box { background: #f8fafc; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 8px; }
         .day-name { font-weight: bold; color: #1e3a8a; text-transform: uppercase; margin-bottom: 6px; }
         .flex-row { display: flex; gap: 6px; }
         select { padding: 6px; width: 100%; border: 1px solid #94a3b8; border-radius: 4px; font-size: 10px; font-weight: bold; background: white; color: #000; }
         
-        /* Premium Tab Navigation Bar UI Elements */
-        .tab-bar { display: flex; gap: 4px; margin-bottom: 12px; background: #1e3a8a; padding: 4px; border-radius: 8px; }
-        .tab-btn { flex: 1; padding: 8px; font-size: 10px; font-weight: bold; text-transform: uppercase; border: none; border-radius: 6px; cursor: pointer; background: transparent; color: #93c5fd; transition: 0.2s; }
-        .tab-btn.active { background: white; color: #1e3a8a; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        /* Premium Header & Three-Dots Menu Styles */
+        .header-bar { display: flex; align-items: center; background: linear-gradient(to right, #1e3a8a, #2563eb); color: white; padding: 12px; border-radius: 10px; margin-bottom: 12px; position: relative; }
+        .menu-trigger { font-size: 16px; font-weight: bold; background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 10px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: 0.2s; }
+        .menu-trigger:hover { background: rgba(255,255,255,0.3); }
+        
+        /* Slide-Down Navigation Link Container */
+        .nav-dropdown { display: none; position: absolute; top: 48px; left: 12px; background: #111827; border: 1px solid #374151; width: 180px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 999; padding: 4px; }
+        .nav-link { display: block; width: 100%; padding: 8px 12px; font-size: 10px; font-weight: bold; text-align: left; background: transparent; border: none; color: #9ca3af; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
+        .nav-link:hover { background: #1f2937; color: #fff; }
+        .nav-link.active { background: #2563eb; color: white; }
+        
+        /* Tab Content Framework */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        
+        /* Custom Exercise & Standings Styling */
+        .list-item-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #e2e8f0; font-weight: bold; font-size: 10px; }
     </style>
 </head>
 <body>
-    <div style="background: linear-gradient(to right, #1e3a8a, #2563eb); color: white; padding: 12px; border-radius: 10px; margin-bottom: 12px;">
-        <h1 style="font-size:12px; margin:0; text-transform:uppercase;">Ultimate Weekly Meal Planner</h1>
+
+    <!-- Unified Master Header & Navigation Trigger -->
+    <div class="header-bar">
+        <button class="menu-trigger" onclick="toggleNavMenu()">⋮</button>
+        <div>
+            <h1 style="font-size:12px; margin:0; text-transform:uppercase;">Ultimate Weekly Meal Planner</h1>
+            <p style="margin:0; font-size:9px; opacity:0.8; font-weight:bold; color:#fff !important;">Fitness Platform & Macro Engine Suite</p>
+        </div>
+
+        <!-- Hidden Nav Menu Drawer Deck -->
+        <div id="navDropdownMenu" class="nav-dropdown">
+            <button class="nav-link active" id="lnk-home" onclick="navigateHubTab('home')">🏠 Home Dashboard</button>
+            <button class="nav-link" id="lnk-meals" onclick="navigateHubTab('meals')">📅 Choose Meals</button>
+            <button class="nav-link" id="lnk-directions" onclick="navigateHubTab('directions')">🍽 Cook Directions</button>
+            <button class="nav-link" id="lnk-groceries" onclick="navigateHubTab('groceries')">🛒 Check Groceries</button>
+            <button class="nav-link" id="lnk-workouts" onclick="navigateHubTab('workouts')">🏋️ Gym Workouts</button>
+            <button class="nav-link" id="lnk-bmi" onclick="navigateHubTab('bmi')">📐 BMI Calculations</button>
+            <button class="nav-link" id="lnk-leaderboard" onclick="navigateHubTab('leaderboard')">🏆 Leaderboards</button>
+        </div>
     </div>
 
-    <!-- Active Navigation Control Deck Tabs Row -->
-    <div class="tab-bar">
-        <button id="btn-meals" class="tab-btn active" onclick="switchPlannerTab('meals')">📅 Choose Meals</button>
-        <button id="btn-directions" class="tab-btn" onclick="switchPlannerTab('directions')">🍽 Cook Directions</button>
-        <button id="btn-groceries" class="tab-btn" onclick="switchPlannerTab('groceries')">🛒 Check Groceries</button>
+    <!-- TAB 1: HOME DASHBOARD SCREEN -->
+    <div id="panel-home" class="tab-panel active">
+        <div class="card" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-left: 5px solid #2563eb;">
+            <h2 style="margin:0 0 6px 0;">⚡ Welcome Back, Champ!</h2>
+            <p style="color:#1e3a8a; font-size:10px; font-weight:bold; opacity:1 !important;">Your training matrix is fully synchronized. Tap the three dots (⋮) in the top-left corner to access your diet plans, customize exercise schedules, or analyze your current BMI targets!</p>
+        </div>
     </div>
 
-    <!-- Panel Section 1: Choosing Meals Grid -->
-    <div id="tab-meals" class="tab-content active">
+    <!-- TAB 2: CHOOSING MEALS PLANNERS -->
+    <div id="panel-meals" class="tab-panel">
         <div class="card">
             <h2>📅 Weekly Custom Schedule Mixer</h2>
             <div id="weekContainer"></div>
         </div>
     </div>
 
-    <!-- Panel Section 2: Cooking Directions Guidelines -->
-    <div id="tab-directions" class="tab-content">
+    <!-- TAB 3: COOKING DIRECTIONS GUIDELINES -->
+    <div id="panel-directions" class="tab-panel">
         <div class="card">
             <h2>🍽 Active Recipes & Cooking Directions</h2>
             <div id="recipeBox"><p style='font-size:10px; color:#666;'>Select your options inside the calendar tab to view step-by-step cooking instructions.</p></div>
         </div>
     </div>
 
-    <!-- Panel Section 3: Itemized Supermarket Groceries Checklist -->
-    <div id="tab-groceries" class="tab-content">
+    <!-- TAB 4: SUPERMARKET CHECKLIST DECK -->
+    <div id="panel-groceries" class="tab-panel">
         <div class="card">
             <h2>🛒 Complete Weekly Grocery Checklist</h2>
             <div id="groceryBox"><p style='font-size:10px; color:#666;'>Select your options inside the calendar tab to compile checklists.</p></div>
         </div>
     </div>
 
+    <!-- TAB 5: GYM WORKOUTS SPLIT TRACKER -->
+    <div id="panel-workouts" class="tab-panel">
+        <div class="card">
+            <h2>🏋️ Weekly Strength Split & Routine Deck</h2>
+            <div class="list-item-row" style="color:#2563eb;"><span style="text-transform:uppercase;">📅 Day Split</span><span>💪 Routine Focus Area</span></div>
+            <div class="list-item-row"><span>Monday</span><span>Chest & Triceps Heavy Push Split</span></div>
+            <div class="list-item-row"><span>Tuesday</span><span>Back & Biceps Hypertrophy Pull Split</span></div>
+            <div class="list-item-row"><span>Wednesday</span><span>Active Recovery Cardio & Core Abs</span></div>
+            <div class="list-item-row"><span>Thursday</span><span>Shoulders & Arms Traps Overhead Split</span></div>
+            <div class="list-item-row"><span>Friday</span><span>Quad Focus Heavy Squat Leg Split</span></div>
+            <div class="list-item-row"><span>Weekend</span><span>Complete Fasting Rest & Muscle Repair</span></div>
+        </div>
+    </div>
+
+    <!-- TAB 6: BMI BIOMETRIC CALCULATIONS TARGETS -->
+    <div id="panel-bmi" class="tab-panel">
+        <!-- The calculator.js file automatically targets the next available card to draw your calculator inputs here! -->
+        <div class="card" id="bmiCalculatorContainerPlaceholder" style="border:1px dashed #cbd5e1; text-align:center; padding:20px; font-weight:bold; color:#64748b;">
+            📐 Loading Biometric Parameter Form Inputs...
+        </div>
+    </div>
+
+    <!-- TAB 7: COMMUNITY LEADERBOARDS STANDINGS -->
+    <div id="panel-leaderboard" class="tab-panel">
+        <div class="card">
+            <h2>🏆 Shred Season Community Standings</h2>
+            <div class="list-item-row" style="color:#059669;"><span>Rank Name</span><span>🔥 Deficit Streaks</span></div>
+            <div class="list-item-row"><span>🥇 1. Bob Allen (You)</span><span>42 Days Active</span></div>
+            <div class="list-item-row"><span>🥈 2. Coach Muscle Stack</span><span>38 Days Active</span></div>
+            <div class="list-item-row"><span>🥉 3. Shredder Gym Bro</span><span>29 Days Active</span></div>
+            <div class="list-item-row"><span>🏅 4. Iron Lift Master</span><span>21 Days Active</span></div>
+        </div>
+    </div>
+
     <script>
-        // Self-contained Tab Router Function to handle layout shifting instantly
-        window.switchPlannerTab = function(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            document.getElementById('btn-' + tabName).classList.add('active');
-            document.getElementById('tab-' + tabName).classList.add('active');
+        // Toggle the visibility drawer of the 3-dots navigation block instantly
+        window.toggleNavMenu = function() {
+            var menu = document.getElementById("navDropdownMenu");
+            if (menu.style.display === "block") { menu.style.display = "none"; } 
+            else { menu.style.display = "block"; }
         };
+
+        // Standalone App Router to shift tabs and hide the navigation deck seamlessly
+        window.navigateHubTab = function(tabKey) {
+            document.querySelectorAll(".nav-link").forEach(btn => btn.classList.remove("active"));
+            document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.remove("active"));
+            
+            document.getElementById("lnk-" + tabKey).classList.add("active");
+            document.getElementById("panel-" + tabKey).classList.add("active");
+            
+            // Close the navigation drop-down menu automatically after selecting a screen channel
+            document.getElementById("navDropdownMenu").style.display = "none";
+        };
+
+        // Close menu immediately if a click happens outside the button rows container bounds
+        document.addEventListener("click", function(event) {
+            var menu = document.getElementById("navDropdownMenu");
+            var trigger = document.querySelector(".menu-trigger");
+            if (menu && menu.style.display === "block" && event.target !== menu && event.target !== trigger && !menu.contains(event.target)) {
+                menu.style.display = "none";
+            }
+        });
     </script>
     <script src="recipes.js"></script>
     <script src="engine-v1.js"></script>
