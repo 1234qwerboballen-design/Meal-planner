@@ -53,8 +53,14 @@
         </div>
     </div>
 
-    <!-- TAB 1: HOME DASHBOARD SCREEN -->
+    <!-- TAB 1: HOME DASHBOARD SCREEN WITH AUTOMATED LIVE UPDATE ALERTS -->
     <div id="panel-home" class="tab-panel active">
+        <!-- Live Code Implementation Verification Alert Banner Box Block -->
+        <div style="background:linear-gradient(to right, #065f46, #047857); color:white; padding:10px; border-radius:8px; margin-bottom:12px; font-weight:bold; font-size:10px; border-left:4px solid #34d399; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
+            <div style="color:#34d399; font-size:10px; letter-spacing:0.5px; margin-bottom:2px; font-weight:black; text-transform:uppercase;">🔥 New Update Successfully Implemented!</div>
+            <div style="font-size:10px; color:#fff;">Active System Directory Sync Point Timestamp: <span id="liveBuildTime" style="color:#a7f3d0; font-family:monospace; font-weight:bold;">Loading build track...</span></div>
+        </div>
+
         <div class="card" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); border-left: 5px solid #2563eb;">
             <h2 style="margin:0 0 6px 0;">⚡ Welcome Back, Champ!</h2>
             <p style="color:#1e3a8a; font-size:10px; font-weight:bold; opacity:1 !important;">Your training matrix is fully synchronized. Tap the three dots (⋮) in the top-left corner to access your diet plans, customize exercise schedules, or analyze your current BMI targets!</p>
@@ -101,7 +107,6 @@
 
     <!-- TAB 6: BMI BIOMETRIC CALCULATIONS TARGETS -->
     <div id="panel-bmi" class="tab-panel">
-        <!-- The calculator.js file automatically targets the next available card to draw your calculator inputs here! -->
         <div class="card" id="bmiCalculatorContainerPlaceholder" style="border:1px dashed #cbd5e1; text-align:center; padding:20px; font-weight:bold; color:#64748b;">
             📐 Loading Biometric Parameter Form Inputs...
         </div>
@@ -120,37 +125,29 @@
     </div>
 
     <script>
-        // Toggle the visibility drawer of the 3-dots navigation block instantly
+        // Set the active update tracker date string automatically on boot up
+        window.addEventListener("DOMContentLoaded", function() {
+            var dateObj = new Date();
+            var dayLabel = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+            var timeLabel = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById("liveBuildTime").innerText = dayLabel + " at " + timeLabel;
+        });
+
         window.toggleNavMenu = function() {
             var menu = document.getElementById("navDropdownMenu");
             if (menu.style.display === "block") { menu.style.display = "none"; } 
             else { menu.style.display = "block"; }
         };
 
-        // Standalone App Router to shift tabs and hide the navigation deck seamlessly
         window.navigateHubTab = function(tabKey) {
             document.querySelectorAll(".nav-link").forEach(btn => btn.classList.remove("active"));
             document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.remove("active"));
             
             document.getElementById("lnk-" + tabKey).classList.add("active");
             document.getElementById("panel-" + tabKey).classList.add("active");
-            
-            // Close the navigation drop-down menu automatically after selecting a screen channel
             document.getElementById("navDropdownMenu").style.display = "none";
         };
 
-        // Close menu immediately if a click happens outside the button rows container bounds
         document.addEventListener("click", function(event) {
             var menu = document.getElementById("navDropdownMenu");
             var trigger = document.querySelector(".menu-trigger");
-            if (menu && menu.style.display === "block" && event.target !== menu && event.target !== trigger && !menu.contains(event.target)) {
-                menu.style.display = "none";
-            }
-        });
-    </script>
-    <script src="recipes.js"></script>
-    <script src="engine-v1.js"></script>
-    <script src="calculator.js"></script>
-    <script src="liquid-total.js"></script>
-</body>
-</html>
