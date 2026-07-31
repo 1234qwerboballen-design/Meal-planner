@@ -1,123 +1,1714 @@
+
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Weekly Meal Planner Platform Suite</title>
-    <style>
-        /* Premium High-Density Component Stylesheet Rules */
-        body { font-family: sans-serif; background: #f0f4f8; padding: 12px; color: #000 !important; margin: 0; font-size: 10px !important; }
-        .card { background: white; padding: 12px; margin-bottom: 12px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); display: block; clear: both; box-sizing: border-box; width: 100%; text-align: left; }
-        h1 { font-size: 12px !important; margin: 0; font-weight: bold; color: white !important; text-transform: uppercase; }
-        h2 { color: #1e3a8a !important; font-size: 10px !important; margin: 0 0 8px 0; border-bottom: 2px solid #cbd5e1; padding-bottom: 4px; text-transform: uppercase; font-weight: bold; }
-        
-        /* High-Contrast Static Header Banner Elements */
-        .header-bar { display: flex; align-items: center; background: linear-gradient(to right, #1e3a8a, #2563eb); color: white; padding: 12px; border-radius: 10px; margin-bottom: 12px; width: 100%; box-sizing: border-box; }
-        
-        /* Compact Vertical View Layout Grid System */
-        #mainLayoutGridDeck { display: flex; flex-direction: column; width: 100%; box-sizing: border-box; }
-        #weekContainer { display: flex; flex-direction: column; gap: 8px; width: 100% !important; clear: both; margin-top: 6px; }
-        .day-box { background: #f8fafc; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; display: block !important; width: 100% !important; margin-bottom: 4px; color: #000 !important; clear: both; box-sizing: border-box; }
-        .flex-row { display: flex; gap: 6px; margin-bottom: 4px; width: 100%; box-sizing: border-box; }
-        select, input[type="text"], input[type="number"], textarea { padding: 5px; border: 1px solid #94a3b8; border-radius: 4px; font-size: 10px !important; background: white; color: #000 !important; font-weight: bold; box-sizing: border-box; }
-        label { display: block; font-size: 10px !important; color: #333 !important; margin-top: 2px; font-weight: bold; }
-        
-        /* Checklist and Active Cooking Block Styles */
-        .recipe-item { padding: 10px; background: #f1f5f9; border-radius: 6px; margin-bottom: 10px; display: block; border-left: 4px solid #1e3a8a; color: #000 !important; }
-        .recipe-steps { font-size: 10px !important; color: #000 !important; margin-top: 4px; background: #fff; padding: 6px; border-radius: 4px; border: 1px solid #cbd5e1; line-height: 1.4; display: block; font-weight: bold; }
-        .grocery-section { background: #f8fafc; border: 1px solid #94a3b8; border-radius: 6px; padding: 10px; margin-bottom: 10px; display: block; color: #000 !important; }
-        .grocery-title { font-weight: bold; font-size: 10px !important; color: #2563eb; text-transform: uppercase; margin-bottom: 4px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 2px; }
-        .item-row { display: block; font-size: 10px !important; margin: 4px 0; font-weight: bold; color: #000 !important; }
-        .item-row input { margin-right: 8px; scale: 1.2; vertical-align: middle; }
-        .list-item-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #e2e8f0; font-weight: bold; font-size: 10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1e3a8a">
+<title>My Meal Planner</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, #f0f4f8 0%, #e6edf5 100%);
+    color: #0f172a; line-height: 1.45;
+    min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+  .app-shell { max-width: 760px; margin: 0 auto; padding: 12px 12px 120px 12px; }
+  .hdr { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff;
+    padding: 14px 16px; border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(30,58,138,0.2); margin-bottom: 12px; }
+  .hdr h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: 0.3px; }
+  .hdr p { margin: 2px 0 0 0; font-size: 12px; opacity: 0.88; }
+  .hdr .pill { display: inline-block; margin-top: 10px; padding: 4px 10px;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .hdr select, .hdr input {
+    background: rgba(255,255,255,0.95); color: #1e3a8a; border: none;
+    padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  }
+  .hdr .ctrl-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; align-items: end; }
+  .hdr .ctrl-row label { color: rgba(255,255,255,0.85); font-size: 11px; margin: 0; }
+  .nav { position: sticky; top: 0; z-index: 50;
+    background: rgba(240,244,248,0.94); backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex; gap: 6px; overflow-x: auto;
+    padding: 8px 0; margin: 0 -12px 12px -12px;
+    padding-left: 12px; padding-right: 12px;
+    border-bottom: 1px solid rgba(30,58,138,0.1); scrollbar-width: thin; }
+  .nav button { flex: 0 0 auto; background: #fff; border: 1px solid #cbd5e1;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 12px; font-weight: 600; color: #475569;
+    cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .nav button:hover { border-color: #2563eb; color: #2563eb; }
+  .nav button.active { background: #1e3a8a; color: #fff; border-color: #1e3a8a; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade 0.2s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .card { background: #fff; padding: 14px; margin-bottom: 12px;
+    border-radius: 14px; box-shadow: 0 1px 4px rgba(15,23,42,0.06); }
+  .card h2 { color: #1e3a8a; font-size: 14px; margin: 0 0 10px 0;
+    border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; font-weight: 700; }
+  .muted { color: #64748b; font-size: 12px; }
+  label { display: block; font-size: 12px; font-weight: 600; color: #334155; margin: 6px 0 3px; }
+  input[type="text"], input[type="number"], input[type="date"], select, textarea {
+    width: 100%; padding: 8px 10px;
+    border: 1px solid #cbd5e1; border-radius: 8px;
+    font-size: 13px; background: #fff; color: #0f172a; font-family: inherit; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+  button.btn { width: 100%; padding: 10px; background: #2563eb; color: #fff;
+    border: none; border-radius: 8px; font-weight: 600; font-size: 13px;
+    cursor: pointer; transition: background 0.15s; }
+  button.btn:hover { background: #1d4ed8; }
+  button.btn:disabled { background: #94a3b8; cursor: not-allowed; }
+  button.btn.ghost { background: #fff; color: #1e3a8a; border: 1px solid #2563eb; }
+  button.btn.ghost:hover { background: #eff6ff; }
+  button.btn.sm { padding: 6px 10px; font-size: 11px; width: auto; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .row > * { flex: 1; min-width: 0; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.3px;
+    background: #e0e7ff; color: #3730a3; }
+  .badge.green { background: #d1fae5; color: #065f46; }
+  .badge.red { background: #fee2e2; color: #991b1b; }
+  .badge.amber { background: #fef3c7; color: #92400e; }
+  .badge.custom { background: #fef3c7; color: #92400e; }
+  .grid-recipes { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 600px) { .grid-recipes { grid-template-columns: 1fr 1fr; } }
+  .recipe { background: #fff; border-radius: 14px; overflow: hidden;
+    border: 1px solid #e2e8f0; display: flex; flex-direction: column; }
+  .recipe .head { padding: 12px; background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; }
+  .recipe .head h3 { margin: 0; font-size: 14px; line-height: 1.3; }
+  .recipe .head .meta { font-size: 11px; opacity: 0.9; margin-top: 4px; }
+  .recipe .body { padding: 12px; flex: 1; display: flex; flex-direction: column; }
+  .recipe .macros { display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 0;
+    border-bottom: 1px dashed #cbd5e1; margin-bottom: 8px; }
+  .recipe .macros div { flex: 1; min-width: 50px; text-align: center;
+    background: #f8fafc; padding: 6px 4px; border-radius: 6px; }
+  .recipe .macros div b { display: block; font-size: 14px; color: #1e3a8a; }
+  .recipe .macros div span { font-size: 9px; color: #64748b; text-transform: uppercase; letter-spacing: 0.4px; }
+  .recipe .steps { font-size: 12px; color: #1e293b; margin-top: 6px;
+    background: #f8fafc; padding: 10px; border-radius: 8px;
+    border-left: 3px solid #2563eb; line-height: 1.5; }
+  .recipe .steps ol { margin: 0; padding-left: 18px; }
+  .recipe .steps li { margin-bottom: 4px; }
+  .recipe .tips { font-size: 11px; color: #92400e; background: #fef3c7;
+    padding: 8px; border-radius: 6px; margin-top: 8px; line-height: 1.4; }
+  .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 8px 0; overflow-x: auto; }
+  .day-cell { background: #f8fafc; border: 1px solid #cbd5e1;
+    border-radius: 6px; padding: 8px 4px; text-align: center;
+    cursor: pointer; font-size: 11px; color: #475569; transition: all 0.15s; }
+  .day-cell .dn { display: block; font-weight: 700; color: #1e3a8a; font-size: 12px; }
+  .day-cell .ds { font-size: 9px; }
+  .day-cell .cal { display: block; margin-top: 4px; font-weight: 700; color: #059669; font-size: 11px; }
+  .day-cell:hover { border-color: #2563eb; }
+  .day-cell.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .day-cell.active .dn, .day-cell.active .ds, .day-cell.active .cal { color: #fff; }
+  .meal-slot { border: 1px solid #cbd5e1; border-radius: 8px;
+    padding: 10px; margin-bottom: 8px; background: #f8fafc; }
+  .meal-slot .lbl { font-size: 11px; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px; }
+  .meal-slot .picked { font-size: 13px; color: #0f172a; font-weight: 600; margin: 4px 0; }
+  .results-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .stat-card { flex: 1; min-width: 100px;
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border-left: 4px solid #2563eb;
+    padding: 10px; border-radius: 8px; }
+  .stat-card.lose { background: linear-gradient(135deg, #fef2f2, #fee2e2); border-color: #dc2626; }
+  .stat-card.gain { background: linear-gradient(135deg, #ecfdf5, #d1fae5); border-color: #059669; }
+  .stat-card.amber { background: linear-gradient(135deg, #fef3c7, #fde68a); border-color: #d97706; }
+  .stat-card .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.4px; color: #475569; }
+  .stat-card .val { font-size: 18px; font-weight: 700; color: #1e3a8a; margin-top: 2px; }
+  .chart-wrap { width: 100%; overflow-x: auto; }
+  table.h-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.h-tbl th, table.h-tbl td { padding: 6px; text-align: left; border-bottom: 1px dashed #e2e8f0; }
+  table.h-tbl th { color: #64748b; font-weight: 600; font-size: 11px; text-transform: uppercase; }
+  .exercise-row { display: grid; grid-template-columns: 32px 1fr 60px 60px 70px;
+    gap: 6px; align-items: center; padding: 8px 0;
+    border-bottom: 1px dashed #e2e8f0; font-size: 12px; }
+  .exercise-row.header { font-weight: 700; color: #64748b; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.4px; }
+  .exercise-row.done .ex-name { text-decoration: line-through; color: #94a3b8; }
+  .progress { width: 100%; height: 10px; background: #e2e8f0;
+    border-radius: 999px; overflow: hidden; margin: 6px 0; }
+  .progress-fill { height: 100%;
+    background: linear-gradient(90deg, #2563eb, #10b981);
+    border-radius: 999px; transition: width 0.4s ease; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: #1e3a8a; color: #fff; padding: 12px 18px;
+    border-radius: 12px; font-size: 13px; font-weight: 500; max-width: 92%; line-height: 1.5;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 200; }
+  .toast.show { opacity: 1; }
+  .toast.celebrate { background: linear-gradient(135deg, #fcd34d, #f59e0b);
+    color: #422006; padding: 18px 24px; font-size: 14px; max-width: 95%; }
+  .toast.celebrate big { display: block; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .modal-bg { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.6);
+    z-index: 100; align-items: flex-end; justify-content: center; padding: 12px; }
+  .modal-bg.open { display: flex; }
+  .modal { background: #fff; width: 100%; max-width: 580px; max-height: 85vh; overflow-y: auto;
+    border-radius: 16px 16px 0 0; padding: 16px;
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.2); position: relative; }
+  @media (min-width: 600px) { .modal-bg { align-items: center; } .modal { border-radius: 16px; } }
+  .modal h3 { margin: 0 0 10px 0; color: #1e3a8a; font-size: 16px; }
+  .modal .close { position: absolute; right: 16px; top: 14px;
+    background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b; }
+  .mood-btn { background: #fff; border: 2px solid #cbd5e1; padding: 8px 12px;
+    border-radius: 999px; cursor: pointer; font-size: 13px;
+    font-weight: 600; color: #475569; transition: all 0.15s; }
+  .mood-btn.active { border-color: #2563eb; background: #eff6ff; color: #1e3a8a; }
+  .focus-card { background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-left: 4px solid #d97706;
+    padding: 12px; border-radius: 8px; margin: 10px 0; }
+  .focus-card .quote { font-style: italic; font-size: 14px; color: #78350f; line-height: 1.5; }
+  .focus-card .src { font-size: 11px; color: #92400e; margin-top: 6px; font-weight: 600; }
+  .plan-card { background: #fff; border-radius: 12px; padding: 12px;
+    border: 2px solid #e2e8f0; cursor: pointer; transition: all 0.15s; }
+  .plan-card:hover { border-color: #2563eb; }
+  .plan-card.active { border-color: #2563eb; background: #eff6ff; }
+  .plan-card h4 { margin: 0 0 4px 0; color: #1e3a8a; font-size: 13px; }
+  .plan-card .desc { font-size: 11px; color: #64748b; }
+  .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  @media (max-width: 500px) { .plan-grid { grid-template-columns: 1fr; } }
+  details.ing summary { cursor: pointer; color: #2563eb; font-weight: 600; font-size: 12px; margin-top: 6px; }
+  details.ing[open] summary { color: #1e3a8a; }
+  details.ing ul { margin: 6px 0; padding-left: 18px; font-size: 12px; color: #475569; }
+  .empty { text-align: center; padding: 30px 12px; color: #64748b; }
+  .empty h3 { color: #1e3a8a; margin: 0 0 6px 0; font-size: 16px; }
+  /* Print styles */
+  #print-summary { display: none; }
+  @media print {
+    body { background: #fff; color: #000; padding: 0; }
+    .no-print { display: none !important; }
+    .hdr, .nav, .toast, .modal-bg { display: none !important; }
+    .app-shell { max-width: 100%; padding: 16px; }
+    .card { box-shadow: none; border: 1px solid #cbd5e1; page-break-inside: avoid; }
+    .panel { display: block !important; }
+    #panel-recipes, #panel-calc, #panel-weight, #panel-workouts, #panel-drinks, #panel-history, #panel-settings, #panel-home { display: none !important; }
+    #panel-plan, #print-summary { display: block !important; }
+    h2, h3 { color: #000 !important; }
+    .badge { background: #eee !important; color: #000 !important; }
+  }
+</style>
 </head>
 <body>
-
-    <!-- Simplified Platform Header -->
-    <div class="header-bar">
-        <div>
-            <h1 style="font-size:12px; margin:0; text-transform:uppercase;">Ultimate Weekly Meal Planner</h1>
-            <p style="margin:0; font-size:9px; opacity:0.8; font-weight:bold; color:#fff !important;">Unified Clean Console & Macro Tracker Suite</p>
-        </div>
+<div class="app-shell">
+  <header class="hdr no-print">
+    <h1 id="hdrTitle">🧬 My Meal Planner</h1>
+    <p id="hdrSubtitle">Eat well. Move daily. Reflect often.</p>
+    <div>
+      <span class="pill" id="hdrGoal">🎯 — cal/day</span>
+      <span class="pill" id="hdrSteps">🚶 — steps</span>
+      <span class="pill" id="hdrRel" style="margin-left:6px;">⛪ —</span>
     </div>
-
-    <!-- Active Build State Check Verification Card Banner Box Block -->
-    <div style="background:linear-gradient(to right, #065f46, #047857); color:white; padding:10px; border-radius:8px; margin-bottom:12px; font-weight:bold; font-size:10px; border-left:4px solid #34d399; box-shadow:0 2px 4px rgba(0,0,0,0.1);">
-        <div style="color:#34d399; font-size:10px; letter-spacing:0.5px; margin-bottom:2px; font-weight:black; text-transform:uppercase;">🔥 Complete System Integration Live!</div>
-        <div style="font-size:10px; color:#fff;">Active Build State Signature: <span id="liveBuildTime" style="color:#a7f3d0; font-family:monospace; font-weight:bold;">V9.3.0 (SYNTAX STRING ESCAPE FIXED)</span></div>
+    <div class="ctrl-row">
+      <div><label>Your name</label><input type="text" id="nameInput" placeholder="Friend" style="width:140px;"></div>
+      <div><label>Faith / Inspiration</label><select id="religionInput"></select></div>
+      <div><label>Workout plan</label><select id="planInput"></select></div>
     </div>
+  </header>
 
-    <!-- MAIN DASHBOARD CONSOLE STACK -->
-    <div id="mainLayoutGridDeck">
+  <nav class="nav no-print">
+    <button class="active" data-tab="home">🏠 Home</button>
+    <button data-tab="recipes">🍽 Browse</button>
+    <button data-tab="plan">📅 Plan</button>
+    <button data-tab="calc">🧮 Stats</button>
+    <button data-tab="weight">⚖️ Weight</button>
+    <button data-tab="workouts">🏋️ Workouts</button>
+    <button data-tab="steps">🚶 Steps</button>
+    <button data-tab="drinks">🥤 Drinks</button>
+    <button data-tab="history">📜 History</button>
+    <button data-tab="settings">⚙️ Settings</button>
+  </nav>
 
-        <!-- LAYER CARD CONTAINER 1: FITNESS CALCULATOR FORM -->
-        <div class="card" id="card-bmi">
-            <h2>🧮 Personalized Fitness Goal Calculator</h2>
-            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; width:100%;">
-                <div style="flex:1; min-width:60px;"><label>Weight (lbs):</label><input type="number" id="fit-weight" value="180" style="width:100%;"></div>
-                <div style="flex:1; min-width:60px;"><label>Height (in):</label><input type="number" id="fit-height" value="70" style="width:100%;"></div>
-                <div style="flex:1; min-width:70px;"><label>Daily Steps:</label><input type="number" id="fit-steps" value="8000" style="width:100%;"></div>
-                <div style="flex:1; min-width:100px;">
-                    <label>Workout Effort:</label>
-                    <select id="fit-effort" style="width:100%;">
-                        <option value="1.2">Sedentary (Desk Job)</option>
-                        <option value="1.375" selected>Light (1-3 days/wk)</option>
-                        <option value="1.55">Moderate (3-5 days/wk)</option>
-                        <option value="1.725">Intense (6-7 days/wk)</option>
-                    </select>
-                </div>
-            </div>
-            <button onclick="runFitCalculations()" style="width:100%; padding:6px; background:#2563eb; color:white; border:none; border-radius:4px; font-weight:bold; font-size:10px; cursor:pointer; margin-bottom:8px; text-transform:uppercase;">📊 Calculate Target Intakes</button>
-            <div id="fitResultsBox" style="display:none; background:white; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:10px; font-weight:bold; line-height:1.5; color:#000;">
-                <div>⚖️ Maintenance Level Baseline: <span id="res-maintain" style="color:#1e3a8a; font-weight:bold;">0 cal/day</span></div>
-                <div>🔥 Targeted Weight Loss Cut: <span id="res-lose" style="color:#dc2626; font-weight:bold;">0 cal/day</span></div>
-                <div>💪 Clean Muscle Mass Bulk: <span id="res-gain" style="color:#059669; font-weight:bold;">0 cal/day</span></div>
-            </div>
+  <main>
+    <!-- HOME -->
+    <section class="panel active" id="panel-home">
+      <div class="card">
+        <h2>👋 How are you feeling today?</h2>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
+          <button class="mood-btn" data-mood="hopeful">🙏 Hopeful</button>
+          <button class="mood-btn" data-mood="energized">💪 Energized</button>
+          <button class="mood-btn" data-mood="tired">😴 Tired</button>
+          <button class="mood-btn" data-mood="focused">🎯 Focused</button>
+          <button class="mood-btn" data-mood="frustrated">😤 Frustrated</button>
+          <button class="mood-btn" data-mood="peaceful">☮️ Peaceful</button>
         </div>
-
-        <!-- LAYER CARD CONTAINER 2: CALENDAR SCHEDULER MATRIX -->
-        <div class="card" id="card-meals">
-            <h2>📅 Weekly Custom Schedule Mixer</h2>
-            <div id="weekContainer"></div>
+        <div id="moodQuote"></div>
+        <div id="homeSuggestions" style="margin-top:14px;"></div>
+      </div>
+      <div class="card">
+        <h2>📊 Quick Stats</h2>
+        <div class="results-row">
+          <div class="stat-card"><div class="lbl">Daily Target</div><div class="val" id="snapTarget">—</div></div>
+          <div class="stat-card"><div class="lbl">Today</div><div class="val" id="snapPlan">—</div></div>
+          <div class="stat-card"><div class="lbl">Streak</div><div class="val" id="snapStreak">0</div></div>
+          <div class="stat-card"><div class="lbl">Last Wt</div><div class="val" id="snapWt">—</div></div>
+          <div class="stat-card lose"><div class="lbl">Total Δ</div><div class="val" id="snapDelta">—</div></div>
         </div>
-
-        <!-- LAYER CARD CONTAINER 3: ACTIVE DIRECTIONS DISH TIMELINES -->
-        <div class="card" id="card-directions">
-            <h2>🍽 Active Recipes & Cooking Directions</h2>
-            <div id="recipeBox"><p style='font-size:10px; color:#666;'>Select meal choices inside your calendar mixer above to automatically generate step-by-step preparation guidelines here.</p></div>
+      </div>
+      <div class="card">
+        <h2>✏️ Quick Log (today)</h2>
+        <p class="muted">Track steps, water, notes. Auto-feeds your history.</p>
+        <div class="row">
+          <div><label>Date</label><input type="date" id="qDate"></div>
+          <div><label>Steps</label><input type="number" id="qSteps" placeholder="7500"></div>
+          <div><label>Water (cups)</label><input type="number" id="qWater" placeholder="8"></div>
         </div>
+        <label style="margin-top:8px;">Notes</label>
+        <textarea id="qNotes" rows="2" placeholder="Cravings, wins, prayers…"></textarea>
+        <button class="btn" onclick="quickLog()" style="margin-top:10px;">💾 Save Quick Log</button>
+      </div>
+    </section>
 
-        <!-- LAYER CARD CONTAINER 4: INGREDIENTS CHECKLIST DECK -->
-        <div class="card" id="card-groceries">
-            <h2>🛒 Complete Weekly Grocery Checklist</h2>
-            <div id="groceryBox"><p style='font-size:10px; color:#666;'>Select meal choices inside your calendar mixer above to compile categorized shopping cards.</p></div>
+    <!-- RECIPES (load from JSON) -->
+    <section class="panel" id="panel-recipes">
+      <div class="card">
+        <h2>🍽 Recipe Library</h2>
+        <p class="muted">Auto-fetches latest from GitHub. Add your own or sync any time.</p>
+        <div id="recipeBanner" class="muted" style="margin-bottom:10px;"></div>
+        <div class="row">
+          <div><label>Cuisine</label><select id="fCuisine"></select></div>
+          <div><label>Mood</label><select id="fMood"></select></div>
+          <div><label>Protein</label><select id="fProtein"></select></div>
         </div>
-
-        <!-- LAYER CARD CONTAINER 5: GYM ROUTINES WORKOUT SPLIT -->
-        <div class="card" id="card-workouts">
-            <h2>🏋️ Weekly Strength Split & Routine Deck</h2>
-            <div class="list-item-row" style="color:#2563eb;"><span style="text-transform:uppercase;">📅 Day Split</span><span>💪 Routine Focus Area</span></div>
-            <div class="list-item-row"><span>Monday</span><span>Chest & Triceps Heavy Push Split</span></div>
-            <div class="list-item-row"><span>Tuesday</span><span>Back & Biceps Hypertrophy Pull Split</span></div>
-            <div class="list-item-row"><span>Wednesday</span><span>Active Recovery Cardio & Core Abs</span></div>
-            <div class="list-item-row"><span>Thursday</span><span>Shoulders & Arms Traps Overhead Split</span></div>
-            <div class="list-item-row"><span>Friday</span><span>Quad Focus Heavy Squat Leg Split</span></div>
-            <div class="list-item-row"><span>Weekend</span><span>Complete Fasting Rest & Muscle Repair</span></div>
+        <div class="row" style="margin-top:8px;">
+          <div><label>Max calories</label><input type="number" id="fCal" placeholder="600"></div>
+          <div><label>Min protein (g)</label><input type="number" id="fProt" placeholder="30"></div>
         </div>
+        <div class="muted" id="recipeCount" style="margin-top:8px;"></div>
+        <button class="btn ghost" onclick="openCustomRecipe()" style="margin-top:10px;">➕ Add My Own Recipe</button>
+      </div>
+      <div id="recipeView" class="grid-recipes"></div>
+    </section>
 
-        <!-- LAYER CARD CONTAINER 6: LEADERBOARDS STANDINGS -->
-        <div class="card" id="card-leaderboard">
-            <h2>🏆 Shred Season Community Standings</h2>
-            <div class="list-item-row" style="color:#059669;"><span>Rank Name</span><span>🔥 Deficit Streaks</span></div>
-            <div class="list-item-row"><span>🥇 1. Bob Allen (You)</span><span>42 Days Active</span></div>
-            <div class="list-item-row"><span>🥈 2. Coach Muscle Stack</span><span>38 Days Active</span></div>
-            <div class="list-item-row"><span>🥉 3. Shredder Gym Bro</span><span>29 Days Active</span></div>
-            <div class="list-item-row"><span>🏅 4. Iron Lift Master</span><span>21 Days Active</span></div>
+    <!-- PLAN -->
+    <section class="panel" id="panel-plan">
+      <div class="card">
+        <h2>📅 Weekly Meal Plan</h2>
+        <p class="muted">Tap a day, then fill breakfast / lunch / dinner / snack.</p>
+        <div class="day-grid" id="dayGrid"></div>
+        <div id="planDayView"></div>
+        <button class="btn no-print" onclick="printPlan()" style="margin-top:14px;">📄 Save as PDF / Print</button>
+      </div>
+      <!-- Print-only summary -->
+      <div class="card" style="margin-top:14px;">
+        <h2>📊 This Week At a Glance</h2>
+        <div class="results-row" id="printStats"></div>
+      </div>
+    </section>
+
+    <!-- CALC -->
+    <section class="panel" id="panel-calc">
+      <div class="card">
+        <h2>🧮 Body Stats &amp; Targets</h2>
+        <p class="muted">Mifflin-St Jeor TDEE · BMI in real time.</p>
+        <div class="row">
+          <div><label>Sex</label><select id="cSex"><option value="male">Male</option><option value="female">Female</option></select></div>
+          <div><label>Age</label><input type="number" id="cAge" value="30"></div>
+          <div><label>Weight (lb)</label><input type="number" id="cWt" value="180"></div>
+          <div><label>Height (in)</label><input type="number" id="cHt" value="70"></div>
         </div>
-    </div>
+        <div class="row" style="margin-top:8px;">
+          <div><label>Daily steps goal</label><input type="number" id="cSteps" value="8000"></div>
+          <div><label>Goal</label><select id="cGoal"><option value="lose">Lose</option><option value="maintain" selected>Maintain</option><option value="gain">Gain</option></select></div>
+          <div><label>Activity</label><select id="cAct"><option value="1.2">Sedentary</option><option value="1.375">Light</option><option value="1.55" selected>Moderate</option><option value="1.725">Intense</option></select></div>
+        </div>
+        <button class="btn" onclick="runCalc()" style="margin-top:12px;">📊 Calculate</button>
+        <div id="calcOut" style="margin-top:12px;"></div>
+      </div>
+    </section>
 
-    <script>
-        // Core Static Data Blueprints Defined Natively First
-        var weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-        var stylesList = ["Chinese / Asian", "Mexican / TexMex", "Italian / Med", "American Comfort", "Diner Breakfast"];
+    <!-- WEIGHT -->
+    <section class="panel" id="panel-weight">
+      <div class="card">
+        <h2>⚖️ Weight Tracker</h2>
+        <div class="row">
+          <div><label>Date</label><input type="date" id="wDate"></div>
+          <div><label>Weight (lb)</label><input type="number" id="wVal" step="0.1"></div>
+          <div><label>Goal (lb)</label><input type="number" id="wGoal" step="0.1"></div>
+        </div>
+        <button class="btn" onclick="logWeight()" style="margin-top:10px;">➕ Log Entry</button>
+      </div>
+      <div class="card">
+        <h2>📈 Progress Chart</h2>
+        <div class="chart-wrap"><svg id="wtChart" viewBox="0 0 600 240" style="width:100%; height:auto;"></svg></div>
+        <div class="results-row" id="wtStats"></div>
+      </div>
+    </section>
+
+    <!-- WORKOUTS -->
+    <section class="panel" id="panel-workouts">
+      <div class="card">
+        <h2>🏋️ Today's Workout</h2>
+        <div class="muted" id="wkTitle">Loading…</div>
+        <div class="progress"><div class="progress-fill" id="wkProgress"></div></div>
+        <div class="muted"><span id="wkProgressTxt">0 / 0</span> · <span id="wkEncouragement"></span></div>
+        <div id="wkExerciseList" style="margin-top:10px;"></div>
+        <button class="btn" id="wkFinishBtn" onclick="finishWorkout()" style="margin-top:12px;">💪 Finish Workout</button>
+      </div>
+      <div class="card">
+        <h2>📅 This Week's Plan</h2>
+        <div id="splitView"></div>
+      </div>
+      <div class="card">
+        <h2>🔄 Switch Plan</h2>
+        <p class="muted">Tap a plan to set it as your active routine.</p>
+        <div class="plan-grid" id="planGrid"></div>
+      </div>
+    </section>
+
+    <!-- STEPS (with CSV import) -->
+    <section class="panel" id="panel-steps">
+      <div class="card">
+        <h2>🚶 Daily Steps</h2>
+        <div class="row">
+          <div><label>Date</label><input type="date" id="stDate"></div>
+          <div><label>Steps</label><input type="number" id="stVal" placeholder="0"></div>
+          <div><label>Goal</label><input type="text" id="stGoal" readonly style="background:#f1f5f9;"></div>
+        </div>
+        <button class="btn" onclick="logSteps()" style="margin-top:10px;">➕ Log Steps</button>
+
+        <div style="margin-top:14px; padding-top:10px; border-top:1px dashed #cbd5e1;">
+          <button class="btn ghost" id="syncStepsBtn" onclick="syncStepsFromPhone()" style="margin-bottom:6px;">🔄 Sync from Phone</button>
+          <div id="syncStatus" class="muted" style="font-size:11px;">App fetches latest steps from your phone when on Android.</div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>📈 Last 7 Days</h2>
+        <div class="chart-wrap"><svg id="stepChart" viewBox="0 0 600 200" style="width:100%; height:auto;"></svg></div>
+        <div class="results-row" id="stepStats"></div>
+      </div>
+      <div class="card">
+        <h2>📥 Bulk Import (CSV)</h2>
+        <p class="muted">Export from Samsung Health or Apple Health, paste here. Format below:</p>
+        <details><summary>📋 Show import format</summary>
+          <div class="muted" style="margin-top:6px;">
+            One entry per line. Most exports work:<br>
+            <code>2024-01-15, 6500</code> (date + steps)<br>
+            <code>2024-01-16\t7200</code> (tab-separated)<br>
+            Or a 2-column CSV header row + values.<br>
+            First column = date (YYYY-MM-DD or M/D/YYYY). Second column = steps.
+          </div>
+        </details>
+        <textarea id="stepCsv" rows="6" placeholder="Paste your step data here, one row per day…"></textarea>
+        <button class="btn" onclick="importSteps()" style="margin-top:10px;">📥 Import Steps</button>
+      </div>
+      <div class="card">
+        <h2>📱 Health App Sync</h2>
+        <p class="muted">Web browsers can't read Samsung/Apple Health directly — those features are locked to native apps. Options:</p>
+        <details><summary>🥗 Samsung Health (Android)</summary>
+          <div class="muted" style="margin-top:6px;">
+            1. Open <b>Samsung Health</b> app<br>
+            2. Tap <b>Menu (⋮)</b> → <b>Settings</b> → <b>Download personal data</b><br>
+            3. Or use <b>Steps</b> daily → tap share/export to CSV<br>
+            4. Paste the CSV in the box above
+          </div>
+        </details>
+        <details><summary>🍎 Apple Health (iPhone)</summary>
+          <div class="muted" style="margin-top:6px;">
+            1. Open <b>Health</b> app<br>
+            2. Tap your <b>Profile icon</b> (top right)<br>
+            3. Scroll down → <b>Export Health Data</b><br>
+            4. Choose <b>CSV</b> (you'll need to convert from the XML).<br>
+            Many free converters at healthdata.org.<br>
+            5. Paste steps only into the box above.
+          </div>
+        </details>
+        <details><summary>🚀 Want native auto-sync?</summary>
+          <div class="muted" style="margin-top:6px;">
+            Wrap this app as a real iOS/Android app using Capacitor.<br>
+            Step-by-step guide in <code>recipes/README.md</code>.<br>
+            Or hire a dev (1-2 hours, ~$200-$500) to do it for you.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- DRINKS -->
+    <section class="panel" id="panel-drinks">
+      <div class="card">
+        <h2>🥤 Drink Tracker</h2>
+        <p class="muted">Type your drink and ounces. Type <b>new</b> to add a custom one.</p>
+        <div class="row">
+          <div><label>Date</label><input type="date" id="drDate"></div>
+          <div><label>Drink</label><input type="text" id="drName" list="drinkList" placeholder="e.g. Coffee"></div>
+        </div>
+        <div class="row" style="margin-top:8px;">
+          <div><label>Ounces</label><input type="number" id="drOz" value="12"></div>
+          <div style="display:flex; align-items:flex-end;"><button class="btn" onclick="logDrink()">➕ Log</button></div>
+        </div>
+        <div id="drToday" style="margin-top:12px;"></div>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section class="panel" id="panel-history">
+      <div class="card">
+        <h2>📜 Last 30 Days</h2>
+        <div class="results-row" id="hStats"></div>
+      </div>
+      <div class="card">
+        <h2>📋 Daily Detail</h2>
+        <table class="h-tbl" id="hTable"></table>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="panel" id="panel-settings">
+      <div class="card">
+        <h2>⚙️ My Settings</h2>
+        <div class="row">
+          <div><label>Display name</label><input type="text" id="sName"></div>
+          <div><label>Faith / Inspiration</label><select id="sReligion"></select></div>
+          <div><label>Workout plan</label><select id="sPlan"></select></div>
+        </div>
+        <div class="row" style="margin-top:8px;">
+          <div><label>Weight (lb)</label><input type="number" id="sWt" step="0.1"></div>
+          <div><label>Height (in)</label><input type="number" id="sHt" step="0.1"></div>
+          <div><label>Age</label><input type="number" id="sAge"></div>
+          <div><label>Sex</label><select id="sSex"><option value="male">Male</option><option value="female">Female</option></select></div>
+        </div>
+        <div class="row" style="margin-top:8px;">
+          <div><label>Goal weight</label><input type="number" id="sGoalWt" step="0.1"></div>
+          <div><label>Steps goal</label><input type="number" id="sSteps"></div>
+          <div><label>Activity</label><select id="sAct"><option value="1.2">Sedentary</option><option value="1.375">Light</option><option value="1.55">Moderate</option><option value="1.725">Intense</option></select></div>
+          <div><label>Goal</label><select id="sGoal"><option value="lose">Lose</option><option value="maintain">Maintain</option><option value="gain">Gain</option></select></div>
+        </div>
+        <button class="btn" onclick="saveSettings()" style="margin-top:12px;">💾 Save</button>
+        <button class="btn ghost no-print" onclick="exportAll()" style="margin-top:8px;">📥 Export Data (.json)</button>
+        <button class="btn ghost no-print" onclick="exportRecipes()" style="margin-top:8px;">🍽 Export My Recipes</button>
+        <button class="btn ghost no-print" onclick="importRecipesPrompt()" style="margin-top:8px;">📥 Import Recipes</button>
+        <button class="btn ghost no-print" style="margin-top:8px; color:#dc2626; border-color:#dc2626;" onclick="resetAll()">⚠️ Reset All</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<datalist id="drinkList"></datalist>
+
+<!-- Custom Recipe Modal -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target==this) closeModal()">
+  <div class="modal" id="modal">
+    <button class="close" onclick="closeModal()">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===========================================================
+   RECIPE LOADER — GitHub cloud fetch with bundled backup
+=========================================================== */
+// GitHub raw URL — change this if you fork the repo
+const RECIPE_CLOUD_URL = 'https://raw.githubusercontent.com/1234qwerboballen-design/Meal-planner/main/recipes/recipes.json';
+const RECIPE_BUNDLED_URL = 'recipes/recipes.json';
+const RECIPE_LAST_FETCH_KEY = 'mealPlannerRecipeLastFetch';
+const RECIPE_CUSTOM_URL_KEY = 'mealPlannerCustomRecipeUrl';
+
+let RECIPES = [];
+let CUSTOM_RECIPES = [];  // user-added, stored in localStorage
+const CUSTOM_KEY = "mealPlannerCustomRecipesV3";
+let recipeSource = 'none';  // 'cloud' | 'bundled' | 'none'
+
+// Load recipes. Try GitHub cloud first. Fall back to bundled. Show banners.
+async function loadRecipes() {
+  // 1) Always load bundled backup first — offline-safe primary source
+  let bundledArr = [];
+  try {
+    const res = await fetch(RECIPE_BUNDLED_URL + '?cb=' + Date.now(), { cache: 'no-cache' });
+    if (res.ok) {
+      const data = await res.json();
+      bundledArr = Array.isArray(data) ? data : (data.recipes || []);
+      console.log(`[Recipes] Loaded ${bundledArr.length} from bundled backup`);
+    }
+  } catch (e) {
+    console.warn('[Recipes] Bundled fetch failed (will need user to fix):', e.message);
+  }
+  RECIPES = bundledArr;
+  recipeSource = bundledArr.length ? 'bundled' : 'none';
+
+  // 2) Try cloud (bonus). If it works, cloud recipes take priority;
+  //    bundled ones not in cloud get appended so nothing is lost.
+  const customUrl = (() => {
+    try { return JSON.parse(localStorage.getItem(RECIPE_CUSTOM_URL_KEY)||'null'); } catch(e){ return null; }
+  })();
+  const cloudUrl = customUrl || RECIPE_CLOUD_URL;
+  try {
+    const res = await fetch(cloudUrl + '?cb=' + Date.now(), { cache: 'no-cache' });
+    if (res.ok) {
+      const data = await res.json();
+      const cloudArr = Array.isArray(data) ? data : (data.recipes || []);
+      if (cloudArr.length) {
+        const cloudIds = new Set(cloudArr.map(r => r.id));
+        const mergedRecipes = [...cloudArr, ...bundledArr.filter(r => !cloudIds.has(r.id))];
+        RECIPES = mergedRecipes;
+        localStorage.setItem(RECIPE_LAST_FETCH_KEY, new Date().toISOString());
+        recipeSource = customUrl ? 'custom' : 'cloud';
+        console.log(`[Recipes] Cloud bonus: ${cloudArr.length} recipes, ${mergedRecipes.length} total`);
+      }
+    }
+  } catch (e) {
+    // Cloud is bonus only — silently use bundled
+    console.warn('[Recipes] Cloud fetch unavailable (using bundled only):', e.message);
+  }
+
+  try { CUSTOM_RECIPES = JSON.parse(localStorage.getItem(CUSTOM_KEY)||'[]'); } catch(e){}
+  updateRecipeBanner();
+  renderRecipes();
+
+  // Only show empty-state error if even bundled backup failed (very unusual)
+  if (!RECIPES.length && !CUSTOM_RECIPES.length) showFetchError();
+}
+
+// User-triggered refresh from cloud
+function manualRefreshRecipes() {
+  toast('🔄 Refreshing recipes from cloud…');
+  RECIPES = [];
+  recipeSource = 'none';
+  loadRecipes();
+}
+
+// Show a status banner above the recipe list
+function updateRecipeBanner() {
+  const el = $('recipeBanner');
+  if (!el) return;
+  let html = '';
+  if (recipeSource === 'cloud' || recipeSource === 'custom') {
+    const last = localStorage.getItem(RECIPE_LAST_FETCH_KEY);
+    const when = last ? new Date(last).toLocaleString() : 'just now';
+    html = '<span class="badge green">☁ Live from GitHub</span>'
+         + ' <span class="muted" style="margin-left:6px;">Last updated: ' + when + '</span>'
+         + ' <button class="btn sm ghost" onclick="manualRefreshRecipes()" style="margin-left:8px;">🔄 Refresh</button>'
+         + ' <button class="btn sm ghost" onclick="setCustomRecipeUrl()" style="margin-left:4px;">⚙</button>';
+  } else if (recipeSource === 'bundled') {
+    html = '<span class="badge amber">📦 Bundled backup</span>'
+         + ' <span class="muted" style="margin-left:6px;">Couldn\'t reach cloud. Showing starter set.</span>'
+         + ' <button class="btn sm ghost" onclick="manualRefreshRecipes()" style="margin-left:8px;">🔄 Try Cloud</button>';
+  } else {
+    html = '<span class="badge red">⚠ No recipes loaded</span>'
+         + ' <button class="btn sm ghost" onclick="manualRefreshRecipes()" style="margin-left:8px;">🔄 Retry</button>';
+  }
+  el.innerHTML = html;
+}
+
+// Power user: point the app at your own JSON URL
+function setCustomRecipeUrl() {
+  const current = (() => {
+    try { return JSON.parse(localStorage.getItem(RECIPE_CUSTOM_URL_KEY)||'null'); } catch(e){ return null; }
+  })() || RECIPE_CLOUD_URL;
+  const next = prompt('Custom recipe JSON URL (blank = use default GitHub):', current);
+  if (next === null) return;
+  if (next === '' || next === RECIPE_CLOUD_URL) {
+    localStorage.removeItem(RECIPE_CUSTOM_URL_KEY);
+    toast('Using default GitHub source.');
+  } else {
+    localStorage.setItem(RECIPE_CUSTOM_URL_KEY, JSON.stringify(next));
+    toast('Custom URL set.');
+  }
+  manualRefreshRecipes();
+}
+
+function showFetchError() {
+  $("recipeView").innerHTML = '<div class="empty"><h3>📂 Couldn\'t reach recipe library</h3>'+
+    '<p>Tried GitHub and the bundled backup. Both failed.</p>'+
+    '<p>You can still use the app — log meals, plan weeks, track weight. Add recipes manually below or try refresh once your network is back.</p>'+
+    '<button class="btn" onclick="manualRefreshRecipes()" style="max-width:240px;margin:8px auto;">🔄 Try Again</button>'+
+    '<button class="btn ghost" onclick="openCustomRecipe()" style="max-width:240px;margin:8px auto;">➕ Add Recipe Manually</button>'+
+    '</div>';
+  $("recipeCount").textContent = "0 recipes loaded";
+}
+
+function allRecipes() { return [...RECIPES, ...CUSTOM_RECIPES]; }
+
+/* ===========================================================
+   WORKOUT PLANS — 6 across difficulty × environment
+=========================================================== */
+const PLANS = {
+  beginner_home: { name:"Beginner · Home (No Equipment)", short:"BH", level:"Beginner", env:"Home",
+    desc:"Just starting out, no equipment.",
+    days:[
+      {d:"Monday",name:"Full Body A",focus:"Total body basics",
+        exs:[{name:"Wall Push-ups",sets:3,reps:"10-12",rest:"60s"},
+             {name:"Bodyweight Squats",sets:3,reps:"12",rest:"60s"},
+             {name:"Plank",sets:3,reps:"30 sec",rest:"45s"},
+             {name:"Standing Lunges",sets:3,reps:"10 each leg",rest:"60s"},
+             {name:"Glute Bridges",sets:3,reps:"15",rest:"45s"}]},
+      {d:"Tuesday",name:"Walk + Stretch",focus:"Active recovery",
+        exs:[{name:"Brisk Walk",sets:1,reps:"30 min",rest:"-"},{name:"Dynamic Stretch",sets:1,reps:"10 min",rest:"-"}]},
+      {d:"Wednesday",name:"Full Body B",focus:"Cardio + core",
+        exs:[{name:"Mountain Climbers",sets:3,reps:"20 total",rest:"60s"},
+             {name:"Plank Up-Downs",sets:3,reps:"8",rest:"60s"},
+             {name:"Modified Burpees",sets:3,reps:"5",rest:"90s"},
+             {name:"Jumping Jacks",sets:3,reps:"30 sec",rest:"45s"}]},
+      {d:"Thursday",name:"Yoga Flow",focus:"Mobility",
+        exs:[{name:"Sun Salutations",sets:3,reps:"5 cycles",rest:"-"},
+             {name:"Pigeon Pose",sets:1,reps:"2 min/side",rest:"-"}]},
+      {d:"Friday",name:"Full Body A+",focus:"Beat Monday's reps",
+        exs:[{name:"Knee Push-ups",sets:3,reps:"10",rest:"60s"},
+             {name:"Tempo Squats",sets:3,reps:"15",rest:"60s"},
+             {name:"Side Plank",sets:3,reps:"30 sec/side",rest:"45s"},
+             {name:"Reverse Lunges",sets:3,reps:"10 each",rest:"60s"},
+             {name:"Calf Raises",sets:3,reps:"20",rest:"45s"}]},
+      {d:"Saturday",name:"Long Walk",focus:"Cardio endurance",
+        exs:[{name:"Brisk Walk or Hike",sets:1,reps:"60 min",rest:"-"}]},
+      {d:"Sunday",name:"Rest",focus:"Full rest",exs:[{name:"💤 Rest",sets:0,reps:"—",rest:"—"}]}
+    ]},
+  beginner_gym: { name:"Beginner · Gym", short:"BG", level:"Beginner", env:"Gym",
+    desc:"New to lifting, intro phase.",
+    days:[
+      {d:"Monday",name:"Upper Body",focus:"Chest + back basics",
+        exs:[{name:"Machine Chest Press",sets:3,reps:"10",rest:"90s"},
+             {name:"Lat Pulldown",sets:3,reps:"10",rest:"90s"},
+             {name:"Seated Row",sets:3,reps:"10",rest:"90s"},
+             {name:"DB Shoulder Press",sets:3,reps:"10",rest:"90s"},
+             {name:"Plank",sets:3,reps:"30 sec",rest:"45s"}]},
+      {d:"Tuesday",name:"Cardio",focus:"Light cardio",
+        exs:[{name:"Treadmill (moderate)",sets:1,reps:"25 min",rest:"-"},{name:"Stretch",sets:1,reps:"10 min",rest:"-"}]},
+      {d:"Wednesday",name:"Lower Body",focus:"Quads + hamstrings",
+        exs:[{name:"Leg Press",sets:3,reps:"12",rest:"90s"},{name:"Leg Curl",sets:3,reps:"12",rest:"60s"},
+             {name:"Leg Extension",sets:3,reps:"12",rest:"60s"},{name:"Calf Raise",sets:3,reps:"15",rest:"60s"}]},
+      {d:"Thursday",name:"Upper Body B",focus:"Arms + back",
+        exs:[{name:"Cable Row",sets:3,reps:"10",rest:"90s"},{name:"Bicep Curl",sets:3,reps:"12",rest:"60s"},
+             {name:"Tricep Pushdown",sets:3,reps:"12",rest:"60s"},{name:"Lateral Raise",sets:3,reps:"12",rest:"60s"}]},
+      {d:"Friday",name:"Cardio + Abs",focus:"HIIT-lite",
+        exs:[{name:"Treadmill Intervals",sets:1,reps:"20 min",rest:"-"},
+             {name:"Cable Woodchop",sets:3,reps:"12/side",rest:"60s"},{name:"Russian Twists",sets:3,reps:"20",rest:"45s"}]},
+      {d:"Saturday",name:"Active Recovery",focus:"Light cardio",
+        exs:[{name:"Light Treadmill Walk",sets:1,reps:"30 min",rest:"-"}]},
+      {d:"Sunday",name:"Rest",focus:"Full rest",exs:[{name:"💤 Rest",sets:0,reps:"—",rest:"—"}]}
+    ]},
+  intermediate_home: { name:"Intermediate · Home", short:"IH", level:"Intermediate", env:"Home",
+    desc:"3+ months home training.",
+    days:[
+      {d:"Monday",name:"Push & Quads",focus:"Upper push + legs",
+        exs:[{name:"Push-ups",sets:4,reps:"15",rest:"60s"},{name:"Pike Push-ups",sets:3,reps:"10",rest:"60s"},
+             {name:"Bulgarian Split Squats",sets:3,reps:"10/leg",rest:"60s"},
+             {name:"Plank to Hip Dips",sets:3,reps:"20 total",rest:"45s"}]},
+      {d:"Tuesday",name:"Cardio",focus:"Conditioning",
+        exs:[{name:"Run-Walk Intervals",sets:1,reps:"30 min",rest:"-"}]},
+      {d:"Wednesday",name:"Pull & Glutes",focus:"Back + posterior",
+        exs:[{name:"Doorframe Rows",sets:4,reps:"12",rest:"60s"},
+             {name:"Single-leg Glute Bridges",sets:3,reps:"12/leg",rest:"60s"},
+             {name:"Hollow Body Hold",sets:3,reps:"30 sec",rest:"45s"},
+             {name:"Reverse Lunges",sets:3,reps:"12/leg",rest:"60s"}]},
+      {d:"Thursday",name:"Yoga + Mobility",focus:"Recovery",
+        exs:[{name:"Yoga Flow",sets:1,reps:"30 min",rest:"-"}]},
+      {d:"Friday",name:"Strength Tempo",focus:"Slow, focused reps",
+        exs:[{name:"Tempo Squats (4 sec down)",sets:4,reps:"12",rest:"75s"},
+             {name:"Push-up to Downward Dog",sets:3,reps:"10",rest:"60s"},
+             {name:"Side Plank w/ Reach",sets:3,reps:"30 sec/side",rest:"45s"},
+             {name:"Bear Crawls",sets:3,reps:"30 sec",rest:"60s"}]},
+      {d:"Saturday",name:"Long Cardio",focus:"Endurance",
+        exs:[{name:"Jog or Bike",sets:1,reps:"45 min",rest:"-"}]},
+      {d:"Sunday",name:"Rest",focus:"Full rest",exs:[{name:"💤 Rest",sets:0,reps:"—",rest:"—"}]}
+    ]},
+  intermediate_gym: { name:"Intermediate · Gym (PPL)", short:"IG", level:"Intermediate", env:"Gym",
+    desc:"6+ months lifting. Push/Pull/Legs.",
+    days:[
+      {d:"Monday",name:"Push",focus:"Chest, shoulders, triceps",
+        exs:[{name:"Bench Press",sets:4,reps:"8",rest:"2 min"},
+             {name:"Incline DB Press",sets:3,reps:"10",rest:"90s"},
+             {name:"Cable Fly",sets:3,reps:"12",rest:"60s"},
+             {name:"Overhead Press",sets:3,reps:"8",rest:"90s"},
+             {name:"Skull Crushers",sets:3,reps:"12",rest:"60s"}]},
+      {d:"Tuesday",name:"Pull",focus:"Back + biceps",
+        exs:[{name:"Deadlift",sets:4,reps:"6",rest:"3 min"},
+             {name:"Pull-ups",sets:3,reps:"AMRAP",rest:"90s"},
+             {name:"Barbell Row",sets:4,reps:"8",rest:"90s"},
+             {name:"Face Pulls",sets:3,reps:"15",rest:"60s"},
+             {name:"Barbell Curl",sets:3,reps:"10",rest:"60s"}]},
+      {d:"Wednesday",name:"Legs",focus:"Quads, hams, glutes",
+        exs:[{name:"Back Squat",sets:4,reps:"8",rest:"2 min"},
+             {name:"Romanian Deadlift",sets:3,reps:"10",rest:"90s"},
+             {name:"Leg Press",sets:3,reps:"12",rest:"90s"},
+             {name:"Walking Lunges",sets:3,reps:"10/leg",rest:"60s"},
+             {name:"Leg Curl",sets:3,reps:"12",rest:"60s"},
+             {name:"Calf Raise",sets:4,reps:"15",rest:"45s"}]},
+      {d:"Thursday",name:"Active Recovery",focus:"Cardio + mobility",
+        exs:[{name:"Light Cardio",sets:1,reps:"30 min",rest:"-"},{name:"Stretch + Foam Roll",sets:1,reps:"15 min",rest:"-"}]},
+      {d:"Friday",name:"Push B",focus:"Hypertrophy volume",
+        exs:[{name:"Incline Bench",sets:4,reps:"10",rest:"90s"},
+             {name:"DB Shoulder Press",sets:3,reps:"10",rest:"90s"},
+             {name:"Lateral Raise",sets:4,reps:"15",rest:"45s"},
+             {name:"Tricep Dips",sets:3,reps:"12",rest:"60s"}]},
+      {d:"Saturday",name:"Pull B",focus:"Width + arm thickness",
+        exs:[{name:"Bent-over Row",sets:4,reps:"10",rest:"90s"},
+             {name:"Lat Pulldown",sets:3,reps:"12",rest:"60s"},
+             {name:"Seated Cable Row",sets:3,reps:"12",rest:"60s"},
+             {name:"Hammer Curl",sets:3,reps:"12",rest:"60s"}]},
+      {d:"Sunday",name:"Rest",focus:"Full rest",exs:[{name:"💤 Rest",sets:0,reps:"—",rest:"—"}]}
+    ]},
+  advanced_home: { name:"Advanced · Home (Calisthenics)", short:"AH", level:"Advanced", env:"Home",
+    desc:"Skills-focused. Pull-up bar recommended.",
+    days:[
+      {d:"Monday",name:"Push Skills",focus:"HSPU + planche",
+        exs:[{name:"Wall HSPU",sets:5,reps:"3-5",rest:"2 min"},
+             {name:"Planche Lean Hold",sets:4,reps:"20-30 sec",rest:"90s"},
+             {name:"Pseudo Planche Push-ups",sets:4,reps:"8",rest:"90s"},
+             {name:"Archer Push-ups",sets:3,reps:"6/side",rest:"90s"}]},
+      {d:"Tuesday",name:"Sprints",focus:"Conditioning peak",
+        exs:[{name:"Sprint Intervals",sets:1,reps:"10x 30s on/60s off",rest:"-"},
+             {name:"Burpees",sets:1,reps:"50 total",rest:"-"}]},
+      {d:"Wednesday",name:"Pull Skills",focus:"Front lever + MU",
+        exs:[{name:"Weighted Pull-ups",sets:5,reps:"5",rest:"3 min"},
+             {name:"Front Lever Tuck Hold",sets:4,reps:"20 sec",rest:"90s"},
+             {name:"Muscle-up Practice",sets:5,reps:"2-3",rest:"3 min"},
+             {name:"Hanging Leg Raises",sets:4,reps:"12",rest:"60s"}]},
+      {d:"Thursday",name:"Mobility",focus:"Handstand + recovery",
+        exs:[{name:"Handstand Hold Practice",sets:1,reps:"15 min",rest:"-"},
+             {name:"Hip Mobility Flow",sets:1,reps:"15 min",rest:"-"}]},
+      {d:"Friday",name:"Lower Strength",focus:"Pistols",
+        exs:[{name:"Weighted Pistol Squats",sets:5,reps:"5/leg",rest:"2 min"},
+             {name:"Tempo Back Squats",sets:4,reps:"6",rest:"3 min"},
+             {name:"Dragon Flags",sets:4,reps:"5",rest:"90s"}]},
+      {d:"Saturday",name:"Long Slow Distance",focus:"Endurance base",
+        exs:[{name:"Jog / Bike / Swim",sets:1,reps:"60-90 min",rest:"-"}]},
+      {d:"Sunday",name:"Rest",focus:"Full rest",exs:[{name:"💤 Rest",sets:0,reps:"—",rest:"—"}]}
+    ]},
+  advanced_gym: { name:"Advanced · Gym (Power + Size)", short:"AG", level:"Advanced", env:"Gym",
+    desc:"2+ years lifting. Periodized.",
+    days:[
+      {d:"Monday",name:"Heavy Push",focus:"Strength priority",
+        exs:[{name:"Bench Press (heavy)",sets:5,reps:"5",rest:"3 min"},
+             {name:"Close-Grip Bench",sets:3,reps:"8",rest:"2 min"},
+             {name:"Overhead Press",sets:4,reps:"6",rest:"2 min"},
+             {name:"Weighted Dips",sets:3,reps:"8",rest:"2 min"},
+             {name:"Lateral Raise",sets:4,reps:"15",rest:"60s"}]},
+      {d:"Tuesday",name:"Heavy Pull",focus:"Deadlift + width",
+        exs:[{name:"Deadlift (heavy)",sets:5,reps:"3-5",rest:"3-4 min"},
+             {name:"Pendlay Row",sets:4,reps:"6",rest:"2 min"},
+             {name:"Weighted Pull-ups",sets:4,reps:"5",rest:"2 min"},
+             {name:"Barbell Curl",sets:3,reps:"8",rest:"60s"}]},
+      {d:"Wednesday",name:"Heavy Legs",focus:"Squat priority",
+        exs:[{name:"Back Squat (heavy)",sets:5,reps:"5",rest:"3 min"},
+             {name:"Front Squat",sets:3,reps:"6",rest:"2 min"},
+             {name:"Romanian Deadlift",sets:4,reps:"8",rest:"2 min"},
+             {name:"Leg Press",sets:3,reps:"12",rest:"90s"},
+             {name:"Calf Raise",sets:4,reps:"15",rest:"60s"}]},
+      {d:"Thursday",name:"Active Rest",focus:"Recovery",
+        exs:[{name:"Light Cardio",sets:1,reps:"30 min",rest:"-"},
+             {name:"Mobility & Stretching",sets:1,reps:"20 min",rest:"-"}]},
+      {d:"Friday",name:"Hypertrophy Push",focus:"Volume",
+        exs:[{name:"Incline DB Press",sets:4,reps:"10",rest:"90s"},
+             {name:"Arnold Press",sets:4,reps:"10",rest:"90s"},
+             {name:"Cable Fly",sets:4,reps:"12",rest:"60s"},
+             {name:"Tricep Rope Pushdown",sets:4,reps:"12",rest:"60s"}]},
+      {d:"Saturday",name:"Hypertrophy Pull",focus:"Volume",
+        exs:[{name:"Seated Cable Row",sets:4,reps:"10",rest:"90s"},
+             {name:"T-bar Row",sets:4,reps:"10",rest:"90s"},
+             {name:"Face Pulls",sets:4,reps:"15",rest:"60s"},
+             {name:"Hammer Curl",sets:4,reps:"10",rest:"60s"},
+             {name:"Preacher Curl",sets:3,reps:"10",rest:"60s"}]},
+      {d:"Sunday",name:"Rest",focus:"Full rest",exs:[{name:"💤 Rest",sets:0,reps:"—",rest:"—"}]}
+    ]}
+};
+
+/* ===========================================================
+   FAITH-BASED ENCOURAGEMENT
+=========================================================== */
+const RELIGIONS = {
+  none: { label:"Secular", quotes:[
+    {t:"Discipline is choosing between what you want now and what you want most.",a:"Lincoln (attrib.)"},
+    {t:"The body achieves what the mind believes.",a:"Napoleon Hill"},
+    {t:"Strength does not come from winning. Your struggles develop your strengths.",a:"Schwarzenegger"},
+    {t:"Take care of your body. It's the only place you have to live.",a:"Jim Rohn"},
+    {t:"You don't have to be extreme, just consistent.",a:"—"},
+    {t:"Progress, not perfection.",a:"—"}]},
+  christianity: { label:"Christianity ✝️", quotes:[
+    {t:"Fear not, for I am with you; be not dismayed, for I am your God.",a:"Isaiah 41:10"},
+    {t:"Be strong and courageous. Do not be afraid.",a:"Joshua 1:9"},
+    {t:"For God has not given us a spirit of fear, but of power, of love and of self-discipline.",a:"2 Timothy 1:7"},
+    {t:"I can do all things through Christ who strengthens me.",a:"Philippians 4:13"},
+    {t:"Your body is a temple of the Holy Spirit.",a:"1 Corinthians 6:19"},
+    {t:"I discipline my body and keep it under control.",a:"1 Corinthians 9:27"},
+    {t:"Those who hope in the Lord will renew their strength. They will soar on wings like eagles.",a:"Isaiah 40:31"},
+    {t:"The Lord is my strength and my shield; my heart trusts in him.",a:"Psalm 28:7"},
+    {t:"Trust in the Lord with all your heart.",a:"Proverbs 3:5"},
+    {t:"I praise you because I am fearfully and wonderfully made.",a:"Psalm 139:14"},
+    {t:"Do not be afraid, little flock.",a:"Luke 12:32"},
+    {t:"Even though I walk through the darkest valley, I will fear no evil.",a:"Psalm 23:4"},
+    {t:"With God all things are possible.",a:"Matthew 19:26"},
+    {t:"The Lord is my helper; I will not be afraid.",a:"Hebrews 13:6"},
+    {t:"If God is for us, who can be against us?",a:"Romans 8:31"},
+    {t:"Peace I leave with you; do not let your hearts be troubled.",a:"John 14:27"},
+    {t:"Do not fear, for I have redeemed you; I have called you by name.",a:"Isaiah 43:1"},
+    {t:"Be strong and courageous. Do not give way to fear or panic.",a:"1 Chronicles 28:20"},
+    {t:"The Lord is my light and my salvation — whom shall I fear?",a:"Psalm 27:1"},
+    {t:"Perfect love casts out fear.",a:"1 John 4:18"}]},
+  islam: { label:"Islam ☪️", quotes:[
+    {t:"Allah does not burden a soul beyond that it can bear.",a:"Quran 2:286"},
+    {t:"So verily, with hardship, there is relief.",a:"Quran 94:5"},
+    {t:"Indeed, with every difficulty comes ease.",a:"Quran 94:6"},
+    {t:"And whoever puts their trust in Allah, He will suffice him.",a:"Quran 65:3"},
+    {t:"The strong believer is better and more beloved to Allah than the weak believer.",a:"Sahih Muslim"},
+    {t:"Take care of your body, for you have rights over it.",a:"Hadith"},
+    {t:"Whoever relies upon Allah — then He is sufficient for him.",a:"Quran 65:3"}]},
+  buddhism: { label:"Buddhism ☸️", quotes:[
+    {t:"The mind is everything. What you think you become.",a:"Buddha"},
+    {t:"Health is the greatest gift, contentment the greatest wealth.",a:"Buddha"},
+    {t:"Every morning we are born again. What we do today is what matters most.",a:"Buddha"},
+    {t:"It is better to travel well than to arrive.",a:"Buddha"},
+    {t:"You yourself, as much as anybody in your universe, deserve your love and affection.",a:"Buddha"},
+    {t:"Drop by drop, the bucket is filled.",a:"Buddha"}]},
+  hinduism: { label:"Hinduism 🕉️", quotes:[
+    {t:"You have the right to work, but never to the fruit of work.",a:"Bhagavad Gita 2:47"},
+    {t:"The soul is neither born, nor does it die.",a:"Bhagavad Gita 2:20"},
+    {t:"Better is one's own duty, though imperfectly performed.",a:"Bhagavad Gita 3:35"},
+    {t:"For one who has conquered the mind, the mind is the best of friends.",a:"Bhagavad Gita 6:6"}]},
+  judaism: { label:"Judaism ✡️", quotes:[
+    {t:"Who is mighty? One who conquers their evil inclination.",a:"Pirkei Avot 4:1"},
+    {t:"The day is short, the work is great, the workers are lazy, the reward is great.",a:"Pirkei Avot 2:15"},
+    {t:"It is not your duty to finish the work, but neither are you at liberty to neglect it.",a:"Pirkei Avot 2:16"},
+    {t:"Be strong and of good courage.",a:"Deuteronomy 31:6"}]}
+};
+
+/* ===========================================================
+   DRINK LIBRARY (per oz)
+=========================================================== */
+const DRINKS = {
+  "Monster Energy":13.75, "Red Bull":13.75, "Celsius":0.83, "Bang / Reign":0,
+  "Whole Milk":18.75, "2% Milk":15.0, "Skim Milk":10.0, "Almond Milk (unsweet)":3.75,
+  "Oat Milk":15.0, "Soy Milk":13.75, "Coca-Cola":12.5, "Diet Coke":0,
+  "Sprite":12.5, "Gatorade":7.5, "Gatorade Zero":0, "Powerade":7.5,
+  "Powerade Zero":0, "Orange Juice":13.75, "Apple Juice":14.4,
+  "Whey Protein Shake":15.0, "Pre-Workout":5.0, "BCAA / Creatine":0,
+  "Black Coffee":0.2, "Sweet Tea":11.0, "Unsweet Tea":0.2,
+  "Latte w/ 2%":8.0, "Latte w/ Whole":10.0, "Sparkling Water":0,
+  "Water":0, "Kombucha":5.0, "Beer (IPA)":14.0, "Light Beer":9.0, "Red Wine":20.0
+};
+
+/* ===========================================================
+   STATE — single user, all dates
+=========================================================== */
+const STATE_KEY = "mealPlannerV3";
+let STATE = {
+  profile: { name:"Friend", religion:"christianity", planKey:"beginner_home",
+             age:30, sex:"male", wt:180, ht:70, goalWt:165, steps:8000,
+             activity:"1.55", goal:"lose" },
+  plan: { 0:{}, 1:{}, 2:{}, 3:{}, 4:{}, 5:{}, 6:{} },
+  weights: [], workouts: {}, drinks: [], quickLogs: {}, prs: {}, achievements: [],
+  steps: []  // [{date, count}]
+};
+try { Object.assign(STATE, JSON.parse(localStorage.getItem(STATE_KEY)||"{}")); } catch(e){}
+function save() { localStorage.setItem(STATE_KEY, JSON.stringify(STATE)); }
+
+/* ===========================================================
+   UTILITIES
+=========================================================== */
+function $(id){return document.getElementById(id);}
+function toast(html, opts){ const t=$("toast"); t.innerHTML=html; t.classList.add("show");
+  if(opts&&opts.celebrate) t.classList.add("celebrate"); else t.classList.remove("celebrate");
+  clearTimeout(t._timer); t._timer=setTimeout(()=>{t.classList.remove("show");}, (opts&&opts.duration)||3500); }
+function todayDateStr(){return new Date().toISOString().slice(0,10);}
+function todayIndex(){const d=new Date().getDay();return d===0?6:d-1;}
+function weekDates(){ const today=new Date(); const off=today.getDay()===0?-6:1-today.getDay();
+  const mon=new Date(today.getTime()+off*86400000);
+  return Array.from({length:7},(_,i)=>{const d=new Date(mon.getTime()+i*86400000);
+    return {i, dow:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][i], date:d,
+            label:d.toLocaleDateString("en-US",{month:"short",day:"numeric"}),
+            dateStr:d.toISOString().slice(0,10)};}); }
+function dayIdxFromDate(dateStr){ const d=new Date(dateStr+"T12:00"); const dow=d.getDay(); return dow===0?6:dow-1; }
+function pickQuote(){ const r=RELIGIONS[STATE.profile.religion]||RELIGIONS.none; return r.quotes[Math.floor(Math.random()*r.quotes.length)]; }
+function lbsToKg(l){return l*0.453592;} function insToCm(i){return i*2.54;}
+function recentAchievement(type){ const t=todayDateStr(); return STATE.achievements.some(a=>a.date===t&&a.type===type); }
+function encourage(type){
+  const q=pickQuote();
+  const m={workout_done:{h:"Workout complete! 🎉",c:true},halfway:{h:"Halfway done! 💪"},
+           almost:{h:"Almost there! 🔥"},calorie_hit:{h:"Daily target hit! 🎯",c:true},
+           close_target:{h:"Almost on target ☑️"},streak7:{h:"7-day streak! 🔥🔥🔥",c:true},
+           streak30:{h:"30-day streak! 🏆🏆🏆",c:true},pr:{h:"New personal record! 💪",c:true},
+           goal_wt:{h:"🎉 GOAL WEIGHT REACHED! 🎉",c:true},mood_set:{h:"🙏 Remember this:"},
+           steps_hit:{h:"Step goal hit! 🚶"},logThanks:{h:"Logged ✅"}};
+  const x=m[type]||{h:"Logged"};
+  if(x.c){ toast(`<big>${x.h}</big>"${q.t}"<br><span class="src">— ${q.a}</span>`,{celebrate:true,duration:6000}); }
+  else { toast(`<b>${x.h}</b> "${q.t}"<br><span style="opacity:0.8;font-size:11px;">— ${q.a}</span>`,{duration:4500}); }
+  STATE.achievements.push({date:todayDateStr(),type,q:q.t}); save();
+}
+
+/* ===========================================================
+   CALC — Mifflin + BMI
+=========================================================== */
+function calcTargets(p){
+  const kg=lbsToKg(p.wt), cm=insToCm(p.ht);
+  const bmr=p.sex==="male"?10*kg+6.25*cm-5*p.age+5:10*kg+6.25*cm-5*p.age-161;
+  const act=parseFloat(p.activity||1.55), stepBonus=(parseFloat(p.steps||0)/10000)*150;
+  const tdee=bmr*act+stepBonus;
+  let target=tdee, label="Maintain";
+  if(p.goal==="lose"){target=tdee-500;label="Lose ~1 lb/wk";}
+  else if(p.goal==="gain"){target=tdee+350;label="Lean bulk";}
+  const bmi=p.wt/(p.ht*p.ht)*703;
+  return {bmr,tdee,target,label,bmi};
+}
+function bmiCategory(bmi){ if(bmi<18.5) return {cat:"Underweight",cls:"amber"};
+  if(bmi<25) return {cat:"Normal",cls:"green"}; if(bmi<30) return {cat:"Overweight",cls:"amber"}; return {cat:"Obese",cls:"lose"}; }
+function macrosFor(cal){ return {p:Math.round(cal*0.35/4),c:Math.round(cal*0.35/4),f:Math.round(cal*0.30/9)}; }
+function runCalc(){ const p=STATE.profile;
+  p.sex=$("cSex").value; p.age=parseInt($("cAge").value)||30;
+  p.wt=parseFloat($("cWt").value)||180; p.ht=parseFloat($("cHt").value)||70;
+  p.steps=parseFloat($("cSteps").value)||0; p.goal=$("cGoal").value; p.activity=$("cAct").value; save();
+  const r=calcTargets(p), m=macrosFor(r.target), bc=bmiCategory(r.bmi);
+  $("calcOut").innerHTML='<div class="results-row">'+
+    '<div class="stat-card"><div class="lbl">BMI</div><div class="val">'+r.bmi.toFixed(1)+'</div></div>'+
+    '<div class="stat-card '+bc.cls+'"><div class="lbl">Category</div><div class="val" style="font-size:14px;">'+bc.cat+'</div></div>'+
+    '<div class="stat-card"><div class="lbl">BMR</div><div class="val">'+Math.round(r.bmr)+'</div></div>'+
+    '<div class="stat-card"><div class="lbl">TDEE</div><div class="val">'+Math.round(r.tdee)+'</div></div>'+
+    '<div class="stat-card '+(p.goal==="lose"?"lose":p.goal==="gain"?"gain":"")+'"><div class="lbl">'+r.label+'</div><div class="val">'+Math.round(r.target)+' cal</div></div>'+
+  '</div><div class="muted" style="margin-top:10px;">Suggested: <b>'+m.p+'g protein</b> · <b>'+m.c+'g carbs</b> · <b>'+m.f+'g fat</b></div>';
+  renderHeader(); renderHome();
+}
+function renderCalcDefaults(){ const p=STATE.profile;
+  $("cSex").value=p.sex||"male"; $("cAge").value=p.age||30; $("cWt").value=p.wt||180; $("cHt").value=p.ht||70;
+  $("cSteps").value=p.steps||8000; $("cGoal").value=p.goal||"lose"; $("cAct").value=p.activity||"1.55"; $("calcOut").innerHTML=""; }
+
+/* ===========================================================
+   TAB ROUTER
+=========================================================== */
+function setTab(t){
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===t));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  $("panel-"+t).classList.add("active");
+  const r={plan:renderPlan,calc:renderCalcDefaults,weight:renderWeight,recipes:renderRecipes,
+           workouts:renderWorkouts,steps:renderSteps,drinks:renderDrinks,
+           history:renderHistory,settings:renderSettings,home:renderHome};
+  if(r[t]) r[t](); window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+
+/* ===========================================================
+   HEADER + RELIGION + WORKOUT SELECTORS
+=========================================================== */
+function renderHeader(){ const p=STATE.profile;
+  $("hdrTitle").textContent="🧬 "+p.name+"'s Planner";
+  const t=calcTargets(p);
+  $("hdrGoal").textContent="🎯 "+Math.round(t.target)+" cal/day";
+  $("hdrSteps").textContent="🚶 "+p.steps+" steps";
+  $("hdrRel").textContent=(RELIGIONS[p.religion]||RELIGIONS.none).label.split(" ")[0];
+  $("nameInput").value=p.name; $("religionInput").value=p.religion; $("planInput").value=p.planKey;
+}
+function renderProfileSelectors(){
+  $("religionInput").innerHTML=Object.keys(RELIGIONS).map(k=>'<option value="'+k+'">'+RELIGIONS[k].label+'</option>').join("");
+  $("planInput").innerHTML=Object.keys(PLANS).map(k=>'<option value="'+k+'">'+PLANS[k].name+'</option>').join("");
+}
+$("nameInput").addEventListener("change",e=>{STATE.profile.name=e.target.value||"Friend";save();renderHeader();renderHome();});
+$("religionInput").addEventListener("change",e=>{STATE.profile.religion=e.target.value;save();renderHeader();});
+$("planInput").addEventListener("change",e=>{STATE.profile.planKey=e.target.value;save();renderWorkouts();});
+
+/* ===========================================================
+   RECIPES BROWSER + CUSTOM BUILDER
+=========================================================== */
+const CUISINES=Array.from(new Set(allRecipes().map(r=>r.cuisine)));
+const MOODS=["Comforting","Energizing","Light","Spicy","Quick"];
+const PROTEINS=Array.from(new Set(allRecipes().map(r=>r.protein||"Eggs")));
+
+function renderRecipes(){
+  const fC=$("fCuisine"),fM=$("fMood"),fP=$("fProtein");
+  if(!fC.options.length){
+    fC.innerHTML='<option value="">All cuisines</option>'+CUISINES.map(c=>'<option>'+c+'</option>').join("");
+    fM.innerHTML='<option value="">All moods</option>'+MOODS.map(m=>'<option>'+m+'</option>').join("");
+    fP.innerHTML='<option value="">All proteins</option>'+PROTEINS.map(p=>'<option>'+p+'</option>').join("");
+    fC.onchange=fM.onchange=fP.onchange=$("fCal").oninput=$("fProt").oninput=renderRecipeList;
+  }
+  renderRecipeList();
+}
+function renderRecipeList(){
+  if(!RECIPES.length && !CUSTOM_RECIPES.length) { showFetchError(); return; }
+  const c=$("fCuisine").value,m=$("fMood").value,p=$("fProtein").value;
+  const maxCal=parseFloat($("fCal").value), minPro=parseFloat($("fProt").value);
+  const list=allRecipes().filter(r=>(!c||r.cuisine===c)&&(!m||r.moods.includes(m))&&(!p||r.protein===p)&&(!maxCal||r.cal<=maxCal)&&(!minPro||r.proteinG>=minPro));
+  $("recipeCount").textContent=list.length+" / " + allRecipes().length + " recipes match";
+  $("recipeView").innerHTML=list.map(cardHTML).join("");
+  $("recipeView").querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>openMealPicker(b.dataset.add));
+  $("recipeView").querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>openCustomRecipe(b.dataset.edit));
+}
+function cardHTML(r){
+  const isCustom = CUSTOM_RECIPES.some(c=>c.id===r.id);
+  return '<div class="recipe">'+
+    '<div class="head"><h3>'+r.title+(isCustom?' <span class="badge custom" style="background:rgba(255,255,255,0.2);color:#fff;font-size:9px;">CUSTOM</span>':'')+'</h3>'+
+      '<div class="meta">'+r.cuisine+' · '+r.prepMin+'+'+r.cookMin+' min · '+r.cal+' cal · '+r.protein+'</div>'+
+      '<div style="margin-top:6px;">'+(r.moods||[]).map(m=>'<span class="badge" style="margin-right:4px;background:rgba(255,255,255,0.2);color:#fff;">'+m+'</span>').join('')+'</div>'+
+    '</div>'+
+    '<div class="body">'+
+      '<div class="macros"><div><b>'+r.cal+'</b><span>cal</span></div><div><b>'+r.proteinG+'g</b><span>protein</span></div><div><b>'+r.carbsG+'g</b><span>carbs</span></div><div><b>'+r.fatG+'g</b><span>fat</span></div></div>'+
+      '<details class="ing"><summary>Ingredients ('+(r.ingredients||[]).length+')</summary><ul>'+(r.ingredients||[]).map(i=>'<li>'+i+'</li>').join('')+'</ul></details>'+
+      '<details class="ing"><summary>Cooking steps</summary><div class="steps"><ol>'+(r.steps||[]).map(s=>'<li>'+s+'</li>').join('')+'</ol></div></details>'+
+      (r.tips?'<div class="tips"><b>💡 Tip:</b> '+r.tips+'</div>':'')+
+      '<div class="actions" style="display:flex; gap:6px; margin-top:10px;">'+
+        '<button class="btn sm" data-add="'+r.id+'">➕ Add</button>'+
+        (isCustom?'<button class="btn sm ghost" data-edit="'+r.id+'">✏️ Edit</button>':'')+
+      '</div></div></div>';
+}
+
+/* Custom Recipe Builder */
+function openCustomRecipe(editId){
+  const r = editId ? CUSTOM_RECIPES.find(x=>x.id===editId) : { id:'custom-'+Date.now(), title:'', cuisine:'American Comfort',
+    moods:['Comforting'], protein:'Chicken', prepMin:10, cookMin:20, cal:400, proteinG:30, carbsG:40, fatG:10,
+    ingredients:[], steps:[], tips:'' };
+  if(!r){return;}
+  const html='<h3>'+(editId?'Edit':'Add')+' Recipe</h3>'+
+    '<div class="row"><div><label>Title</label><input type="text" id="crTitle" value="'+(r.title||'').replace(/"/g,'&quot;')+'"></div></div>'+
+    '<div class="row" style="margin-top:6px;"><div><label>Cuisine</label><input type="text" id="crCuisine" value="'+(r.cuisine||'')+'"></div>'+
+    '<div><label>Protein</label><input type="text" id="crProtein" value="'+(r.protein||'')+'"></div></div>'+
+    '<div class="row" style="margin-top:6px;"><div><label>Prep (min)</label><input type="number" id="crPrep" value="'+(r.prepMin||'')+'"></div>'+
+    '<div><label>Cook (min)</label><input type="number" id="crCook" value="'+(r.cookMin||'')+'"></div></div>'+
+    '<div class="row" style="margin-top:6px;"><div><label>Calories</label><input type="number" id="crCal" value="'+(r.cal||'')+'"></div>'+
+    '<div><label>Protein (g)</label><input type="number" id="crProteinG" value="'+(r.proteinG||'')+'"></div></div>'+
+    '<div class="row" style="margin-top:6px;"><div><label>Carbs (g)</label><input type="number" id="crCarbs" value="'+(r.carbsG||'')+'"></div>'+
+    '<div><label>Fat (g)</label><input type="number" id="crFat" value="'+(r.fatG||'')+'"></div></div>'+
+    '<label style="margin-top:8px;">Ingredients (one per line)</label>'+
+    '<textarea id="crIng" rows="5" placeholder="8 oz chicken breast\n1 cup jasmine rice\n…">'+(r.ingredients||[]).join('\n')+'</textarea>'+
+    '<label style="margin-top:8px;">Cooking Steps (one per line)</label>'+
+    '<textarea id="crSteps" rows="6" placeholder="Step 1…\nStep 2…">'+(r.steps||[]).join('\n')+'</textarea>'+
+    '<label style="margin-top:8px;">Moods (comma-separated): Comforting, Energizing, Light, Spicy, Quick</label>'+
+    '<input type="text" id="crMoods" value="'+(r.moods||[]).join(', ')+'">'+
+    '<label style="margin-top:8px;">Tips (optional)</label>'+
+    '<textarea id="crTips" rows="2" placeholder="Optional chef tips…">'+(r.tips||'')+'</textarea>'+
+    '<div style="display:flex; gap:8px; margin-top:12px;">'+
+      '<button class="btn" onclick="saveCustomRecipe(\''+r.id+'\','+(editId?'true':'false')+')">💾 Save</button>'+
+      (editId?'<button class="btn ghost" style="color:#dc2626;border-color:#dc2626;" onclick="deleteCustomRecipe(\''+r.id+'\')">🗑 Delete</button>':'')+
+    '</div>';
+  $("modalBody").innerHTML=html;
+  $("modalBg").classList.add("open");
+}
+function saveCustomRecipe(id,isEdit){
+  const r=isEdit?CUSTOM_RECIPES.find(x=>x.id===id):null;
+  const rec=r||{id:id};
+  rec.title=$("crTitle").value.trim();
+  rec.cuisine=$("crCuisine").value.trim()||'Custom';
+  rec.protein=$("crProtein").value.trim()||'Custom';
+  rec.prepMin=parseInt($("crPrep").value)||10;
+  rec.cookMin=parseInt($("crCook").value)||10;
+  rec.cal=parseInt($("crCal").value)||400;
+  rec.proteinG=parseInt($("crProteinG").value)||20;
+  rec.carbsG=parseInt($("crCarbs").value)||40;
+  rec.fatG=parseInt($("crFat").value)||10;
+  rec.ingredients=$("crIng").value.split('\n').map(s=>s.trim()).filter(Boolean);
+  rec.steps=$("crSteps").value.split('\n').map(s=>s.trim()).filter(Boolean);
+  rec.moods=$("crMoods").value.split(',').map(s=>s.trim()).filter(Boolean);
+  rec.tips=$("crTips").value.trim();
+  if(!r){CUSTOM_RECIPES.push(rec);}
+  localStorage.setItem(CUSTOM_KEY, JSON.stringify(CUSTOM_RECIPES));
+  closeModal(); renderRecipes(); toast("Recipe "+(isEdit?"updated":"added!")+" 🍽");
+}
+function deleteCustomRecipe(id){
+  if(!confirm("Delete this recipe?")) return;
+  CUSTOM_RECIPES=CUSTOM_RECIPES.filter(r=>r.id!==id);
+  localStorage.setItem(CUSTOM_KEY, JSON.stringify(CUSTOM_RECIPES));
+  closeModal(); renderRecipes(); toast("Recipe deleted");
+}
+function exportRecipes(){
+  const data = JSON.stringify({recipes: CUSTOM_RECIPES}, null, 2);
+  const blob = new Blob([data], {type:"application/json"});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download='my-recipes-'+todayDateStr()+'.json'; a.click();
+  URL.revokeObjectURL(url); toast("Recipes exported");
+}
+function importRecipesPrompt(){
+  const input=document.createElement('input'); input.type='file'; input.accept='.json,application/json';
+  input.onchange=e=>{ const f=e.target.files[0]; if(!f) return;
+    const reader=new FileReader();
+    reader.onload=ev=>{ try{ const data=JSON.parse(ev.target.result);
+      const items=data.recipes||data;
+      if(!Array.isArray(items)) throw new Error('Format');
+      items.forEach(r=>{ if(!r.id||!r.title) return;
+        r.id=r.id+'-imp-'+Date.now().toString().slice(-4);
+        CUSTOM_RECIPES.push(r);
+      });
+      localStorage.setItem(CUSTOM_KEY, JSON.stringify(CUSTOM_RECIPES));
+      renderRecipes(); toast("Imported "+items.length+" recipes!");
+    }catch(e){ toast("Invalid JSON file"); }}; reader.readAsText(f); };
+  input.click();
+}
+
+/* ===========================================================
+   PLAN + MEAL PICKER + PRINT
+=========================================================== */
+let planDayIdx = todayIndex();
+function mealCalsForDay(dIdx){
+  const slots=STATE.plan[dIdx]||{};
+  const dateStr=weekDates()[dIdx].dateStr;
+  const drinksToday = STATE.drinks.filter(d=>d.date===dateStr).reduce((s,x)=>s+x.cal,0);
+  const stepsToday = (STATE.steps.find(s=>s.date===dateStr)||{}).count||0;
+  let food=0;
+  ["breakfast","lunch","dinner","snack"].forEach(k=>{if(slots[k]){const r=allRecipes().find(x=>x.id===slots[k]); if(r) food+=r.cal;}});
+  return {food, drink:drinksToday, total:food+drinksToday, steps:stepsToday};
+}
+function renderPlan(){
+  const dates=weekDates();
+  const html=dates.map(d=>{
+    const mc=mealCalsForDay(d.i);
+    return '<div class="day-cell '+(planDayIdx===d.i?'active':'')+'" data-idx="'+d.i+'"><span class="dn">'+d.dow+'</span><span class="ds">'+d.label+'</span><span class="cal">'+mc.total+' cal</span></div>';
+  }).join("");
+  $("dayGrid").innerHTML=html;
+  $("dayGrid").querySelectorAll(".day-cell").forEach(c=>c.onclick=()=>{ planDayIdx=parseInt(c.dataset.idx); renderPlan(); });
+  renderPlanDay(); drawPrintStats();
+}
+function renderPlanDay(){
+  const dates=weekDates(), day=dates[planDayIdx];
+  const slots=STATE.plan[planDayIdx]||{};
+  let html='<div style="margin-top:14px;"><div class="muted">Editing: <b>'+day.dow+', '+day.date.toLocaleDateString("en-US",{month:"long",day:"numeric"})+'</b></div>';
+  const types=[{k:"breakfast",label:"🌅 Breakfast"},{k:"lunch",label:"🥗 Lunch"},{k:"dinner",label:"🍽 Dinner"},{k:"snack",label:"🥨 Snack"}];
+  types.forEach(t=>{
+    const rid=slots[t.k]; const r=rid?allRecipes().find(x=>x.id===rid):null;
+    html+='<div class="meal-slot"><div class="lbl">'+t.label+'</div>'+
+      (r?'<div class="picked">'+r.title+' <span class="badge">'+r.cal+' cal</span></div>':'<div class="picked muted">Nothing picked</div>')+
+      '<div class="controls"><button class="btn sm" onclick="openMealPicker(\''+t.k+'\')">'+(r?'🔁 Swap':'➕ Pick')+'</button>'+
+      (r?'<button class="btn sm ghost" onclick="clearSlot(\''+t.k+'\')">🗑</button>':'')+'</div></div>';
+  });
+  const tot=mealCalsForDay(planDayIdx), tgt=calcTargets(STATE.profile).target, diff=tot.total-tgt;
+  html+='<div class="muted" style="margin-top:8px;">Day: <b>'+tot.total+'</b> · Target: <b>'+Math.round(tgt)+'</b> · <span class="badge '+(diff>200?'red':diff<-200?'amber':'green')+'">'+(diff>=0?'+':'')+Math.round(diff)+'</span></div>';
+  $("planDayView").innerHTML=html;
+}
+function openMealPicker(slot){
+  const html='<h3>Pick a recipe for '+slot+'</h3>'+
+    '<div class="row"><div><label>Cuisine</label><select id="mpC"></select></div><div><label>Mood</label><select id="mpM"></select></div><div><label>Protein</label><select id="mpP"></select></div></div>'+
+    '<div style="margin-top:10px; max-height:50vh; overflow:auto;" id="mpList"></div>';
+  $("modalBody").innerHTML=html;
+  const mpC=$("mpC"),mpM=$("mpM"),mpP=$("mpP");
+  const allC=Array.from(new Set(allRecipes().map(r=>r.cuisine)));
+  // Recompute, in case custom recipes were added
+  mpC.innerHTML='<option value="">All</option>'+allC.map(c=>'<option>'+c+'</option>').join("");
+  mpM.innerHTML='<option value="">All</option>'+MOODS.map(m=>'<option>'+m+'</option>').join("");
+  const allP=Array.from(new Set(allRecipes().map(r=>r.protein||"Eggs")));
+  mpP.innerHTML='<option value="">All</option>'+allP.map(p=>'<option>'+p+'</option>').join("");
+  function draw(){
+    const c=mpC.value,m=mpM.value,p=mpP.value;
+    const list=allRecipes().filter(r=>(!c||r.cuisine===c)&&(!m||r.moods.includes(m))&&(!p||r.protein===p));
+    $("mpList").innerHTML=list.map(r=>
+      '<div style="display:flex; gap:8px; padding:8px; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:6px; align-items:center;">'+
+        '<div style="flex:1;"><b style="font-size:13px;">'+r.title+'</b><div class="muted">'+r.cuisine+' · '+r.cal+' cal</div></div>'+
+        '<button class="btn sm" data-rid="'+r.id+'">Add</button></div>').join("")||'<div class="muted">No recipes match.</div>';
+    $("mpList").querySelectorAll("[data-rid]").forEach(b=>b.onclick=()=>{
+      STATE.plan[planDayIdx]=STATE.plan[planDayIdx]||{}; STATE.plan[planDayIdx][slot]=b.dataset.rid; save();
+      closeModal(); renderPlan(); checkCalorieProgress(); renderHome();
+      toast("Added to "+slot);
+    });
+  }
+  mpC.onchange=mpM.onchange=mpP.onchange=draw; draw();
+  $("modalBg").classList.add("open");
+}
+function clearSlot(k){ const p=STATE.plan[planDayIdx]; if(p) delete p[k]; save(); renderPlan(); }
+function closeModal(){ $("modalBg").classList.remove("open"); }
+
+function checkCalorieProgress(){
+  const t=calcTargets(STATE.profile).target, mc=mealCalsForDay(todayIndex()).total;
+  if(mc>=t-50 && mc<=t+50){ if(!recentAchievement('calorie_hit')) encourage('calorie_hit'); }
+  else if(Math.abs(mc-t)<100){ if(!recentAchievement('close_target')) encourage('close_target'); }
+}
+
+/* Print/PDF */
+function drawPrintStats(){
+  const dates=weekDates(); let totalFood=0,totalDays=0;
+  dates.forEach(d=>{ const mc=mealCalsForDay(d.i); if(mc.food>0){totalFood+=mc.total; totalDays++;}});
+  const tgt=Math.round(calcTargets(STATE.profile).target);
+  $("printStats").innerHTML=
+    '<div class="stat-card"><div class="lbl">Daily target</div><div class="val">' + tgt + ' cal</div></div>'+
+    '<div class="stat-card"><div class="lbl">Days planned</div><div class="val">' + totalDays + '/7</div></div>'+
+    '<div class="stat-card"><div class="lbl">Avg / planned day</div><div class="val">' + (totalDays ? Math.round(totalFood/totalDays) : 0) + ' cal</div></div>';
+}
+function printPlan(){
+  /* Use the browser print. CSS already hides everything except plan + summary. */
+  toast("Opening print dialog — choose 'Save as PDF' to export.");
+  setTimeout(()=>window.print(), 300);
+}
+
+/* ===========================================================
+   WEIGHT TRACKER (line chart in SVG)
+=========================================================== */
+function renderWeight(){ $("wDate").value=todayDateStr();
+  const p=STATE.profile; if(!p.goalWt) p.goalWt=p.wt-15; $("wGoal").value=p.goalWt;
+  drawChart(); drawWtStats(); }
+function logWeight(){
+  const date=$("wDate").value, lb=parseFloat($("wVal").value);
+  if(!date||!lb){toast("Add date + weight"); return;}
+  const w=STATE.weights; const ex=w.findIndex(e=>e.date===date);
+  if(ex>=0) w[ex].lb=lb; else w.push({date,lb});
+  w.sort((a,b)=>a.date.localeCompare(b.date));
+  save(); $("wVal").value=""; drawChart(); drawWtStats(); renderHeader(); renderHome(); renderHistory();
+  if(lb<=STATE.profile.goalWt && !recentAchievement('goal_wt')) encourage('goal_wt');
+  else toast("Weight logged ⚖️");
+}
+function drawChart(){
+  const w=STATE.weights, goal=parseFloat($("wGoal").value)||STATE.profile.goalWt;
+  const wrap=$("wtChart");
+  if(w.length<2){wrap.innerHTML='<text x="300" y="120" text-anchor="middle" fill="#94a3b8" font-size="12">Need 2+ entries</text>';return;}
+  const W=600,H=240,P=30, ys=w.map(e=>e.lb);
+  const min=Math.min(...ys,goal)-2, max=Math.max(...ys)+2;
+  const xs=w.map((_,i)=>P+(i/(w.length-1))*(W-P*2));
+  const yS=v=>H-P-((v-min)/(max-min))*(H-P*2);
+  let path=""; w.forEach((e,i)=>path+=(i===0?"M":"L")+xs[i].toFixed(1)+","+yS(e.lb).toFixed(1)+" ");
+  const avg=w.map((_,i)=>{const s=Math.max(0,i-6);return w.slice(s,i+1).reduce((sum,x)=>sum+x.lb,0)/(i-s+1);});
+  let avgPath=""; avg.forEach((v,i)=>avgPath+=(i===0?"M":"L")+xs[i].toFixed(1)+","+yS(v).toFixed(1)+" ");
+  const yL=[]; for(let i=0;i<4;i++){const v=min+(max-min)*i/3;yL.push({v:yS(v),lbl:v.toFixed(0)});}
+  wrap.innerHTML='<rect width="'+W+'" height="'+H+'" fill="#fff"/>'+
+    yL.map(y=>'<line x1="'+P+'" y1="'+y.v.toFixed(1)+'" x2="'+(W-P)+'" y2="'+y.v.toFixed(1)+'" stroke="#e2e8f0" stroke-dasharray="2,3"/><text x="'+(P-4)+'" y="'+(y.v+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="#94a3b8">'+y.lbl+'</text>').join("")+
+    '<line x1="'+P+'" y1="'+yS(goal).toFixed(1)+'" x2="'+(W-P)+'" y2="'+yS(goal).toFixed(1)+'" stroke="#dc2626" stroke-dasharray="4,4"/>'+
+    '<path d="'+avgPath+'" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="3,3" fill="none" opacity="0.6"/>'+
+    '<path d="'+path+'" stroke="#1e3a8a" stroke-width="2.5" fill="none" stroke-linejoin="round"/>'+
+    w.map((e,i)=>'<circle cx="'+xs[i].toFixed(1)+'" cy="'+yS(e.lb).toFixed(1)+'" r="3.5" fill="#1e3a8a"><title>'+e.date+' · '+e.lb.toFixed(1)+' lb</title></circle>').join("");
+}
+function drawWtStats(){
+  const w=STATE.weights;
+  if(!w.length){$("wtStats").innerHTML='<div class="muted">No entries yet.</div>';return;}
+  const first=w[0].lb,last=w[w.length-1].lb,delta=last-first;
+  const avg7=w.slice(-7).reduce((s,x)=>s+x.lb,0)/Math.min(7,w.length);
+  const goal=parseFloat($("wGoal").value)||STATE.profile.goalWt; const toGo=last-goal;
+  $("wtStats").innerHTML=
+    '<div class="stat-card"><div class="lbl">Start</div><div class="val">'+first.toFixed(1)+'</div></div>'+
+    '<div class="stat-card"><div class="lbl">Current</div><div class="val">'+last.toFixed(1)+'</div></div>'+
+    '<div class="stat-card"><div class="lbl">7-day avg</div><div class="val">'+avg7.toFixed(1)+'</div></div>'+
+    '<div class="stat-card '+(delta<=0?"gain":"lose")+'"><div class="lbl">Δ</div><div class="val">'+(delta>=0?'+':'')+delta.toFixed(1)+'</div></div>'+
+    '<div class="stat-card"><div class="lbl">To Goal</div><div class="val">'+(toGo>=0?'+':'')+toGo.toFixed(1)+'</div></div>';
+}
+
+/* ===========================================================
+   WORKOUTS
+=========================================================== */
+function renderWorkouts(){
+  const p=STATE.profile;
+  $("splitView").innerHTML=PLANS[p.planKey].days.map(d=>
+    '<div class="split-day" style="background:#f8fafc;padding:10px;border-radius:8px;margin-bottom:8px;border-left:3px solid #2563eb;">'+
+    '<h4 style="margin:0 0 4px 0;color:#1e3a8a;font-size:13px;">'+d.d+' · '+d.name+'</h4>'+
+    '<div class="muted">'+d.focus+(d.exs.length?' — <b>'+d.exs.length+' exercises</b>':' — rest')+'</div></div>').join("");
+  $("planGrid").innerHTML=Object.keys(PLANS).map(k=>{
+    const pl=PLANS[k]; return '<div class="plan-card '+(k===p.planKey?'active':'')+'" data-pkey="'+k+'" onclick="pickPlan(\''+k+'\')">'+
+      '<h4>'+pl.name+'</h4>'+'<div class="desc">'+pl.desc+'</div></div>';
+  }).join("");
+  renderTodayWorkout();
+}
+function pickPlan(k){ STATE.profile.planKey=k; save(); renderHeader(); renderWorkouts(); toast("Switched to "+PLANS[k].name); }
+function renderTodayWorkout(){
+  const p=STATE.profile, pl=PLANS[p.planKey];
+  const dates=weekDates(), today=dates[todayIndex()];
+  const todaySplit=pl.days[todayIndex()];
+  $("wkTitle").textContent="Today: "+today.dow+" "+today.label+" · "+todaySplit.name+" ("+todaySplit.focus+")";
+  const exs=todaySplit.exs;
+  const isRest=exs.length===1 && exs[0].name.indexOf("Rest")>=0;
+  const dateStr=today.dateStr;
+  const wkLog=STATE.workouts[dateStr]||[];
+  let html='<div class="exercise-row header"><div></div><div class="ex-name">Exercise</div><div>Sets</div><div>Reps</div><div>lb</div></div>';
+  exs.forEach((ex,idx)=>{
+    const log=wkLog.find(l=>l.ex===ex.name); const done=!!log;
+    html+='<div class="exercise-row '+(done?'done':'')+'" id="wkrow_'+idx+'">'+
+      '<input type="checkbox" '+(done?'checked':'')+' onchange="toggleExercise('+idx+',\''+ex.name.replace(/'/g,"\\'")+'\','+ex.sets+',\''+ex.reps+'\',this.checked)">'+
+      '<div class="ex-name"><b>'+ex.name+'</b><div class="muted" style="font-size:10px;">'+ex.sets+'×'+ex.reps+(ex.rest!=="-"?" · rest "+ex.rest:"")+'</div></div>'+
+      '<input type="number" id="wks_'+idx+'" value="'+(log&&log.sets||ex.sets)+'" style="width:60px;">'+
+      '<input type="text" id="wkr_'+idx+'" value="'+(log&&log.reps||ex.reps)+'" style="width:60px;">'+
+      '<input type="number" id="wkl_'+idx+'" value="'+(log&&log.lb||"")+'" placeholder="—" style="width:70px;">'+
+    '</div>';
+  });
+  $("wkExerciseList").innerHTML=html;
+  updateWorkoutProgress();
+  if(isRest){$("wkFinishBtn").textContent="💤 Rest Day";$("wkFinishBtn").disabled=true;}
+  else{$("wkFinishBtn").textContent="💪 Finish Workout";$("wkFinishBtn").disabled=false;}
+}
+function toggleExercise(idx,name,targetSets,targetReps,done){
+  const ds=weekDates()[todayIndex()].dateStr;
+  STATE.workouts[ds]=STATE.workouts[ds]||[];
+  if(done){
+    const sets=parseFloat($("wks_"+idx).value)||targetSets;
+    const reps=$("wkr_"+idx).value||targetReps;
+    const lb=parseFloat($("wkl_"+idx).value)||0;
+    const ex=STATE.workouts[ds].find(l=>l.ex===name);
+    if(ex){ex.sets=sets;ex.reps=reps;ex.lb=lb;}else STATE.workouts[ds].push({ex:name,sets,reps,lb});
+    $("wkrow_"+idx).classList.add("done");
+    if(lb>0 && (!STATE.prs[name]||lb>STATE.prs[name])){
+      if(STATE.prs[name]){ STATE.prs[name]=lb; save(); if(!recentAchievement('pr')) encourage('pr'); }
+      else{ STATE.prs[name]=lb; save(); }
+    }
+  } else {
+    STATE.workouts[ds]=STATE.workouts[ds].filter(l=>l.ex!==name);
+    $("wkrow_"+idx).classList.remove("done");
+  }
+  save(); updateWorkoutProgress();
+  const q=STATE.quickLogs; q[ds]=q[ds]||{}; q[ds].workoutDone=STATE.workouts[ds].length>0; save();
+}
+function updateWorkoutProgress(){
+  const ds=weekDates()[todayIndex()].dateStr;
+  const pl=PLANS[STATE.profile.planKey].days[todayIndex()];
+  const exs=pl.exs; const total=exs.length;
+  let done=0; exs.forEach((ex,i)=>{if(STATE.workouts[ds]&&STATE.workouts[ds].some(l=>l.ex===ex.name)) done++;});
+  const pct=total>0?Math.round(done/total*100):0;
+  $("wkProgress").style.width=pct+"%";
+  $("wkProgressTxt").textContent=done+" / "+total+" complete";
+  if(done>=total/2 && done<total && !recentAchievement('halfway')) encourage('halfway');
+  if(done>=Math.ceil(total*0.8) && done<total && !recentAchievement('almost')) encourage('almost');
+}
+function finishWorkout(){
+  const ds=weekDates()[todayIndex()].dateStr;
+  if(!STATE.workouts[ds]||STATE.workouts[ds].length===0){toast("Mark some exercises first"); return;}
+  if(!recentAchievement('workout_done')) encourage('workout_done');
+  const q=STATE.quickLogs; q[ds]=q[ds]||{}; q[ds].workoutDone=true; save();
+  renderHome(); renderHistory();
+}
+
+/* ===========================================================
+   STEPS — log + chart + CSV import
+=========================================================== */
+function renderSteps(){
+  $("stDate").value=todayDateStr();
+  $("stGoal").value = STATE.profile.steps;
+  drawStepChart(); drawStepStats();
+}
+function logSteps(){
+  const date=$("stDate").value || todayDateStr();
+  const count=parseInt($("stVal").value);
+  if(!count && count!==0){ toast("Add a step count"); return; }
+  const existing = STATE.steps.find(s=>s.date===date);
+  if(existing) existing.count = count;
+  else STATE.steps.push({date, count});
+  save(); drawStepChart(); drawStepStats(); renderHome(); renderHistory(); checkStepsHit(); renderHeader();
+  $("stVal").value="";
+}
+
+// Pull steps from Samsung Health / Apple Health via Health Connect (Android only)
+async function syncStepsFromPhone(){
+  const status = $("syncStatus");
+  if (!status) return;
+  status.textContent = "🔄 Requesting permission…";
+
+  if (!window.HealthBridge) {
+    status.innerHTML = '⚠ Sync unavailable. Make sure you\'re running the installed Android app (not the browser).';
+    return;
+  }
+
+  // Make sure bridge is initialized
+  if (!HealthBridge.isNative || !HealthBridge.available) {
+    const init = await HealthBridge.init();
+    if (!init.available) {
+      if (init.native) {
+        status.innerHTML = '⚠ Health Connect unavailable. Open Play Store → install Health Connect → reopen this app.';
+      } else {
+        status.innerHTML = '💡 Auto-sync only works in the installed Android app. Use the manual entry above or paste a CSV from your phone.';
+      }
+      return;
+    }
+  }
+
+  status.textContent = "🔄 Reading last 14 days from Health Connect…";
+  try {
+    const recent = await HealthBridge.getRecentSteps(14);
+    if (!recent || recent.length === 0) {
+      status.textContent = "❌ No steps returned. Make sure Health Connect has steps permission for this app.";
+      return;
+    }
+    let merged = 0, updated = 0;
+    recent.forEach(({date, count}) => {
+      const existing = STATE.steps.find(s => s.date === date);
+      if (existing) {
+        if (count > existing.count) { existing.count = count; updated++; }
+      } else {
+        STATE.steps.push({date, count: count}); merged++;
+      }
+    });
+    STATE.steps.sort((a, b) => a.date.localeCompare(b.date));
+    save();
+    drawStepChart(); drawStepStats(); renderHome(); renderHistory(); renderHeader();
+    checkStepsHit();
+    const ts = new Date().toLocaleTimeString();
+    status.innerHTML = '✅ Synced ' + recent.length + ' days (' + merged + ' new, ' + updated + ' updated) at ' + ts + '.';
+  } catch (e) {
+    status.innerHTML = '❌ Sync failed: ' + (e && e.message ? e.message : 'unknown error');
+  }
+}
+function checkStepsHit(){
+  const today = STATE.steps.find(s=>s.date===todayDateStr());
+  if(today && today.count>=STATE.profile.steps && !recentAchievement('steps_hit')) encourage('steps_hit');
+}
+function drawStepChart(){
+  const wrap=$("stepChart");
+  const last7 = Array.from({length:7},(_,i)=>{
+    const d = new Date(); d.setDate(d.getDate() - (6-i));
+    const ds = d.toISOString().slice(0,10);
+    const s = STATE.steps.find(x=>x.date===ds);
+    return {date:ds, count:s?s.count:0, dayLabel:['S','M','T','W','T','F','S'][d.getDay()]};
+  });
+  const goal = STATE.profile.steps;
+  const max = Math.max(goal, ...last7.map(x=>x.count), 100);
+  const W=600, H=200, P=20;
+  const xs = last7.map((_,i)=>P+(i/6)*(W-P*2));
+  const barW = (W-P*2)/7 - 8;
+  const yS = v => H-P-(v/max)*(H-P*2);
+  let bars = '';
+  last7.forEach((d,i)=>{
+    const barH = H-P - yS(d.count);
+    const hit = d.count>=goal && d.count>0;
+    bars += '<rect x="' + (xs[i]-barW/2).toFixed(1) + '" y="' + yS(d.count).toFixed(1) + '" width="' + barW.toFixed(1) + '" height="' + barH.toFixed(1) + '" fill="' + (hit?'#10b981':'#cbd5e1') + '" rx="4"/>';
+    bars += '<text x="' + xs[i].toFixed(1) + '" y="' + (H-4) + '" text-anchor="middle" font-size="10" fill="#64748b">' + d.dayLabel + '</text>';
+    bars += '<text x="' + xs[i].toFixed(1) + '" y="' + (yS(d.count)-4).toFixed(1) + '" text-anchor="middle" font-size="9" fill="#475569">' + d.count + '</text>';
+  });
+  // goal line
+  const goalY = yS(goal);
+  bars += '<line x1="'+P+'" y1="'+goalY.toFixed(1)+'" x2="'+(W-P)+'" y2="'+goalY.toFixed(1)+'" stroke="#d97706" stroke-dasharray="4,4"/>';
+  bars += '<text x="'+(W-P)+'" y="'+(goalY-4).toFixed(1)+'" text-anchor="end" font-size="9" fill="#d97706">Goal '+goal+'</text>';
+  wrap.innerHTML = '<rect width="'+W+'" height="'+H+'" fill="#fff"/>' + bars;
+}
+function drawStepStats(){
+  const total = STATE.steps.reduce((s,x)=>s+x.count,0);
+  const days = new Set(STATE.steps.map(x=>x.date)).size;
+  const today = STATE.steps.find(s=>s.date===todayDateStr());
+  const last7 = STATE.steps.filter(s=>{
+    const d = new Date(s.date); const now = new Date();
+    return (now-d) < 7*86400000;
+  });
+  const avg = last7.length ? Math.round(last7.reduce((s,x)=>s+x.count,0)/last7.length) : 0;
+  $("stepStats").innerHTML =
+    '<div class="stat-card"><div class="lbl">Today</div><div class="val">'+(today?today.count:0)+'</div></div>'+
+    '<div class="stat-card"><div class="lbl">7-day avg</div><div class="val">'+avg+'</div></div>'+
+    '<div class="stat-card"><div class="lbl">Days logged</div><div class="val">'+days+'</div></div>'+
+    '<div class="stat-card"><div class="lbl">All-time total</div><div class="val">'+(total/1000).toFixed(1)+'k</div></div>';
+}
+
+function importSteps(){
+  const text = $("stepCsv").value.trim();
+  if(!text){ toast("Paste your step data first"); return; }
+  const lines = text.split(/\r?\n/).filter(l=>l.trim());
+  let imported = 0; const errors = [];
+  lines.forEach(line=>{
+    if(line.toLowerCase().indexOf('date')>=0 && line.toLowerCase().indexOf('step')>=0) return; // header
+    const parts = line.split(/[,\t]/).map(s=>s.trim()).filter(Boolean);
+    if(parts.length<2){ errors.push(line); return; }
+    let date = parts[0], count = parseInt(parts[1]);
+    if(!date || !count || isNaN(count)){ errors.push(line); return; }
+    date = normalizeDate(date);
+    if(!date){ errors.push(line); return; }
+    const existing = STATE.steps.find(s=>s.date===date);
+    if(existing) existing.count = count;
+    else STATE.steps.push({date, count});
+    imported++;
+  });
+  save(); drawStepChart(); drawStepStats(); renderHome();
+  $("stepCsv").value = '';
+  toast("Imported " + imported + " day" + (imported!==1?'s':'') + (errors.length?', ' + errors.length + ' skipped':''));
+}
+function normalizeDate(s){
+  // Try YYYY-MM-DD
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  // Try M/D/YYYY or M-D-YYYY
+  const m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if(m){ const yyyy=m[3], mm=m[1].padStart(2,'0'), dd=m[2].padStart(2,'0'); return yyyy+'-'+mm+'-'+dd; }
+  // Try Date.parse
+  const d = new Date(s);
+  if(!isNaN(d.getTime())) return d.toISOString().slice(0,10);
+  return null;
+}
+
+/* ===========================================================
+   DRINKS
+=========================================================== */
+function renderDrinks(){
+  const dl=Object.assign({}, DRINKS);
+  try{ Object.assign(dl, JSON.parse(localStorage.getItem("mealPlannerCustomDrinks")||"{}")); }catch(e){}
+  $("drinkList").innerHTML=Object.keys(dl).map(n=>'<option value="'+n+'">').join("");
+  $("drDate").value=todayDateStr();
+  drawDrinkToday();
+}
+function logDrink(){
+  const date=$("drDate").value||todayDateStr();
+  const name=$("drName").value.trim();
+  const oz=parseFloat($("drOz").value)||0;
+  if(!name||!oz){ toast("Add drink + oz"); return; }
+  let cpo = lookupDrinkCal(name);
+  if(cpo===null){
+    if(name.toLowerCase()==="new"){
+      const nn=prompt("Name of new drink?"); if(!nn) return;
+      const c=parseFloat(prompt("Total calories in full container?"))||0;
+      const o=parseFloat(prompt("Total fluid ounces?"))||1;
+      cpo = c/o;
+      const cd=JSON.parse(localStorage.getItem("mealPlannerCustomDrinks")||"{}");
+      cd[nn]=cpo; localStorage.setItem("mealPlannerCustomDrinks", JSON.stringify(cd));
+      addDrink(date, nn, oz, cpo); $("drName").value=""; return;
+    }
+    const lc=name.toLowerCase();
+    const m=Object.keys(DRINKS).find(k=>k.toLowerCase().includes(lc));
+    if(m){ cpo=DRINKS[m]; } else { toast("Drink not found. Type 'new'."); return; }
+  }
+  addDrink(date, name, oz, cpo);
+  $("drName").value=""; $("drOz").value="12";
+}
+function lookupDrinkCal(name){
+  if(DRINKS[name]!==undefined) return DRINKS[name];
+  try{ const cd=JSON.parse(localStorage.getItem("mealPlannerCustomDrinks")||"{}"); if(cd[name]!==undefined) return cd[name]; }catch(e){}
+  return null;
+}
+function addDrink(date,name,oz,cpo){
+  STATE.drinks.push({date,name,oz,cal:Math.round(oz*cpo)});
+  save(); drawDrinkToday(); checkCalorieProgress(); renderHistory();
+  toast("Logged "+Math.round(oz*cpo)+" cal from "+name);
+}
+function drawDrinkToday(){
+  const date=$("drDate").value||todayDateStr();
+  const today=STATE.drinks.filter(d=>d.date===date);
+  const total=today.reduce((s,x)=>s+x.cal,0);
+  $("drToday").innerHTML = (today.length?
+    '<div class="muted" style="margin-bottom:6px;">Today ('+date+'):</div>'+
+    today.map(d=>'<div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed #e2e8f0;"><span>'+d.name+' ('+d.oz+'oz)</span><b>'+d.cal+' cal</b></div>').join("")+
+    '<div style="margin-top:8px;"><b>Total: '+total+' cal</b></div>'
+    :'<div class="muted">No drinks logged for '+date+'.</div>');
+}
+
+/* ===========================================================
+   QUICK LOG (HOME)
+=========================================================== */
+function quickLog(){
+  const date=$("qDate").value||todayDateStr();
+  const q=STATE.quickLogs; q[date]=q[date]||{};
+  q[date].steps = parseFloat($("qSteps").value)||0;
+  q[date].water = parseFloat($("qWater").value)||0;
+  q[date].notes = $("qNotes").value.trim();
+  save();
+  if(q[date].steps>=STATE.profile.steps && !recentAchievement('steps_hit')) encourage('steps_hit');
+  toast("Quick log saved for "+date);
+  renderHome(); renderHistory();
+}
+
+/* ===========================================================
+   HOME — mood + suggestions + snapshot
+=========================================================== */
+STATE.mood = null;
+function renderHome(){
+  const p=STATE.profile, t=calcTargets(p);
+  $("snapTarget").textContent=Math.round(t.target)+" cal";
+  const mc=mealCalsForDay(todayIndex());
+  $("snapPlan").textContent=mc.total+" cal";
+  const w=STATE.weights;
+  if(w.length){ $("snapWt").textContent=w[w.length-1].lb.toFixed(1)+" lb";
+    if(w.length>=2){ const d=w[w.length-1].lb-w[0].lb; $("snapDelta").textContent=(d>=0?'+':'')+d.toFixed(1)+" lb"; $("snapDelta").style.color=d<=0?"#059669":"#dc2626";}}
+  const s=STATE.steps.find(x=>x.date===todayDateStr());
+  if(s) $("snapPlan").textContent = Math.round(mc.total) + " c / " + s.count + " s";
+  $("qDate").value=todayDateStr();
+  const q=STATE.quickLogs[$("qDate").value]||{};
+  $("qSteps").value=q.steps||"";
+  $("qWater").value=q.water||"";
+  $("qNotes").value=q.notes||"";
+  drawHomeSuggestions();
+}
+function drawHomeSuggestions(){
+  let list = [...allRecipes()];
+  if(STATE.mood){ const fm = STATE.mood.toLowerCase();
+    list = list.filter(r => (r.moods||[]).some(m=>m.toLowerCase().includes(fm) || fm.includes(m.toLowerCase())));
+    if(!list.length) list = [...allRecipes()]; }
+  list = list.sort((a,b)=>a.cal-b.cal).slice(0,3);
+  $("homeSuggestions").innerHTML=list.map(r=>
+    '<div style="display:flex; align-items:center; gap:8px; padding:10px; background:#f8fafc; border-radius:8px; margin-bottom:6px;">'+
+      '<div style="flex:1;"><b style="font-size:13px;">'+r.title+'</b><div class="muted">'+r.cuisine+' · '+r.cal+' cal · '+r.proteinG+'g protein</div></div>'+
+      '<button class="btn sm" onclick="quickPick(\''+r.id+'\')">Add</button></div>').join("");
+}
+document.querySelectorAll(".mood-btn").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".mood-btn").forEach(x=>x.classList.remove("active"));
+  if(STATE.mood===b.dataset.mood){STATE.mood=null;$("moodQuote").innerHTML="";drawHomeSuggestions();return;}
+  b.classList.add("active"); STATE.mood=b.dataset.mood;
+  const q=pickQuote();
+  $("moodQuote").innerHTML='<div class="focus-card"><div class="quote">"'+q.t+'"</div><div class="src">— '+q.a+'</div></div>';
+  drawHomeSuggestions(); encourage('mood_set');
+});
+function quickPick(rid){
+  const r=allRecipes().find(x=>x.id===rid); if(!r) return;
+  const slots=STATE.plan[todayIndex()]||{};
+  if(!slots.breakfast){slots.breakfast=rid;toast("Added to breakfast");}
+  else if(!slots.lunch){slots.lunch=rid;toast("Added to lunch");}
+  else if(!slots.dinner){slots.dinner=rid;toast("Added to dinner");}
+  else{slots.snack=rid;toast("Added to snack");}
+  STATE.plan[todayIndex()]=slots; save(); renderPlan(); renderHome(); checkCalorieProgress();
+}
+
+/* ===========================================================
+   HISTORY
+=========================================================== */
+function renderHistory(){
+  const allDates = new Set(); allDates.add(todayDateStr());
+  STATE.weights.forEach(e=>allDates.add(e.date));
+  Object.keys(STATE.workouts).forEach(d=>allDates.add(d));
+  STATE.drinks.forEach(d=>allDates.add(d.date));
+  Object.keys(STATE.quickLogs).forEach(d=>allDates.add(d));
+  STATE.steps.forEach(s=>allDates.add(s.date));
+  const sorted = Array.from(allDates).sort().reverse().slice(0,30);
+  let hitsTarget=0, wkDone=0, totalSteps=0, daysCount=0, weightChange=0;
+  if(sorted.length>=2){ const f=STATE.weights.find(w=>w.date===sorted[sorted.length-1]);
+    const l=STATE.weights.find(w=>w.date===sorted[0]); if(f&&l) weightChange=l.lb-f.lb; }
+  sorted.forEach(ds=>{
+    const di = dayIdxFromDate(ds); const mc = mealCalsForDay(di);
+    const tgt = calcTargets(STATE.profile).target;
+    if(mc.total>=tgt-200 && mc.total<=tgt+200 && mc.total>0) hitsTarget++;
+    if((STATE.workouts[ds]&&STATE.workouts[ds].length>0)||(STATE.quickLogs[ds]&&STATE.quickLogs[ds].workoutDone)) wkDone++;
+    const st=STATE.steps.find(x=>x.date===ds); if(st){totalSteps+=st.count;daysCount++;}
+  });
+  $("hStats").innerHTML=
+    '<div class="stat-card"><div class="lbl">Days tracked</div><div class="val">'+sorted.length+'</div></div>'+
+    '<div class="stat-card gain"><div class="lbl">Calorie hits</div><div class="val">'+hitsTarget+'/'+sorted.length+'</div></div>'+
+    '<div class="stat-card"><div class="lbl">Workouts</div><div class="val">'+wkDone+'</div></div>'+
+    '<div class="stat-card"><div class="lbl">Avg steps</div><div class="val">'+(daysCount?Math.round(totalSteps/daysCount):0)+'</div></div>'+
+    '<div class="stat-card '+(weightChange<=0?"lose":"")+'"><div class="lbl">30d Δ</div><div class="val">'+(weightChange>=0?'+':'')+weightChange.toFixed(1)+'</div></div>';
+  const html='<thead><tr><th>Date</th><th>Cal</th><th>Tgt</th><th>±</th><th>Steps</th><th>Wt</th><th>Wk</th><th>Notes</th></tr></thead><tbody>'+
+    sorted.map(ds=>{
+      const di = dayIdxFromDate(ds); const mc = mealCalsForDay(di);
+      const tgt = calcTargets(STATE.profile).target; const diff = mc.total - tgt;
+      const ql = STATE.quickLogs[ds] || {};
+      const st = STATE.steps.find(x=>x.date===ds);
+      const wt = STATE.weights.find(w=>w.date===ds);
+      const wk = (STATE.workouts[ds]&&STATE.workouts[ds].length>0);
+      const hit = (mc.total>0 && Math.abs(diff)<=200);
+      const notes = ql.notes ? ql.notes.substring(0,20)+(ql.notes.length>20?'…':'') : '—';
+      return '<tr><td>'+ds+'</td>'+
+        '<td><b>'+mc.total+'</b></td>'+
+        '<td>'+Math.round(tgt)+'</td>'+
+        '<td><span class="badge '+(hit?'green':'amber')+'">'+(diff>=0?'+':'')+Math.round(diff)+'</span></td>'+
+        '<td>'+(st?st.count:'—')+'</td>'+
+        '<td>'+(wt?wt.lb.toFixed(1):'—')+'</td>'+
+        '<td>'+(wk?'✅':'—')+'</td>'+
+        '<td class="muted">'+notes+'</td></tr>';
+    }).join("")+'</tbody>';
+  $("hTable").innerHTML = html;
+}
+
+/* ===========================================================
+   SETTINGS
+=========================================================== */
+function renderSettings(){
+  const p=STATE.profile;
+  $("sName").value=p.name||"Friend";
+  $("sReligion").innerHTML=Object.keys(RELIGIONS).map(k=>'<option value="'+k+'">'+RELIGIONS[k].label+'</option>').join("");
+  $("sReligion").value=p.religion||"christianity";
+  $("sPlan").innerHTML=Object.keys(PLANS).map(k=>'<option value="'+k+'">'+PLANS[k].name+'</option>').join("");
+  $("sPlan").value=p.planKey||"beginner_home";
+  $("sWt").value=p.wt; $("sHt").value=p.ht; $("sAge").value=p.age;
+  $("sSex").value=p.sex;
+  $("sGoalWt").value=p.goalWt; $("sSteps").value=p.steps;
+  $("sAct").value=p.activity; $("sGoal").value=p.goal;
+}
+function saveSettings(){
+  const p=STATE.profile;
+  p.name=$("sName").value||"Friend"; p.religion=$("sReligion").value; p.planKey=$("sPlan").value;
+  p.wt=parseFloat($("sWt").value)||180; p.ht=parseFloat($("sHt").value)||70;
+  p.age=parseInt($("sAge").value)||30; p.sex=$("sSex").value;
+  p.goalWt=parseFloat($("sGoalWt").value)||170; p.steps=parseFloat($("sSteps").value)||8000;
+  p.activity=$("sAct").value; p.goal=$("sGoal").value;
+  save(); renderHeader(); renderHome(); toast("Settings saved");
+}
+function exportAll(){
+  const data=JSON.stringify(STATE,null,2); const blob=new Blob([data],{type:"application/json"});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download='meal-planner-data-'+todayDateStr()+'.json'; a.click();
+  URL.revokeObjectURL(url); toast("Data exported");
+}
+function resetAll(){
+  if(!confirm("Erase ALL your data?")) return;
+  localStorage.removeItem(STATE_KEY); localStorage.removeItem(CUSTOM_KEY);
+  localStorage.removeItem("mealPlannerCustomDrinks");
+  location.reload();
+}
+
+/* ===========================================================
+   BOOT — load recipes async, then everything else
+=========================================================== */
+renderProfileSelectors();
+renderHeader();
+renderHome();
+loadRecipes();   // also calls renderRecipes() when done
+</script>
+</body>
+</html>
+```
+
